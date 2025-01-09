@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="/css/style.css"> <!-- Ajusta la ruta según tus estilos -->
+</head>
+<body>
+<div class="container">
+    <h1>Registro de Usuario</h1>
+    <!-- Mostrar mensaje de error si existe -->
+    <div th:if="${error}" class="error">
+        <p th:text="${error}"></p>
+    </div>
+    <!-- Mostrar mensaje de éxito si existe -->
+    <div th:if="${mensaje}" class="success">
+        <p th:text="${mensaje}"></p>
+    </div>
+
+    <form th:action="@{/registro/addusuario}" th:object="${usuario}" method="post">
+        <!-- Campo para nombre -->
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" th:field="*{nombre}" placeholder="Ingresa tu nombre" required>
+        </div>
+
+        <!-- Campo para apellido -->
+        <div class="form-group">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" name="apellido" th:field="*{apellido}" placeholder="Ingresa tu apellido" required>
+        </div>
+
+        <!-- Campo para correo -->
+        <div class="form-group">
+            <label for="correo">Correo</label>
+            <input type="email" id="correo" name="correo" th:field="*{correo}" placeholder="Ingresa tu correo electrónico" required>
+        </div>
+
+        <!-- Campo para contraseña -->
+        <div class="form-group">
+            <label for="contrasena">Contraseña</label>
+            <input type="password" id="contrasena" name="contrasena" th:field="*{contrasena}" placeholder="Ingresa una contraseña" required>
+        </div>
+
+        <!-- Campo para avatar -->
+        <div class="form-group">
+            <label for="avatar">Avatar (URL)</label>
+            <input type="text" id="avatar" name="avatar" th:field="*{avatar}" placeholder="Ingresa la URL de tu avatar">
+        </div>
+
+        <!-- Campo para rol -->
+        <div class="form-group">
+            <label for="rol">Rol</label>
+            <select id="rol" name="rol" th:field="*{rol}">
+                <option value="ADMIN">Administrador</option>
+                <option value="USER">Usuario</option>
+            </select>
+        </div>
+
+        <!-- Botón de enviar -->
+        <div class="form-group">
+            <button type="submit">Registrar</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
