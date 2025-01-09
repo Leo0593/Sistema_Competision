@@ -1,4 +1,4 @@
-package Models;
+package org.example.proyecto_competicion.Models;
 
 import jakarta.persistence.*;
 
