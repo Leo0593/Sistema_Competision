@@ -1,4 +1,4 @@
-package Repository;
+package org.example.proyecto_competicion.Repository;
 
 import Models.Usuarios;
 import org.springframework.data.jpa.repository.JpaRepository;
