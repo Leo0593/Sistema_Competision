@@ -1,0 +1,37 @@
+CREATE TABLE usuarios (
+    Nombre VARCHAR(50),
+    Apellido VARCHAR(50),
+    codi INT PRIMARY KEY,
+    Pago BOOLEAN,
+  Rol ENUM('usuario', 'admin') NOT NULL DEFAULT 'usuario';
+);
+
+CREATE TABLE competicion (
+    Nombre VARCHAR(50),
+    codi INT PRIMARY KEY,
+    Categoria VARCHAR(50)
+);
+
+CREATE TABLE puc (
+    Usuario INT,
+    Competencia INT,
+    Puntaje INT,
+    FOREIGN KEY (Usuario) REFERENCES usuarios(codi),
+    FOREIGN KEY (Competencia) REFERENCES competicion(codi)
+);
+
+
+INSERT INTO usuarios (Nombre, Apellido, codi, Pago) VALUES
+('Juan', 'Perez', 1, TRUE),
+('Ana', 'Lopez', 2, FALSE);
+
+INSERT INTO competicion (Nombre, codi, Categoria) VALUES
+('Carrera 5K', 101, 'Atletismo'),
+('Natación 100m', 102, 'Natación’);
+
+INSERT INTO puc (Usuario, Competencia, Puntaje) VALUES
+(1, 101, 85), -- Juan en Carrera 5K
+(1, 102, 90), -- Juan en Natación 100m
+(2, 101, 88), -- Ana en Carrera 5K
+(2, 102, 92); -- Ana en Natación 100m
+å
