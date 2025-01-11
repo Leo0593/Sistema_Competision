@@ -25,7 +25,7 @@ public class LoginController {
     @GetMapping
     public String loginForm(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "layout/login"; // Vista del formulario
+        return "layout/login_pages/login"; // Vista del formulario
     }
 
     @PostMapping
@@ -38,6 +38,6 @@ public class LoginController {
         }
 
         model.addAttribute("error", "Correo o contraseña incorrectos.");
-        return "layout/login"; // Vuelve al formulario
+        return "layout/login_pages/login"; // Vuelve al formulario
     }
 }

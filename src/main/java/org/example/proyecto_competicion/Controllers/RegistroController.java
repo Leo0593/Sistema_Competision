@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 
@@ -28,7 +27,7 @@ public class RegistroController {
     @GetMapping("/addusuario")
     public String addUsuarioForm(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "layout/registro"; // Vista del formulario
+        return "layout/login_pages/registro"; // Vista del formulario
     }
 
     @PostMapping("/addusuario")
@@ -37,7 +36,7 @@ public class RegistroController {
         // Verificar si el correo ya existe
         if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {
             model.addAttribute("error", "El correo ya está registrado");
-            return "layout/registro";
+            return "layout/login_pages/registro";
         }
 
         // Cifrar la contraseña antes de guardarla
@@ -52,7 +51,7 @@ public class RegistroController {
         usuarioRepository.save(usuario);
 
         model.addAttribute("mensaje", "Usuario registrado exitosamente");
-        return "layout/login"; // Redirigir o mostrar mensaje
+        return "layout/login_pages/login"; // Redirigir o mostrar mensaje
     }
 }
 
