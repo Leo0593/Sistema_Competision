@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Agregar Categoría</title>
+</head>
+<body>
+<h1>Agregar Nueva Categoría</h1>
+
+<!-- Mostrar mensaje de error si existe -->
+<div th:if="${error}" style="color: red;">
+    <p th:text="${error}"></p>
+</div>
+
+<form th:action="@{/categoria/add}" th:object="${categoria}" method="post">
+    <!-- Campo para el nombre de la categoría -->
+    <div>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}" required>
+    </div>
+
+    <!-- Botón para enviar el formulario -->
+    <div>
+        <button type="submit">Guardar</button>
+    </div>
+</form>
+
+<!-- Enlace para volver al inicio -->
+<a th:href="@{/inicio}">Volver al inicio</a>
+</body>
+</html>

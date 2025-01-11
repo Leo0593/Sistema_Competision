@@ -1,8 +1,10 @@
 package org.example.proyecto_competicion.Models;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
@@ -19,10 +21,12 @@ public class Competicion {
     private String descripcion;
     @Basic
     @Column(name = "fecha_inicio")
-    private Timestamp fechaInicio;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")  // Usamos LocalDateTime
+    private LocalDateTime fechaInicio;
     @Basic
     @Column(name = "fecha_fin")
-    private Timestamp fechaFin;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")  // Usamos LocalDateTime
+    private LocalDateTime fechaFin;
     @Basic
     @Column(name = "estado")
     private Byte estado;
@@ -80,19 +84,19 @@ public class Competicion {
         this.descripcion = descripcion;
     }
 
-    public Timestamp getFechaInicio() {
+    public LocalDateTime getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Timestamp fechaInicio) {
+    public void setFechaInicio(LocalDateTime fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Timestamp getFechaFin() {
+    public LocalDateTime getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Timestamp fechaFin) {
+    public void setFechaFin(LocalDateTime fechaFin) {
         this.fechaFin = fechaFin;
     }
 
