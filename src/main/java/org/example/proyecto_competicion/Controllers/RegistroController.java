@@ -1,7 +1,8 @@
 package org.example.proyecto_competicion.Controllers;
 
-import org.example.proyecto_competicion.Models.Usuarios;
-import org.example.proyecto_competicion.Repository.UsuariosRepository;
+
+import org.example.proyecto_competicion.Models.Usuario;
+import org.example.proyecto_competicion.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 
@@ -18,32 +20,40 @@ import java.sql.Timestamp;
 public class RegistroController {
 
     @Autowired
-    private UsuariosRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;  // Inyectamos PasswordEncoder
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/addusuario")
     public String addUsuarioForm(Model model) {
-        model.addAttribute("usuario", new Usuarios());  // Cambiado para usar la clase correcta
+        model.addAttribute("usuario", new Usuario());
         return "layout/registro"; // Vista del formulario
     }
 
     @PostMapping("/addusuario")
-    public String addUsuarioSubmit(@ModelAttribute("usuario") Usuarios usuario, Model model) {  // Cambié el tipo a 'Usuarios'
-        // Validar si el correo ya está registrado
-        if (usuarioRepository.findByCorreo(usuario.getCorreo()) != null) {  // Cambié de 'email' a 'correo'
-            model.addAttribute("error", "El correo ya está registrado.");
+    public String addUsuarioSubmit(@ModelAttribute Usuario usuario, Model model) {
+
+        // Verificar si el correo ya existe
+        if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {
+            model.addAttribute("error", "El correo ya está registrado");
             return "layout/registro";
         }
 
-        // Hashear la contraseña antes de guardar
-        String hashedPassword = passwordEncoder.encode(usuario.getContrasena());  // Cambié 'getPassword' a 'getContrasena'
-        usuario.setContrasena(hashedPassword);
+        // Cifrar la contraseña antes de guardarla
+        usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
 
-        usuario.setFechaInscripcion(new java.sql.Date(System.currentTimeMillis()));  // Ajuste a `Date`
+        // Configurar valores predeterminados (estado, fechas, etc.)
+        usuario.setEstado((byte) 1); // Activo
+        usuario.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        usuario.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        usuario.setRol("usuario"); // Asignamos el rol por defecto como "usuario"
+        // Guardar usuario en la base de datos
         usuarioRepository.save(usuario);
+
         model.addAttribute("mensaje", "Usuario registrado exitosamente");
-        return "layout/login";
+        return "layout/login"; // Redirigir o mostrar mensaje
     }
 }
+
+
