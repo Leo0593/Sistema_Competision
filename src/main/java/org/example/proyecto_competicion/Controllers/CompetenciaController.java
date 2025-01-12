@@ -27,9 +27,8 @@ public class CompetenciaController {
     public String getAllCompeticiones(Model model) {
         List<Competicion> competiciones = competicionRepository.findAll();
         model.addAttribute("competiciones", competiciones);
-        return "layout/competencia_pages/competiciones";
+        return "layout/competencia_pages/competiciones";  // Asegúrate que esta sea la ruta correcta
     }
-
 
     @GetMapping("/add")
     public String addCompeticion(Model model) {
