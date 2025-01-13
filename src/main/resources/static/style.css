@@ -1,3 +1,33 @@
+/* FUENTES */
+
+/* Define la fuente predeterminada como Orbitron */
+body {
+    font-family: "Orbitron", sans-serif;
+    font-weight: 400; /* O el peso que prefieras como predeterminado */
+}
+
+/* Si necesitas otra fuente para ciertos elementos */
+.rubik {
+    font-family: "Rubik", sans-serif;
+    font-weight: 500;
+}
+
+.titulo {
+    font-family: "Rubik", sans-serif;
+    font-weight: 700;
+}
+
+.parrafo {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+}
+
+.roboto {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+}
+
+/* HEADER */
 header {
     width: 100%; /* Establecemos que el header abarque el 100% del documento */
     overflow: hidden; /* Eliminamos errores de float */
@@ -6,11 +36,87 @@ header {
 }
 
 .wrapper {
-    width: 90%; /* Establecemos que el ancho sera del 90% */
-    max-width: 1000px; /* Aqui le decimos que el ancho máximo sera de 1000px */
-    margin: auto; /* Centramos los elementos */
-    overflow: hidden; /* Eliminamos errores de float */
+    display: flex; /* Activa Flexbox */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: space-between; /* Botones a los extremos, logo al centro */
+    padding: 10px 20px; /* Espaciado interno */
+    background-color: #000000; /* Color de fondo opcional */
+    height: 100px; /* Altura del header */
+    position: relative; /* Permite el centrado absoluto del logo */
+
 }
+
+/* Estilo para los botones */
+.btn {
+    background-color: transparent; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: 2px solid #ffffff;
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cursor de mano */
+    box-shadow: 0 0 2px #ffffff, /* Brillo sutil cerca del texto */ 0 0 5px #e0e0e0, /* Brillo medio grisáceo */ 0 0 8px #b0b0b0; /* Brillo difuso */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Transición suave */
+}
+
+.btn:hover {
+    background-color: #ffffff; /* Color al pasar el cursor */
+    color: black;
+
+    /*
+    text-shadow:
+            0 0 0px #000000,       Sombra cercana con borde negro
+            0 0 0px #4d4d4d,        Sombra media con gris oscuro
+            0 0 2px #a6a6a6,       Sombra suave con gris medio
+            0 0 2px #e0e0e0;      /Sombra difusa más clara */
+
+    transform: scale(1.1); /* Reduce ligeramente el tamaño */
+    box-shadow: 0 5px 8px rgba(255, 255, 255, 0.6); /* Sombra suave */
+}
+
+.btn:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más sutil */
+}
+
+.btn-menu img {
+    max-height: 40px; /* Ajusta el tamaño del logo */
+    transition: transform 0.3s ease-in-out; /* Transición suave para la imagen */
+}
+
+.btn-menu {
+    background-color: transparent;
+    border: none;
+    cursor: pointer; /* Cursor de mano */
+    padding: 5px; /* Espaciado alrededor de la imagen */
+    transition: transform 0.3s ease-in-out; /* Transición suave para el botón */
+}
+
+.btn-menu:hover {
+    transform: scale(1.1); /* Reduce ligeramente el tamaño */
+}
+
+.btn-menu:active {
+    transform: scale(0.9); /* Reduce ligeramente el tamaño */
+}
+
+/* Estilo para el logo */
+.logo-container {
+    position: absolute; /* Posición absoluta */
+    left: 50%; /* Mueve el logo al 50% del ancho */
+    transform: translateX(-50%); /* Centra el logo horizontalmente */
+    text-align: center; /* Asegura el centrado del contenido */
+}
+
+.logo {
+    max-height: 80px; /* Ajusta el tamaño del logo */
+    object-fit: contain; /* Evita deformaciones */
+}
+
+
+
+
+
+
 
 header .logo {
     color: #f2f2f2;
