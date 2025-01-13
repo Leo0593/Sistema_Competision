@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 09-01-2025 a las 12:31:19
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 11-01-2025 a las 14:33:44
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,135 +24,184 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `categoria`
+--
+
+CREATE TABLE `categoria` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `competicion`
 --
 
 CREATE TABLE `competicion` (
-  `nombre` varchar(50) DEFAULT NULL,
-  `codi` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `fecha_inicio` datetime DEFAULT NULL,
-  `fecha_fin` datetime DEFAULT NULL,
-  `estado` enum('activa','cerrada','pendiente') NOT NULL DEFAULT 'pendiente',
-  `max_participantes` int(11) DEFAULT NULL,
-  `id_creador` int(11) DEFAULT NULL,
-  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `tipo` enum('individual','grupal') NOT NULL DEFAULT 'individual',
-  `Cantidad` int(11) DEFAULT 0
+  `fecha_inicio` datetime NOT NULL,
+  `fecha_fin` datetime NOT NULL,
+  `estado` tinyint(1) DEFAULT 1,
+  `id_creador` int(11) NOT NULL,
+  `tipo` enum('grupal','individual') NOT NULL,
+  `id_categoria` int(11) NOT NULL,
+  `precio_inscripcion` int(11) NOT NULL,
+  `personas_por_grupo` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `competicion`
---
-
-INSERT INTO `competicion` (`nombre`, `codi`, `descripcion`, `fecha_inicio`, `fecha_fin`, `estado`, `max_participantes`, `id_creador`, `fecha_creacion`, `tipo`, `Cantidad`) VALUES
-('Carrera 5K', 101, NULL, NULL, NULL, 'pendiente', NULL, NULL, '2025-01-09 09:40:06', 'individual', 0),
-('Natación 100m', 102, NULL, NULL, NULL, 'pendiente', NULL, NULL, '2025-01-09 09:40:06', 'individual', 0);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `puc`
+-- Estructura de tabla para la tabla `inscripcion`
 --
 
-CREATE TABLE `puc` (
-  `usuario` int(11) DEFAULT NULL,
-  `competencia` int(11) DEFAULT NULL,
-  `puntaje` int(11) DEFAULT NULL,
-  `fecha_inscripcion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `posicion_final` int(11) DEFAULT NULL,
-  `estado_participacion` enum('pendiente','en progreso','finalizado','descalificado') DEFAULT 'pendiente',
-  `en_equipo` varchar(255) DEFAULT NULL,
-  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `pago_realizado` enum('no','pendiente','completado') DEFAULT 'no',
-  `fecha_pago` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `codi` int(11) NOT NULL
+CREATE TABLE `inscripcion` (
+  `id` int(11) NOT NULL,
+  `usuario` int(11) NOT NULL,
+  `competencia` int(11) NOT NULL,
+  `en_equipo` tinyint(1) DEFAULT 0,
+  `nombre_equipo` varchar(255) DEFAULT NULL,
+  `pago_realizado` tinyint(1) DEFAULT 0,
+  `fecha_pago` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `puc`
---
-
-INSERT INTO `puc` (`usuario`, `competencia`, `puntaje`, `fecha_inscripcion`, `posicion_final`, `estado_participacion`, `en_equipo`, `fecha_actualizacion`, `pago_realizado`, `fecha_pago`, `codi`) VALUES
-(1, 101, 85, '2025-01-09 10:20:36', NULL, 'pendiente', NULL, '2025-01-09 10:20:36', 'no', '0000-00-00 00:00:00', 1),
-(1, 102, 90, '2025-01-09 10:20:36', NULL, 'pendiente', NULL, '2025-01-09 10:20:36', 'no', '0000-00-00 00:00:00', 2),
-(2, 101, 88, '2025-01-09 10:20:36', NULL, 'pendiente', NULL, '2025-01-09 10:20:36', 'no', '0000-00-00 00:00:00', 3),
-(2, 102, 92, '2025-01-09 10:20:36', NULL, 'pendiente', NULL, '2025-01-09 10:20:36', 'no', '0000-00-00 00:00:00', 4);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Estructura de tabla para la tabla `puntuaciones`
 --
 
-CREATE TABLE `usuarios` (
-  `nombre` varchar(50) DEFAULT NULL,
-  `apellido` varchar(50) DEFAULT NULL,
-  `codi` int(11) NOT NULL,
-  `rol` enum('usuario','admin') NOT NULL DEFAULT 'usuario',
+CREATE TABLE `puntuaciones` (
+  `id` int(11) NOT NULL,
+  `inscripcion_id` int(11) NOT NULL,
+  `puntaje` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(100) NOT NULL,
+  `rol` enum('admin','usuario') DEFAULT 'usuario',
   `correo` varchar(100) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
   `avatar` varchar(255) DEFAULT NULL,
-  `estado` tinyint(1) NOT NULL DEFAULT 1,
-  `fecha_inscripcion` date NOT NULL DEFAULT curdate(),
-  `historial` text DEFAULT NULL
+  `estado` tinyint(1) DEFAULT 1,
+  `historial` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`nombre`, `apellido`, `codi`, `rol`, `correo`, `contrasena`, `avatar`, `estado`, `fecha_inscripcion`, `historial`) VALUES
-('Juan', 'Perez', 1, 'usuario', '', '', NULL, 1, '2025-01-09', NULL),
-('Ana', 'Lopez', 2, 'usuario', '', '', NULL, 1, '2025-01-09', NULL);
 
 --
 -- Índices para tablas volcadas
 --
 
 --
+-- Indices de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `competicion`
 --
 ALTER TABLE `competicion`
-  ADD PRIMARY KEY (`codi`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_creador` (`id_creador`),
+  ADD KEY `id_categoria` (`id_categoria`);
 
 --
--- Indices de la tabla `puc`
+-- Indices de la tabla `inscripcion`
 --
-ALTER TABLE `puc`
-  ADD PRIMARY KEY (`codi`),
-  ADD KEY `fk_usuario` (`usuario`),
-  ADD KEY `fk_competencia` (`competencia`);
+ALTER TABLE `inscripcion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario` (`usuario`),
+  ADD KEY `competencia` (`competencia`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indices de la tabla `puntuaciones`
 --
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`codi`),
-  ADD KEY `nombre` (`nombre`);
+ALTER TABLE `puntuaciones`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `inscripcion_id` (`inscripcion_id`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `correo` (`correo`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `puc`
+-- AUTO_INCREMENT de la tabla `categoria`
 --
-ALTER TABLE `puc`
-  MODIFY `codi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `categoria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `competicion`
+--
+ALTER TABLE `competicion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `inscripcion`
+--
+ALTER TABLE `inscripcion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `puntuaciones`
+--
+ALTER TABLE `puntuaciones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `puc`
+-- Filtros para la tabla `competicion`
 --
-ALTER TABLE `puc`
-  ADD CONSTRAINT `fk_competencia` FOREIGN KEY (`competencia`) REFERENCES `competicion` (`codi`),
-  ADD CONSTRAINT `fk_usuario` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`codi`),
-  ADD CONSTRAINT `puc_ibfk_1` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`codi`),
-  ADD CONSTRAINT `puc_ibfk_2` FOREIGN KEY (`Competencia`) REFERENCES `competicion` (`codi`);
+ALTER TABLE `competicion`
+  ADD CONSTRAINT `competicion_ibfk_1` FOREIGN KEY (`id_creador`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `competicion_ibfk_2` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`);
+
+--
+-- Filtros para la tabla `inscripcion`
+--
+ALTER TABLE `inscripcion`
+  ADD CONSTRAINT `inscripcion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `inscripcion_ibfk_2` FOREIGN KEY (`competencia`) REFERENCES `competicion` (`id`);
+
+--
+-- Filtros para la tabla `puntuaciones`
+--
+ALTER TABLE `puntuaciones`
+  ADD CONSTRAINT `puntuaciones_ibfk_1` FOREIGN KEY (`inscripcion_id`) REFERENCES `inscripcion` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
