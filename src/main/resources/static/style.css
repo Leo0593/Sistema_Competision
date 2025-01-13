@@ -2,11 +2,21 @@
 
 /* Define la fuente predeterminada como Orbitron */
 body {
-    font-family: "Orbitron", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 400; /* O el peso que prefieras como predeterminado */
+
+    width: 100%;
+    height: 100vh;
+
+    margin: 0; /* Asegúrate de eliminar márgenes */
+    padding: 0; /* Asegúrate de eliminar relleno */
+
+    background: url("img/fn4.png") no-repeat center center;
+    background-size: cover; /* Ajusta el tamaño para que siempre ocupe todo el espacio */
 }
 
 /* Si necesitas otra fuente para ciertos elementos */
+/*
 .rubik {
     font-family: "Rubik", sans-serif;
     font-weight: 500;
@@ -26,13 +36,12 @@ body {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
 }
-
+*/
 /* HEADER */
 header {
     width: 100%; /* Establecemos que el header abarque el 100% del documento */
     overflow: hidden; /* Eliminamos errores de float */
-    background: #252932;
-    margin-bottom: 20px;
+    /*background: #252932;*/
 }
 
 .wrapper {
@@ -40,10 +49,9 @@ header {
     align-items: center; /* Centra verticalmente los elementos */
     justify-content: space-between; /* Botones a los extremos, logo al centro */
     padding: 10px 20px; /* Espaciado interno */
-    background-color: #000000; /* Color de fondo opcional */
+    background-color: #252932; /* Color de fondo opcional */
     height: 100px; /* Altura del header */
     position: relative; /* Permite el centrado absoluto del logo */
-
 }
 
 /* Estilo para los botones */
@@ -112,38 +120,52 @@ header {
     object-fit: contain; /* Evita deformaciones */
 }
 
-
-
-
-
-
-
-header .logo {
-    color: #f2f2f2;
-    font-size: 50px;
-    line-height: 200px;
-    float: left;
+/* FOOTER */
+footer {
+    width: 100%; /* Establece el ancho al 100% */
+    background-color: #252932; /* Color de fondo */
+    color: white; /* Color del texto */
+    padding: 20px 0; /* Espaciado interno */
+    text-align: center; /* Alinea el texto al centro */
+    position: fixed; /* Fija el footer al fondo */
+    bottom: 0; /* Pegado al fondo */
+    left: 0; /* Alineado al borde izquierdo */
+    bottom: 0;
 }
 
-header nav {
-    float: right;
-    line-height: 200px;
+/* MAIN - CONTENTE */
+.main-content {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    width: 100%;
+
+    margin-top: 60px;
 }
 
-header nav a {
-    display: inline-block;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    line-height: normal;
-    font-size: 20px;
-    font-weight: bold;
-    -webkit-transition: all 500ms ease;
-    -o-transition: all 500ms ease;
-    transition: all 500ms ease;
+.content {
+    width: 80%;
+    height: 500px;
+
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px); /* Desenfoque del fondo */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: 15px;
+
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.5)
 }
 
-header nav a:hover {
-    background: #f56f3a;
-    border-radius: 50px;
+.titulo {
+    margin-top: var(--margen-top, 10px); /* Si no se define la variable, se usa 20px por defecto */
+    margin-bottom: 20px;
+
+    font-size: 2.5em;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 700;
 }
+
+
+
