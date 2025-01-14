@@ -4,52 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div>
-    <h2>Registro de Usuario</h2>
+<div class="container">
+    <h2 class="mt-5">Formulario de Registro</h2>
 
-    <!-- Mensaje de error, si es necesario -->
-    <div th:if="${error}">
+    <!-- Mensaje de error si el correo ya está registrado -->
+    <div th:if="${error}" class="alert alert-danger">
         <p th:text="${error}"></p>
     </div>
 
-    <form th:action="@{/registro/addusuario}" method="post" th:object="${usuario}" enctype="multipart/form-data">
-
-        <!-- Campo de nombre -->
-        <div>
+    <!-- Formulario de registro -->
+    <form th:action="@{/registro/addusuario}" th:object="${Usuario}" method="post" class="mt-4">
+        <div class="form-group">
             <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" th:field="*{nombre}" placeholder="Ingrese su nombre" required />
+            <input type="text" id="nombre" th:field="*{nombre}" class="form-control" placeholder="Introduce tu nombre" required>
         </div>
-
-        <!-- Campo de apellido -->
-        <div>
+        <div class="form-group">
             <label for="apellido">Apellido</label>
-            <input type="text" id="apellido" name="apellido" th:field="*{apellido}" placeholder="Ingrese su apellido" required />
+            <input type="text" id="apellido" th:field="*{apellido}" class="form-control" placeholder="Introduce tu apellido" required>
         </div>
-
-        <!-- Campo de correo electrónico -->
-        <div>
+        <div class="form-group">
             <label for="correo">Correo Electrónico</label>
-            <input type="email" id="correo" name="correo" th:field="*{correo}" placeholder="Ingrese su correo electrónico" required />
+            <input type="email" id="correo" th:field="*{correo}" class="form-control" placeholder="Introduce tu correo" required>
         </div>
-
-        <!-- Campo de contraseña -->
-        <div>
+        <div class="form-group">
             <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" name="contrasena" th:field="*{contrasena}" placeholder="Ingrese su contraseña" required />
+            <input type="password" id="contrasena" th:field="*{contrasena}" class="form-control" placeholder="Introduce tu contraseña" required>
         </div>
 
 
-
-        <!-- Botón de submit -->
-        <button type="submit">Registrar</button>
-
-        <!-- Enlace para redirigir al login si el usuario ya tiene cuenta -->
-        <div>
-            <a th:href="@{/login}">Ya tienes cuenta? Iniciar sesión</a>
+        <!-- Mensaje de éxito si el usuario fue registrado exitosamente -->
+        <div th:if="${mensaje}" class="alert alert-success">
+            <p th:text="${mensaje}"></p>
         </div>
+
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+        <a th:href="@{/login}" class="btn btn-link">¿Ya tienes una cuenta? Inicia sesión</a>
     </form>
 </div>
+
+<!-- Bootstrap JS y dependencias -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
