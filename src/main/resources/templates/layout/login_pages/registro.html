@@ -16,7 +16,7 @@
     </div>
 
     <!-- Formulario de registro -->
-    <form th:action="@{/registro/addusuario}" th:object="${Usuario}" method="post" class="mt-4">
+    <form th:action="@{/registro/addusuario}" th:object="${usuario}" method="post" class="mt-4">
         <div class="form-group">
             <label for="nombre">Nombre</label>
             <input type="text" id="nombre" th:field="*{nombre}" class="form-control" placeholder="Introduce tu nombre" required>
@@ -33,7 +33,10 @@
             <label for="contrasena">Contraseña</label>
             <input type="password" id="contrasena" th:field="*{contrasena}" class="form-control" placeholder="Introduce tu contraseña" required>
         </div>
-
+        <div class="form-group">
+            <label for="confirmarContrasena">Confirmar Contraseña</label>
+            <input type="password" id="confirmarContrasena" class="form-control" placeholder="Confirma tu contraseña" required>
+        </div>
 
         <!-- Mensaje de éxito si el usuario fue registrado exitosamente -->
         <div th:if="${mensaje}" class="alert alert-success">
