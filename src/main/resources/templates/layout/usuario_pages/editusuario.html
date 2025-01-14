@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container my-5">
+    <h2 class="mb-4">Editar Usuario</h2>
+
+    <form th:action="@{/usuario/edit/{id}(id=${usuario.id})}" th:object="${usuario}" method="post">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" th:value="${usuario.nombre}" required>
+        </div>
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input type="text" id="apellido" name="apellido" class="form-control" th:value="${usuario.apellido}" required>
+        </div>
+        <div class="mb-3">
+            <label for="correo" class="form-label">Correo</label>
+            <input type="email" id="correo" name="correo" class="form-control" th:value="${usuario.correo}" required>
+        </div>
+        <div class="mb-3">
+            <label for="rol" class="form-label">Rol</label>
+            <input type="text" id="rol" name="rol" class="form-control" th:value="${usuario.rol}">
+        </div>
+        <div class="mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <select id="estado" name="estado" class="form-control">
+                <option value="1" th:selected="${usuario.estado == 1}">Activo</option>
+                <option value="0" th:selected="${usuario.estado == 0}">Inactivo</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="avatar" class="form-label">Avatar (URL)</label>
+            <input type="text" id="avatar" name="avatar" class="form-control" th:value="${usuario.avatar}">
+        </div>
+        <div class="mb-3">
+            <label for="historial" class="form-label">Historial</label>
+            <textarea id="historial" name="historial" class="form-control" rows="3" th:text="${usuario.historial}"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="/usuario/all" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

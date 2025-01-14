@@ -76,9 +76,12 @@
                 <version>5.8.2</version> <!-- Usa la versión más reciente disponible -->
             </dependency>
 
+            <!-- Usa la versión más reciente disponible -->
 
 
-    </dependencies>
+
+
+        </dependencies>
 
     <build>
         <plugins>
