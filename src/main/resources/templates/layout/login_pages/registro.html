@@ -5,52 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Usuario</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
 </head>
 <body>
-<div class="container">
-    <h2 class="mt-5">Formulario de Registro</h2>
 
-    <!-- Mensaje de error si el correo ya está registrado -->
-    <div th:if="${error}" class="alert alert-danger">
-        <p th:text="${error}"></p>
+<div class="main-login">
+    <div class="contentLogin">
+        <h1 class="texto" style="--size-font: 2.5rem;; margin-bottom: 50px">Registrarse</h1>
+
+        <form th:class="formulario" th:action="@{/registro/addusuario}" th:object="${usuario}" method="post"
+              class="mt-4">
+            <div class="form-group">
+                <div class="input-container">
+                    <i class="fas fa-user"></i> <!-- Icono de usuario -->
+                    <input type="text" id="nombre" style="margin-bottom: 20px" th:field="*{nombre}"
+                           class="form-control-registro" placeholder="Nombre" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-container">
+                    <i class="fas fa-user-tag"></i> <!-- Icono para apellido -->
+                    <input type="text" id="apellido" style="margin-bottom: 20px" th:field="*{apellido}"
+                           class="form-control-registro" placeholder="Apellido" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-container">
+                    <i class="fas fa-envelope"></i> <!-- Icono de correo -->
+                    <input type="email" id="correo" style="margin-bottom: 20px" th:field="*{correo}"
+                           class="form-control-registro" placeholder="Email" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-container">
+                    <i class="fas fa-lock"></i> <!-- Icono de candado -->
+                    <input type="password" id="contrasena" style="margin-bottom: 20px" th:field="*{contrasena}"
+                           class="form-control-registro" placeholder="Contraseña" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-container">
+                    <i class="fas fa-check-circle"></i> <!-- Icono para confirmar contraseña -->
+                    <input type="password" id="confirmarContrasena" style="margin-bottom: 20px"
+                           class="form-control-registro" placeholder="Confirma tu contraseña" required>
+                </div>
+            </div>
+
+            <div th:if="${error}" class="text" style="color: rgb(255,0,0); text-shadow: 0px 0px 1px rgb(255,0,0)">
+                <p th:text="${error}"></p>
+            </div>
+
+            <div th:if="${mensaje}" class="text" style="color: rgb(71,255,0); text-shadow: 0px 0px 1px rgb(71,255,0)">
+                <p th:text="${mensaje}"></p>
+            </div>
+
+            <button type="submit" class="btn-iniciar" style="margin-bottom: 20px; margin-top: 0px">Aceptar</button>
+
+            <a th:href="@{/login}" class="btn-notienescuenta" style="margin-bottom: 0px; margin-top: 20px">¿Ya tienes
+                una cuenta? Inicia sesión</a>
+        </form>
+
     </div>
 
-    <!-- Formulario de registro -->
-    <form th:action="@{/registro/addusuario}" th:object="${usuario}" method="post" class="mt-4">
-        <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" th:field="*{nombre}" class="form-control" placeholder="Introduce tu nombre" required>
-        </div>
-        <div class="form-group">
-            <label for="apellido">Apellido</label>
-            <input type="text" id="apellido" th:field="*{apellido}" class="form-control" placeholder="Introduce tu apellido" required>
-        </div>
-        <div class="form-group">
-            <label for="correo">Correo Electrónico</label>
-            <input type="email" id="correo" th:field="*{correo}" class="form-control" placeholder="Introduce tu correo" required>
-        </div>
-        <div class="form-group">
-            <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" th:field="*{contrasena}" class="form-control" placeholder="Introduce tu contraseña" required>
-        </div>
-        <div class="form-group">
-            <label for="confirmarContrasena">Confirmar Contraseña</label>
-            <input type="password" id="confirmarContrasena" class="form-control" placeholder="Confirma tu contraseña" required>
-        </div>
-
-        <!-- Mensaje de éxito si el usuario fue registrado exitosamente -->
-        <div th:if="${mensaje}" class="alert alert-success">
-            <p th:text="${mensaje}"></p>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Registrarse</button>
-        <a th:href="@{/login}" class="btn btn-link">¿Ya tienes una cuenta? Inicia sesión</a>
-    </form>
 </div>
 
-<!-- Bootstrap JS y dependencias -->
+<-- Bootstrap JS y dependencias -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

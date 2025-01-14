@@ -1,5 +1,10 @@
 /* FUENTES */
 
+:root {
+    --negro: #252932;
+    --btn: #3d6aae;
+}
+
 /* Define la fuente predeterminada como Orbitron */
 body {
     font-family: 'Roboto', sans-serif;
@@ -217,7 +222,6 @@ footer {
 }
 
 /* INPUTS */
-
 .formulario {
     width: 100%;
     display: flex; /* O display: block si no necesitas diseño flex */
@@ -245,7 +249,7 @@ footer {
     outline: none; /* Elimina el contorno al enfocar */
     text-align: center;
 
-    transition: border-color 0.5s ease;
+    transition: border-color 0.3s ease; /* Transición suave */
 }
 
 .form-control::placeholder {
@@ -254,6 +258,8 @@ footer {
 
 /* Estilo al enfocar el campo */
 .form-control:focus {
+    animation: fadeOutBorder 0.15s ease forwards, fadeInBottomBorder 0.3s ease 0.1s forwards; /* Combina ambas animaciones */
+
     background-color: rgba(249, 249, 249, 0.2); /* Color de fondo */
     color: #ffffff; /* Color del texto */
 
@@ -262,6 +268,26 @@ footer {
     border-style: solid;
 
     box-shadow: none;
+}
+
+/* Animación para desaparecer el borde completo */
+@keyframes fadeOutBorder {
+    0% {
+        border-color: #ccc;
+    }
+    100% {
+        border-color: transparent;
+    }
+}
+
+/* Animación para aparecer el borde inferior */
+@keyframes fadeInBottomBorder {
+    0% {
+        border-color: transparent;
+    }
+    100% {
+        border-color: #ffffff;
+    }
 }
 
 .btn-iniciar {
@@ -294,11 +320,9 @@ footer {
 }
 
 .btn-notienescuenta {
-    margin-top: 50px !important;
-
     color: white; /* Color del texto */
     font-size: 1em; /* Tamaño de fuente */
-    margin-top: 20px; /* Espaciado superior */
+    margin-top: 50px; /* Espaciado superior */
     background-color: transparent;
 
     align-items: center;
@@ -319,6 +343,70 @@ footer {
 
 .btn-notienescuenta:active {
     transform: scale(0.95); /* Reduce ligeramente el tamaño */
+}
+
+.form-control-registro {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    background-color: var(--negro); /* Color de fondo */
+    color: white; /* Color del texto */
+
+    border: 0;
+    border-bottom: 2px solid transparent; /* Solo el borde inferior será visible y transparente por defecto */
+    box-sizing: border-box; /* Asegura que el borde no afecte el tamaño total */
+
+    padding: 20px 15px 10px 48px; /* Espaciado interno */
+    font-size: 1.2em; /* Tamaño de fuente */
+
+    transition: all 0.3s ease-in-out; /* Transición suave para todos los cambios */
+}
+
+.form-control-registro::placeholder {
+    color: rgba(255, 255, 255, 0.85); /* Cambia el color del placeholder */
+}
+
+/* Estilo al enfocar el campo */
+.form-control-registro:focus {
+    background-color: rgba(37, 41, 50, 0.5); /* Color de fondo */
+    color: #ffffff; /* Color del texto */
+
+    border-width: 0 0 2px 0;
+    border-color: #ffffff;
+    border-style: solid;
+
+    box-shadow: none;
+
+    outline: none;
+
+    animation: borderHighlight 0.3s ease-out; /* Añadir animación del borde */
+}
+
+/* Animación de resaltar el borde */
+@keyframes borderHighlight {
+    0% {
+        border-color: transparent;
+    }
+    100% {
+        border-color: #ffffff; /* El borde se hace blanco */
+    }
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input-container i {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-100%); /* Centra el icono verticalmente */
+    color: #fff; /* Color del icono */
+    font-size: 1.2em; /* Tamaño del icono */
 }
 
 /*
