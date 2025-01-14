@@ -26,7 +26,7 @@ public class RegistroController {
 
     @GetMapping("/addusuario")
     public String addUsuarioForm(Model model) {
-        model.addAttribute("Usuario", new Usuario());
+        model.addAttribute("usuario", new Usuario());
         return "layout/login_pages/registro"; // Vista del formulario
     }
 
