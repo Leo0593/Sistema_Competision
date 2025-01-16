@@ -1,13 +1,16 @@
 package org.example.proyecto_competicion.Controllers;
 
 import org.example.proyecto_competicion.Models.Competicion;
+import org.example.proyecto_competicion.Models.Usuario;
 import org.example.proyecto_competicion.Repository.CategoriaRepository;
 import org.example.proyecto_competicion.Repository.CompeticionRepository;
+import org.example.proyecto_competicion.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +24,9 @@ public class CompetenciaController {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     // Obtener todas las competiciones
     @GetMapping("/all")
@@ -38,28 +44,45 @@ public class CompetenciaController {
         return "layout/competencia_pages/addcompeticion";
     }
 
-
     @PostMapping("/add")
-    public String saveCompeticion(@ModelAttribute("competicion") Competicion competicion) {
+    public String saveCompeticion(@ModelAttribute("competicion") Competicion competicion, Principal principal) {
+        // Obtener el correo del usuario logueado desde 'principal'
+        String correo = principal.getName();
 
+        // Buscar el usuario en la base de datos por el correo electrónico
+        Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
+
+        // Verificar si el usuario existe
+        if (usuario == null) {
+            return "redirect:/competencia/add?error=userNotFound";
+        }
+
+        // Asignar el ID del usuario logueado como el creador de la competición
+        competicion.setIdCreador(usuario.getId());
+
+        // Si el tipo es "individual", asignar 1 persona por grupo
         if ("individual".equals(competicion.getTipo())) {
             competicion.setPersonasPorGrupo(1);  // Si es individual, asignamos 1
         }
-        // Asegúrate de que las fechas estén correctas
+
+        // Validación de fechas: la fecha de inicio no debe ser después de la fecha de fin
         LocalDateTime fechaInicio = competicion.getFechaInicio();
         LocalDateTime fechaFin = competicion.getFechaFin();
 
-        // Validación de fechas: la fecha de inicio no debe ser después de la fecha de fin
         if (fechaInicio == null || fechaFin == null || fechaInicio.isAfter(fechaFin)) {
-            // Redirige o muestra un mensaje de error si las fechas no son válidas
+            // Redirigir si las fechas no son válidas
             return "redirect:/competencia/add?error=invalidDates";
         }
 
+        // Configurar otras propiedades de la competición
         competicion.setEstado((byte) 1);
         competicion.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         competicion.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+
+        // Guardar la competición
         competicionRepository.save(competicion);
 
-        return "Inicio";
+        // Redirigir a la página principal o la vista correspondiente
+        return "Inicio";  // O la ruta que corresponda
     }
 }
