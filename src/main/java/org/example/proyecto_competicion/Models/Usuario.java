@@ -19,7 +19,7 @@ public class Usuario {
     private String apellido;
     @Basic
     @Column(name = "rol")
-    private Object rol;
+    private String rol;
     @Basic
     @Column(name = "correo")
     private String correo;
@@ -70,11 +70,11 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public Object getRol() {
+    public String getRol() {
         return rol;
     }
 
-    public void setRol(Object rol) {
+    public void setRol(String rol) {
         this.rol = rol;
     }
 

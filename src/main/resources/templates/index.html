@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -22,8 +22,26 @@
 <div class="main-content">
     <div class="content">
         <h2 class="titulo" style="--margen-top: 50px;">Competencias</h2>
+        <a th:href="@{/login}" class="btn btn-link">¿Ya tienes una cuenta? Inicia sesión</a>
+
+        <a th:href="@{/categoria/add}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">CATEGORÍA</a>
+        <a th:href="@{/competencia/add}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">COMPETENCIA</a>
+        <a th:href="@{/usuario/all}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">USUARIOS</a>
+
+        <!-- Botón accesible para todos -->
+        <a th:href="@{/competencia/all}" class="btn btn-secondary">Tabla Competencias</a>
+
+        <!-- Botón para cerrar sesión -->
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+        </form>
+
+
     </div>
 </div>
+
+
+
 
 <div th:replace="layout/footer :: footer"></div>
 

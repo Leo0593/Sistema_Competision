@@ -46,7 +46,7 @@ public class RegistroController {
         usuario.setEstado((byte) 1); // Activo
         usuario.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         usuario.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-        usuario.setRol("usuario"); // Asignamos el rol por defecto como "usuario"
+        usuario.setRol("USER"); // Asignamos el rol por defecto como "usuario"
         // Guardar usuario en la base de datos
         usuarioRepository.save(usuario);
 
