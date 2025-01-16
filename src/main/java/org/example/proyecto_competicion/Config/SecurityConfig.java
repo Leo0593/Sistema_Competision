@@ -44,10 +44,20 @@ public class SecurityConfig {
 
                 // Autorización de solicitudes
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/login", "/registro/**", "/css/**", "/img/**").permitAll() // Accesos públicos
-                        .requestMatchers("/categoria/**", "/competencia/**", "/usuario/**").hasRole("ADMIN") // Solo ADMIN
-                        .requestMatchers("/competencia/all").permitAll() // Todos los usuarios pueden ver esta página
-                        .anyRequest().authenticated() // Todo lo demás requiere autenticación
+                        // Accesos públicos
+                        .requestMatchers("/login", "/registro/**", "/css/**", "/img/**").permitAll()
+
+                        // ADMIN puede acceder a todo bajo estas rutas
+                        .requestMatchers("/categoria/**", "/competencia/**", "/usuario/**").hasRole("ADMIN")
+
+                        // ORGANIZADOR solo puede acceder a ciertas partes de competencia
+                        .requestMatchers("/competencia/create", "/competencia/edit").hasRole("GESTOR")
+
+                        // Accesos públicos adicionales
+                        .requestMatchers("/competencia/all").permitAll()
+
+                        // Todo lo demás requiere autenticación
+                        .anyRequest().authenticated()
                 )
 
                 // Configuración de inicio de sesión

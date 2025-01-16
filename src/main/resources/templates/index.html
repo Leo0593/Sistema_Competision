@@ -24,8 +24,8 @@
         <h2 class="titulo" style="--margen-top: 50px;">Competencias</h2>
         <a th:href="@{/login}" class="btn btn-link">¿Ya tienes una cuenta? Inicia sesión</a>
 
-        <a th:href="@{/categoria/add}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">CATEGORÍA</a>
-        <a th:href="@{/competencia/add}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">COMPETENCIA</a>
+        <a th:href="@{/categoria/add}" sec:authorize="hasAnyRole('ADMIN', 'GESTOR')" class="btn btn-secondary">CATEGORÍA</a>
+        <a th:href="@{/competencia/add}" sec:authorize="hasAnyRole('ADMIN', 'GESTOR')" class="btn btn-secondary">COMPETENCIA</a>
         <a th:href="@{/usuario/all}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">USUARIOS</a>
 
         <!-- Botón accesible para todos -->
