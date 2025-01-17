@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Listado de Competiciones</title>
@@ -35,9 +35,18 @@
             <td th:text="${competicion.precioInscripcion} + ' €'"></td>
 
             <td>
-                <!-- Enlace para ver detalles o editar la competencia -->
-                <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}" class="btn btn-primary btn-sm">Editar</a>
-                <!-- Puedes agregar un botón para eliminar si lo deseas -->
+                <!-- Botón para Inscripción -->
+                <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                   sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
+                   class="btn btn-success btn-sm">Inscripción</a>
+                <!-- Botón para Ranking -->
+                <a th:href="@{/competencia/ranking/{id}(id=${competicion.id})}"
+                   sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
+                   class="btn btn-info btn-sm">Ranking</a>
+                <!-- Botón para Editar -->
+                <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}"
+                   sec:authorize="hasRole('ADMIN')"
+                   class="btn btn-primary btn-sm">Editar</a>
             </td>
         </tr>
         </tbody>

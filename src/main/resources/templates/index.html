@@ -22,20 +22,19 @@
 <div class="main-content">
     <div class="content">
         <h2 class="titulo" style="--margen-top: 50px;">Competencias</h2>
-        <a th:href="@{/login}" class="btn btn-link">¿Ya tienes una cuenta? Inicia sesión</a>
+        <h1 class="titulo">Bienvenido a la parte Principal</h1>
 
-        <a th:href="@{/categoria/add}" sec:authorize="hasAnyRole('ADMIN', 'GESTOR')" class="btn btn-secondary">CATEGORÍA</a>
-        <a th:href="@{/competencia/add}" sec:authorize="hasAnyRole('ADMIN', 'GESTOR')" class="btn btn-secondary">COMPETENCIA</a>
+        <!-- Mostrar el rol del usuario -->
+        <p>Rol actual: <span th:text="${#authentication.principal.authorities}">No disponible</span></p>
+
+        <a th:href="@{/categoria/add}" sec:authorize="hasAnyRole('ADMIN')" class="btn btn-secondary">CATEGORÍA</a>
+        <a th:href="@{/competencia/add}" sec:authorize="hasAnyRole('ADMIN')" class="btn btn-secondary">COMPETENCIA</a>
         <a th:href="@{/usuario/all}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">USUARIOS</a>
+        <a th:href="@{/competencia/all}"  class="btn btn-secondary">Tabla Competencias</a>
 
-        <!-- Botón accesible para todos -->
-        <a th:href="@{/competencia/all}" class="btn btn-secondary">Tabla Competencias</a>
-
-        <!-- Botón para cerrar sesión -->
         <form th:action="@{/logout}" method="post" style="display: inline;">
             <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
         </form>
-
 
     </div>
 </div>

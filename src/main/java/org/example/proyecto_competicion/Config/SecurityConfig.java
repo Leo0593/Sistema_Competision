@@ -50,11 +50,8 @@ public class SecurityConfig {
                         // ADMIN puede acceder a todo bajo estas rutas
                         .requestMatchers("/categoria/**", "/competencia/**", "/usuario/**").hasRole("ADMIN")
 
-                        // ORGANIZADOR solo puede acceder a ciertas partes de competencia
-                        .requestMatchers("/competencia/create", "/competencia/edit").hasRole("GESTOR")
-
-                        // Accesos públicos adicionales
-                        .requestMatchers("/competencia/all").permitAll()
+                        // Permite a ADMIN y USER ver la tabla de competencias
+                        .requestMatchers("/competencia/**").hasRole("USER")
 
                         // Todo lo demás requiere autenticación
                         .anyRequest().authenticated()

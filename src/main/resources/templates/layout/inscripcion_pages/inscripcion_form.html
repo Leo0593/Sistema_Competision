@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario de Inscripción</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+  <h2>Formulario de Inscripción</h2>
+  <form th:action="@{/inscripcion/add}" th:object="${inscripcion}" method="post">
+    <!-- Selección de Competencia -->
+    <div class="mb-3">
+      <label for="competencia" class="form-label">Competencia</label>
+      <select id="competencia" class="form-select" th:field="*{competencia}">
+        <option th:each="competencia : ${competiciones}" th:value="${competencia.id}" th:text="${competencia.nombre}"></option>
+      </select>
+    </div>
+
+    <!-- En Equipo o Individual -->
+    <div class="mb-3">
+      <label for="enEquipo" class="form-label">¿Participar en equipo?</label>
+      <select id="enEquipo" class="form-select" th:field="*{enEquipo}">
+        <option value="0">No</option>
+        <option value="1">Sí</option>
+      </select>
+    </div>
+
+    <!-- Nombre del equipo (Solo si enEquipo es Sí) -->
+    <div class="mb-3" th:if="${inscripcion.enEquipo == 1}">
+      <label for="nombreEquipo" class="form-label">Nombre del Equipo</label>
+      <input type="text" id="nombreEquipo" class="form-control" th:field="*{nombreEquipo}" placeholder="Nombre de tu equipo">
+    </div>
+
+    <!-- Pago Realizado (opcional) -->
+    <div class="mb-3">
+      <label for="pagoRealizado" class="form-label">¿Pago Realizado?</label>
+      <select id="pagoRealizado" class="form-select" th:field="*{pagoRealizado}">
+        <option value="0">No</option>
+        <option value="1">Sí</option>
+      </select>
+    </div>
+
+    <!-- Fecha de pago (solo si el pago está realizado) -->
+    <div class="mb-3" th:if="${inscripcion.pagoRealizado == 1}">
+      <label for="fechaPago" class="form-label">Fecha de Pago</label>
+      <input type="date" id="fechaPago" class="form-control" th:field="*{fechaPago}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Inscribirse</button>
+  </form>
+</div>
+</body>
+</html>
