@@ -2,9 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Competiciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
 
+<h1>Lista de Competiciones</h1>
+<table id="competitionsTable">
+    <thead>
+    <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Estado</th>
+        <th>Max Participantes</th>
+        <th>ID Creador</th>
+        <th>Fecha Creación</th>
+        <th>Tipo</th>
+        <th>Cantidad</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- datos de competencia -->
+    </tbody>
+</table>
+
+<script>
+    async function fetchCompetitions() {
+        try {
+            const response = await fetch('/competencia');
+            if (!response.ok) {
+                throw new Error('Error al obtener las competiciones');
+            }
+            const competiciones = await response.json();
+            const tableBody = document.getElementById('competitionsTable').getElementsByTagName('tbody')[0];
+
+            competiciones.forEach(competicion => {
+                const row = tableBody.insertRow();
+                row.insertCell(0).innerText = competicion.codi;
+                row.insertCell(1).innerText = competicion.nombre;
+                row.insertCell(2).innerText = competicion.descripcion;
+                row.insertCell(3).innerText = new Date(competicion.fechaInicio).toLocaleString();
+                row.insertCell(4).innerText = new Date(competicion.fechaFin).toLocaleString();
+                row.insertCell(5).innerText = competicion.estado;
+                row.insertCell(6).innerText = competicion.maxParticipantes;
+                row.insertCell(7).innerText = competicion.idCreador;
+                row.insertCell(8).innerText = new Date(competicion.fechaCreacion).toLocaleString();
+                row.insertCell(9).innerText = competicion.tipo;
+                row.insertCell(10).innerText = competicion.cantidad;
+            });
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    window.onload = fetchCompetitions;
+</script>
 </body>
 </html>
