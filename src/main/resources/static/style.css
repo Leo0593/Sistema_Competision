@@ -1,43 +1,330 @@
+/* FUENTES */
+
+/* Define la fuente predeterminada como Orbitron */
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400; /* O el peso que prefieras como predeterminado */
+
+    width: 100%;
+    height: 100vh;
+
+    margin: 0; /* Asegúrate de eliminar márgenes */
+    padding: 0; /* Asegúrate de eliminar relleno */
+
+    background: url("img/fn4.png") no-repeat center center;
+    background-size: cover; /* Ajusta el tamaño para que siempre ocupe todo el espacio */
+}
+
+/* Si necesitas otra fuente para ciertos elementos */
+/*
+.rubik {
+    font-family: "Rubik", sans-serif;
+    font-weight: 500;
+}
+
+.titulo {
+    font-family: "Rubik", sans-serif;
+    font-weight: 700;
+}
+
+.parrafo {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+}
+
+.roboto {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+}
+*/
+/* HEADER */
 header {
     width: 100%; /* Establecemos que el header abarque el 100% del documento */
     overflow: hidden; /* Eliminamos errores de float */
-    background: #252932;
-    margin-bottom: 20px;
+    /*background: #252932;*/
 }
 
 .wrapper {
-    width: 90%; /* Establecemos que el ancho sera del 90% */
-    max-width: 1000px; /* Aqui le decimos que el ancho máximo sera de 1000px */
-    margin: auto; /* Centramos los elementos */
-    overflow: hidden; /* Eliminamos errores de float */
+    display: flex; /* Activa Flexbox */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: space-between; /* Botones a los extremos, logo al centro */
+    padding: 10px 20px; /* Espaciado interno */
+    background-color: #252932; /* Color de fondo opcional */
+    height: 100px; /* Altura del header */
+    position: relative; /* Permite el centrado absoluto del logo */
 }
 
-header .logo {
-    color: #f2f2f2;
-    font-size: 50px;
-    line-height: 200px;
-    float: left;
+/* Estilo para los botones */
+.boton {
+    background-color: transparent; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: 2px solid #ffffff;
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cursor de mano */
+    box-shadow: 0 0 2px #ffffff, /* Brillo sutil cerca del texto */ 0 0 5px #e0e0e0, /* Brillo medio grisáceo */ 0 0 8px #b0b0b0; /* Brillo difuso */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Transición suave */
 }
 
-header nav {
-    float: right;
-    line-height: 200px;
+.boton:focus {
+    outline: none; /* Elimina el contorno al enfocar */
 }
 
-header nav a {
-    display: inline-block;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    line-height: normal;
-    font-size: 20px;
-    font-weight: bold;
-    -webkit-transition: all 500ms ease;
-    -o-transition: all 500ms ease;
-    transition: all 500ms ease;
+.boton:hover {
+    background-color: #ffffff; /* Color al pasar el cursor */
+    color: black;
+
+    /*
+    text-shadow:
+            0 0 0px #000000,       Sombra cercana con borde negro
+            0 0 0px #4d4d4d,        Sombra media con gris oscuro
+            0 0 2px #a6a6a6,       Sombra suave con gris medio
+            0 0 2px #e0e0e0;      /Sombra difusa más clara */
+
+    transform: scale(1.1); /* Reduce ligeramente el tamaño */
+    box-shadow: 0 5px 8px rgba(255, 255, 255, 0.6); /* Sombra suave */
 }
 
-header nav a:hover {
-    background: #f56f3a;
-    border-radius: 50px;
+.boton:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más sutil */
 }
+
+.btn-menu img {
+    max-height: 40px; /* Ajusta el tamaño del logo */
+    transition: transform 0.3s ease-in-out; /* Transición suave para la imagen */
+}
+
+.btn-menu {
+    background-color: transparent;
+    border: none;
+    cursor: pointer; /* Cursor de mano */
+    padding: 5px; /* Espaciado alrededor de la imagen */
+    transition: transform 0.3s ease-in-out; /* Transición suave para el botón */
+}
+
+.btn-menu:hover {
+    transform: scale(1.1); /* Reduce ligeramente el tamaño */
+}
+
+.btn-menu:active {
+    transform: scale(0.9); /* Reduce ligeramente el tamaño */
+}
+
+/* Estilo para el logo */
+.logo-container {
+    position: absolute; /* Posición absoluta */
+    left: 50%; /* Mueve el logo al 50% del ancho */
+    transform: translateX(-50%); /* Centra el logo horizontalmente */
+    text-align: center; /* Asegura el centrado del contenido */
+}
+
+.logo {
+    max-height: 80px; /* Ajusta el tamaño del logo */
+    object-fit: contain; /* Evita deformaciones */
+}
+
+/* FOOTER */
+footer {
+    width: 100%; /* Establece el ancho al 100% */
+    background-color: #252932; /* Color de fondo */
+    color: white; /* Color del texto */
+    padding: 20px 0; /* Espaciado interno */
+    text-align: center; /* Alinea el texto al centro */
+    position: fixed; /* Fija el footer al fondo */
+    bottom: 0; /* Pegado al fondo */
+    left: 0; /* Alineado al borde izquierdo */
+    bottom: 0;
+}
+
+/* MAIN - CONTENTE */
+.main-content {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    width: 100%;
+}
+
+.content {
+    margin-top: 60px;
+
+    width: 80%;
+    height: 500px;
+
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px); /* Desenfoque del fondo */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: 15px;
+
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.5)
+}
+
+.titulo {
+    margin-top: var(--margen-top, 10px); /* Si no se define la variable, se usa 20px por defecto */
+    margin-bottom: 20px;
+
+    font-size: 2.5em;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 700;
+}
+
+/* LOGIN */
+.main-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100vh;
+}
+
+.contentLogin {
+    max-width: 24.75rem;
+    width: 100%;
+
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(10px); /* Desenfoque del fondo */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    border-radius: 5px;
+
+    box-shadow: 10px 10px 100px rgba(255, 255, 255, 0.2);
+
+    padding: 1.875rem;
+    margin: 2rem auto;
+}
+
+.contentLogin img {
+    max-height: 90px; /* Ajusta el tamaño del logo */
+    object-fit: contain; /* Evita deformaciones */
+
+    margin-bottom: 20px;
+}
+
+.texto {
+    font-size: var(--size-font, 1.5em);
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+}
+
+/* INPUTS */
+
+.formulario {
+    width: 100%;
+    display: flex; /* O display: block si no necesitas diseño flex */
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Opcional: centra los elementos verticalmente si es necesario */
+    /*background-color: #007bff;*/
+}
+
+.form-group {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    color: #ffffff; /* Color del texto */
+}
+
+/* Estilo para el campo de entrada */
+.form-control {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    padding: 28px 15px; /* Espaciado interno */
+    font-size: 1em; /* Tamaño de fuente */
+    border: 1px solid #ccc; /* Borde estándar */
+    border-radius: 2px; /* Bordes redondeados */
+    background-color: rgba(249, 249, 249, 0.2); /* Color de fondo */
+
+    color: #ffffff; /* Color del texto */
+    outline: none; /* Elimina el contorno al enfocar */
+    text-align: center;
+
+    transition: border-color 0.5s ease;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* Cambia el color del placeholder */
+}
+
+/* Estilo al enfocar el campo */
+.form-control:focus {
+    background-color: rgba(249, 249, 249, 0.2); /* Color de fondo */
+    color: #ffffff; /* Color del texto */
+
+    border-width: 0 0 2px 0;
+    border-color: #ffffff;
+    border-style: solid;
+
+    box-shadow: none;
+}
+
+.btn-iniciar {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    background-color: #3d6aae; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none;
+    padding: 25px 15px; /* Espaciado interno */
+    font-size: 1.2em; /* Tamaño de fuente */
+
+    border-radius: 10px; /* Bordes redondeados */
+
+    cursor: pointer !important; /* Cursor de mano */
+
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Transición suave */
+}
+
+.btn-iniciar:focus {
+    outline: none; /* Elimina el contorno al enfocar */
+}
+
+.btn-iniciar:hover {
+    color: white;
+
+    transform: scale(1.07); /* Reduce ligeramente el tamaño */
+}
+
+.btn-iniciar:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño */
+}
+
+.btn-notienescuenta {
+    margin-top: 50px !important;
+
+    color: white; /* Color del texto */
+    font-size: 1em; /* Tamaño de fuente */
+    margin-top: 20px; /* Espaciado superior */
+    background-color: transparent;
+
+    align-items: center;
+
+    transition: color 0.3s ease,
+    transform 0.3s ease; /* Transición para el color y escala */
+}
+
+.btn-notienescuenta:hover {
+    color: white;
+
+    transform: scale(1.07); /* Reduce ligeramente el tamaño */
+}
+
+.btn-notienescuenta:focus {
+    outline: none; /* Elimina el contorno al enfocar */
+}
+
+.btn-notienescuenta:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño */
+}
+
+/*
+ Placeholder personalizado
+.form-control::placeholder {
+    color: #aaa;  Color del texto del placeholder
+    font-style: italic;  Texto en cursiva
+}*.
+

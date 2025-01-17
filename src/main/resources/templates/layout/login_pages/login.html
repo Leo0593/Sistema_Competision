@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+</head>
+<body>
+<div class="main-login">
+    <div class="contentLogin">
+        <img src="img/el-wh2.png" alt="Logo de Elite League" class="logo">
+
+        <h1 class="texto" style="--size-font: 1.8rem; margin-top: 50px; margin-bottom: 15px">Iniciar Sesión</h1>
+        <h2 class="texto" style="--size-font: 1rem; margin-bottom: 35px">Va a ser increíble</h2>
+
+        <form th:action="@{/login}" method="post" class="formulario">
+            <!-- Correo -->
+            <div class="form-group">
+                <input type="text" class="form-control" id="username" name="username"
+                       placeholder="Tu Email" required>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group" style="margin-bottom: 20px">
+                <input type="password" class="form-control" id="password" name="password"
+                       placeholder="Tu Contraseña" required>
+            </div>
+
+            <button type="submit" class="btn-iniciar">Aceptar</button>
+
+            <!-- Enlace para registro -->
+            <a th:href="@{/registro/addusuario}" class="btn-notienescuenta">¿No tienes cuenta? Regístrate aquí</a>
+
+        </form>
+
+        <!-- Mensaje de error si hay problemas en el login -->
+        <div th:if="${param.error}" class="alert alert-danger" style="margin-top: 15px;">
+            <p>Correo o contraseña incorrectos. Inténtalo nuevamente.</p>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

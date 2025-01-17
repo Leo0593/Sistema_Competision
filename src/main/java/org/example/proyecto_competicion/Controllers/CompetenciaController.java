@@ -1,56 +1,65 @@
 package org.example.proyecto_competicion.Controllers;
 
-
 import org.example.proyecto_competicion.Models.Competicion;
+import org.example.proyecto_competicion.Repository.CategoriaRepository;
 import org.example.proyecto_competicion.Repository.CompeticionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/competencia")
 public class CompetenciaController {
 
     @Autowired
     private CompeticionRepository competicionRepository;
 
-    @GetMapping
-    public List<Competicion> getAllCompeticiones() {
-        return competicionRepository.findAll();
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
+    // Obtener todas las competiciones
+    @GetMapping("/all")
+    public String getAllCompeticiones(Model model) {
+        List<Competicion> competiciones = competicionRepository.findAll();
+        model.addAttribute("competiciones", competiciones);
+        return "layout/competencia_pages/competiciones";  // Asegúrate que esta sea la ruta correcta
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Competicion> updateCompeticion(@PathVariable int id, @RequestBody Competicion competicionDetails)  {
-        Optional<Competicion> optionalCompeticion = competicionRepository.findById(id);
-        if (!optionalCompeticion.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        Competicion competicion = optionalCompeticion.get();
-        competicion.setNombre(competicionDetails.getNombre());
-        competicion.setDescripcion(competicionDetails.getDescripcion());
-        competicion.setFechaInicio(competicionDetails.getFechaInicio());
-        competicion.setFechaFin(competicionDetails.getFechaFin());
-        competicion.setEstado(competicionDetails.getEstado());
-        competicion.setMaxParticipantes(competicionDetails.getMaxParticipantes());
-        competicion.setIdCreador(competicionDetails.getIdCreador());
-        competicion.setFechaCreacion(competicionDetails.getFechaCreacion());
-        competicion.setTipo(competicionDetails.getTipo());
-        competicion.setCantidad(competicionDetails.getCantidad());
-
-        Competicion updatedCompeticion = competicionRepository.save(competicion);
-        return ResponseEntity.ok(updatedCompeticion);
+    @GetMapping("/add")
+    public String addCompeticion(Model model) {
+        Competicion competicion = new Competicion();
+        model.addAttribute("competicion", competicion);
+        model.addAttribute("categorias", categoriaRepository.findAll()); // Obtener todas las categorías
+        return "layout/competencia_pages/addcompeticion";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCompeticion(@PathVariable int id) {
-        if (!competicionRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+
+    @PostMapping("/add")
+    public String saveCompeticion(@ModelAttribute("competicion") Competicion competicion) {
+
+        if ("individual".equals(competicion.getTipo())) {
+            competicion.setPersonasPorGrupo(1);  // Si es individual, asignamos 1
+        }
+        // Asegúrate de que las fechas estén correctas
+        LocalDateTime fechaInicio = competicion.getFechaInicio();
+        LocalDateTime fechaFin = competicion.getFechaFin();
+
+        // Validación de fechas: la fecha de inicio no debe ser después de la fecha de fin
+        if (fechaInicio == null || fechaFin == null || fechaInicio.isAfter(fechaFin)) {
+            // Redirige o muestra un mensaje de error si las fechas no son válidas
+            return "redirect:/competencia/add?error=invalidDates";
         }
 
-        competicionRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        competicion.setEstado((byte) 1);
+        competicion.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        competicion.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        competicionRepository.save(competicion);
+
+        return "Inicio";
     }
 }

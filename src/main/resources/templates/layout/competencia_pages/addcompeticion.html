@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Competición</title>
+    <script>
+        // Función para mostrar el campo de "personasPorGrupo" solo si se selecciona "grupal"
+        function togglePersonasPorGrupo() {
+            var tipo = document.getElementById("tipo").value;
+            var personasPorGrupoField = document.getElementById("personasPorGrupoField");
+
+            if (tipo === "grupal") {
+                personasPorGrupoField.style.display = "block";  // Mostrar el campo
+            } else {
+                personasPorGrupoField.style.display = "none";  // Ocultar el campo
+            }
+        }
+    </script>
+</head>
+<body>
+
+<h2>Crear Competición</h2>
+
+<form th:action="@{/competencia/add}" th:object="${competicion}" method="post">
+    <!-- Nombre -->
+    <div>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}" required>
+    </div>
+
+    <!-- Descripción -->
+    <div>
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" th:field="*{descripcion}" required></textarea>
+    </div>
+
+    <!-- Fecha de Inicio -->
+    <div>
+        <label for="fechaInicio">Fecha de Inicio:</label>
+        <input type="datetime-local" id="fechaInicio" th:field="*{fechaInicio}" required>
+    </div>
+
+    <!-- Fecha de Fin -->
+    <div>
+        <label for="fechaFin">Fecha de Fin:</label>
+        <input type="datetime-local" id="fechaFin" th:field="*{fechaFin}" required>
+    </div>
+
+
+    <!-- Tipo -->
+    <div>
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" th:field="*{tipo}" required onchange="togglePersonasPorGrupo()">
+            <option value="individual">Individual</option>
+            <option value="grupal">Grupal</option>
+        </select>
+    </div>
+
+    <!-- Personas por Grupo (oculto por defecto) -->
+    <div id="personasPorGrupoField" style="display: none;">
+        <label for="personasPorGrupo">Personas por Grupo:</label>
+        <input type="number" id="personasPorGrupo" th:field="*{personasPorGrupo}">
+    </div>
+
+    <!-- Categoría -->
+    <div>
+        <label for="idCategoria">Categoría:</label>
+        <select id="idCategoria" th:field="*{idCategoria}" required>
+            <option th:each="categoria : ${categorias}"
+                    th:value="${categoria.id}"
+                    th:text="${categoria.nombre}"></option>
+        </select>
+    </div>
+
+    <!-- Precio de Inscripción -->
+    <div>
+        <label for="precioInscripcion">Precio de Inscripción:</label>
+        <input type="number" id="precioInscripcion" th:field="*{precioInscripcion}" required>
+    </div>
+
+    <!-- ID del Creador -->
+    <div>
+        <label for="idCreador">ID del Creador:</label>
+        <input type="number" id="idCreador" th:field="*{idCreador}" required>
+    </div>
+
+    <!-- Botón de Enviar -->
+    <div>
+        <button type="submit">Guardar Competición</button>
+    </div>
+</form>
+<!-- Mensaje de error si las fechas son inválidas -->
+<div th:if="${param.error == 'invalidDates'}" style="color: red;">
+    <p>Las fechas de inicio y fin no son válidas. Asegúrate de que la fecha de inicio no sea posterior a la de fin.</p>
+</div>
+
+</body>
+</html>

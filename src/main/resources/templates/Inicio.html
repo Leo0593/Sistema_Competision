@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container">
+    <h1>Bienvenido a la parte Principal</h1>
 
+    <!-- Botones accesibles solo para Admin -->
+    <a th:href="@{/categoria/add}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">CATEGORÍA</a>
+    <a th:href="@{/competencia/add}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">COMPETENCIA</a>
+    <a th:href="@{/usuario/all}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">USUARIOS</a>
+
+    <!-- Botón accesible para todos -->
+    <a th:href="@{/competencia/all}" class="btn btn-secondary">Tabla Competencias</a>
+
+    <!-- Botón para cerrar sesión -->
+    <form th:action="@{/logout}" method="post" style="display: inline;">
+        <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+    </form>
+</div>
 </body>
 </html>

@@ -1,48 +1,72 @@
 package org.example.proyecto_competicion.Models;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
 public class Competicion {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id")
+    private int id;
     @Basic
     @Column(name = "nombre")
     private String nombre;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "codi")
-    private int codi;
     @Basic
     @Column(name = "descripcion")
     private String descripcion;
     @Basic
     @Column(name = "fecha_inicio")
-    private Timestamp fechaInicio;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")  // Usamos LocalDateTime
+    private LocalDateTime fechaInicio;
     @Basic
     @Column(name = "fecha_fin")
-    private Timestamp fechaFin;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")  // Usamos LocalDateTime
+    private LocalDateTime fechaFin;
     @Basic
     @Column(name = "estado")
-    private Object estado;
-    @Basic
-    @Column(name = "max_participantes")
-    private Integer maxParticipantes;
+    private Byte estado;
     @Basic
     @Column(name = "id_creador")
-    private Integer idCreador;
-    @Basic
-    @Column(name = "fecha_creacion")
-    private Timestamp fechaCreacion;
+    private int idCreador;
     @Basic
     @Column(name = "tipo")
     private Object tipo;
     @Basic
-    @Column(name = "Cantidad")
-    private Integer cantidad;
+    @Column(name = "id_categoria")
+    private int idCategoria;
+    @Basic
+    @Column(name = "precio_inscripcion")
+    private int precioInscripcion;
+    @Basic
+    @Column(name = "personas_por_grupo")
+    private Integer personasPorGrupo;
+    @Basic
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+    @Basic
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
+    @ManyToOne
+    @JoinColumn(name = "id_creador", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private Usuario usuarioByIdCreador;
+    @ManyToOne
+    @JoinColumn(name = "id_categoria", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private Categoria categoriaByIdCategoria;
     @OneToMany(mappedBy = "competicionByCompetencia")
-    private Collection<Puc> pucsByCodi;
+    private Collection<Inscripcion> inscripcionsById;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
@@ -50,14 +74,6 @@ public class Competicion {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public int getCodi() {
-        return codi;
-    }
-
-    public void setCodi(int codi) {
-        this.codi = codi;
     }
 
     public String getDescripcion() {
@@ -68,52 +84,36 @@ public class Competicion {
         this.descripcion = descripcion;
     }
 
-    public Timestamp getFechaInicio() {
+    public LocalDateTime getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Timestamp fechaInicio) {
+    public void setFechaInicio(LocalDateTime fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Timestamp getFechaFin() {
+    public LocalDateTime getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Timestamp fechaFin) {
+    public void setFechaFin(LocalDateTime fechaFin) {
         this.fechaFin = fechaFin;
     }
 
-    public Object getEstado() {
+    public Byte getEstado() {
         return estado;
     }
 
-    public void setEstado(Object estado) {
+    public void setEstado(Byte estado) {
         this.estado = estado;
     }
 
-    public Integer getMaxParticipantes() {
-        return maxParticipantes;
-    }
-
-    public void setMaxParticipantes(Integer maxParticipantes) {
-        this.maxParticipantes = maxParticipantes;
-    }
-
-    public Integer getIdCreador() {
+    public int getIdCreador() {
         return idCreador;
     }
 
-    public void setIdCreador(Integer idCreador) {
+    public void setIdCreador(int idCreador) {
         this.idCreador = idCreador;
-    }
-
-    public Timestamp getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(Timestamp fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
     }
 
     public Object getTipo() {
@@ -124,12 +124,44 @@ public class Competicion {
         this.tipo = tipo;
     }
 
-    public Integer getCantidad() {
-        return cantidad;
+    public int getIdCategoria() {
+        return idCategoria;
     }
 
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public int getPrecioInscripcion() {
+        return precioInscripcion;
+    }
+
+    public void setPrecioInscripcion(int precioInscripcion) {
+        this.precioInscripcion = precioInscripcion;
+    }
+
+    public Integer getPersonasPorGrupo() {
+        return personasPorGrupo;
+    }
+
+    public void setPersonasPorGrupo(Integer personasPorGrupo) {
+        this.personasPorGrupo = personasPorGrupo;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -139,44 +171,63 @@ public class Competicion {
 
         Competicion that = (Competicion) o;
 
-        if (codi != that.codi) return false;
+        if (id != that.id) return false;
+        if (idCreador != that.idCreador) return false;
+        if (idCategoria != that.idCategoria) return false;
+        if (precioInscripcion != that.precioInscripcion) return false;
         if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
         if (descripcion != null ? !descripcion.equals(that.descripcion) : that.descripcion != null) return false;
         if (fechaInicio != null ? !fechaInicio.equals(that.fechaInicio) : that.fechaInicio != null) return false;
         if (fechaFin != null ? !fechaFin.equals(that.fechaFin) : that.fechaFin != null) return false;
         if (estado != null ? !estado.equals(that.estado) : that.estado != null) return false;
-        if (maxParticipantes != null ? !maxParticipantes.equals(that.maxParticipantes) : that.maxParticipantes != null)
-            return false;
-        if (idCreador != null ? !idCreador.equals(that.idCreador) : that.idCreador != null) return false;
-        if (fechaCreacion != null ? !fechaCreacion.equals(that.fechaCreacion) : that.fechaCreacion != null)
-            return false;
         if (tipo != null ? !tipo.equals(that.tipo) : that.tipo != null) return false;
-        if (cantidad != null ? !cantidad.equals(that.cantidad) : that.cantidad != null) return false;
+        if (personasPorGrupo != null ? !personasPorGrupo.equals(that.personasPorGrupo) : that.personasPorGrupo != null)
+            return false;
+        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
+        if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = nombre != null ? nombre.hashCode() : 0;
-        result = 31 * result + codi;
+        int result = id;
+        result = 31 * result + (nombre != null ? nombre.hashCode() : 0);
         result = 31 * result + (descripcion != null ? descripcion.hashCode() : 0);
         result = 31 * result + (fechaInicio != null ? fechaInicio.hashCode() : 0);
         result = 31 * result + (fechaFin != null ? fechaFin.hashCode() : 0);
         result = 31 * result + (estado != null ? estado.hashCode() : 0);
-        result = 31 * result + (maxParticipantes != null ? maxParticipantes.hashCode() : 0);
-        result = 31 * result + (idCreador != null ? idCreador.hashCode() : 0);
-        result = 31 * result + (fechaCreacion != null ? fechaCreacion.hashCode() : 0);
+        result = 31 * result + idCreador;
         result = 31 * result + (tipo != null ? tipo.hashCode() : 0);
-        result = 31 * result + (cantidad != null ? cantidad.hashCode() : 0);
+        result = 31 * result + idCategoria;
+        result = 31 * result + precioInscripcion;
+        result = 31 * result + (personasPorGrupo != null ? personasPorGrupo.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
 
-    public Collection<Puc> getPucsByCodi() {
-        return pucsByCodi;
+    public Usuario getUsuarioByIdCreador() {
+        return usuarioByIdCreador;
     }
 
-    public void setPucsByCodi(Collection<Puc> pucsByCodi) {
-        this.pucsByCodi = pucsByCodi;
+    public void setUsuarioByIdCreador(Usuario usuarioByIdCreador) {
+        this.usuarioByIdCreador = usuarioByIdCreador;
+    }
+
+    public Categoria getCategoriaByIdCategoria() {
+        return categoriaByIdCategoria;
+    }
+
+    public void setCategoriaByIdCategoria(Categoria categoriaByIdCategoria) {
+        this.categoriaByIdCategoria = categoriaByIdCategoria;
+    }
+
+    public Collection<Inscripcion> getInscripcionsById() {
+        return inscripcionsById;
+    }
+
+    public void setInscripcionsById(Collection<Inscripcion> inscripcionsById) {
+        this.inscripcionsById = inscripcionsById;
     }
 }
