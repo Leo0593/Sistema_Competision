@@ -46,6 +46,9 @@ public class Competicion {
     @Column(name = "personas_por_grupo")
     private Integer personasPorGrupo;
     @Basic
+    @Column(name = "logo_competencia")
+    private String logoCompetencia;
+    @Basic
     @Column(name = "created_at")
     private Timestamp createdAt;
     @Basic
@@ -148,6 +151,9 @@ public class Competicion {
         this.personasPorGrupo = personasPorGrupo;
     }
 
+    public String getLogoCompetencia() { return logoCompetencia; }
+
+    public void setLogoCompetencia(String logoCompetencia) { this.logoCompetencia = logoCompetencia; }
     public Timestamp getCreatedAt() {
         return createdAt;
     }
