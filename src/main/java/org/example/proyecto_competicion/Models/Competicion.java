@@ -35,7 +35,7 @@ public class Competicion {
     private int idCreador;
     @Basic
     @Column(name = "tipo")
-    private Object tipo;
+    private String  tipo;
     @Basic
     @Column(name = "id_categoria")
     private int idCategoria;
@@ -119,11 +119,11 @@ public class Competicion {
         this.idCreador = idCreador;
     }
 
-    public Object getTipo() {
+    public String  getTipo() {
         return tipo;
     }
 
-    public void setTipo(Object tipo) {
+    public void setTipo(String  tipo) {
         this.tipo = tipo;
     }
 
