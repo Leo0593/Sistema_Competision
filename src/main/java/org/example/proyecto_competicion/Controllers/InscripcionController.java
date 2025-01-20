@@ -84,8 +84,9 @@ public class InscripcionController {
         if ("individual".equalsIgnoreCase(tipoCompetencia)) {
             // Validaciones para competencias individuales
             inscripcion.setEnEquipo((byte) 0); // No es en equipo
-            inscripcion.setNombreEquipo(null); // No aplica
-            inscripcion.setCorreoParticipantes(null); // No aplica
+            inscripcion.setNombreEquipo(usuario.getNombre()); // Asignar el nombre del usuario como nombre del equipo
+            inscripcion.setCorreoParticipantes(usuario.getCorreo()); // Asignar el correo del usuario
+
         } else if ("grupal".equalsIgnoreCase(tipoCompetencia)) {
             // Validaciones para competencias grupales
             if (inscripcion.getNombreEquipo() == null || inscripcion.getNombreEquipo().isEmpty()) {

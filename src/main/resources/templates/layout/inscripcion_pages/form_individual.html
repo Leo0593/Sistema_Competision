@@ -8,20 +8,21 @@
 
 <h2>Inscribir Individual</h2>
 
-  <form th:action="@{/inscripcion/add}" th:object="${inscripcion}" method="post">
+<form th:action="@{/inscripcion/add}" th:object="${inscripcion}" method="post">
+  <input type="hidden" th:field="*{competencia}"/>
 
-    <input type="hidden" th:field="*{competencia}"/>
-    <div>
-      <label for="correoParticipantes">Correos de los participantes (separados por comas):</label>
-      <input type="text" id="correoParticipantes" th:field="*{correoParticipantes}" required/>
-    </div>
-    <div>
-      <label for="pagoRealizado">¿Pago realizado?</label>
-      <input type="checkbox" id="pagoRealizado" th:field="*{pagoRealizado}" value="1"/>
-    </div>
-    <button type="submit">Inscribirse</button>
-  </form>
+  <div>
+    <label for="correoParticipantes">Correo del participante</label>
+    <input type="text" id="correoParticipantes" th:field="*{correoParticipantes}" required/>
+  </div>
 
+  <div>
+    <label for="pagoRealizado">¿Pago realizado?</label>
+    <input type="checkbox" id="pagoRealizado" th:field="*{pagoRealizado}" value="1"/>
+  </div>
+
+  <button type="submit">Inscribirse</button>
+</form>
 
 
 
