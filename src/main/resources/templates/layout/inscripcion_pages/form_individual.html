@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+  <form th:action="@{/inscripcion/add}" th:object="${inscripcion}" method="post">
+
+    <input type="hidden" th:field="*{competencia}"/>
+    <div>
+      <label for="nombre">Nombre del participante:</label>
+      <input type="text" id="nombre" th:field="*{usuario}" required/>
+    </div>
+    <div>
+      <label for="pagoRealizado">¿Pago realizado?</label>
+      <input type="checkbox" id="pagoRealizado" th:field="*{pagoRealizado}" value="1"/>
+    </div>
+    <button type="submit">Inscribirse</button>
+  </form>
+
+
+
+
+</body>
+</html>
