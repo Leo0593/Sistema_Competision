@@ -35,22 +35,32 @@ public class InscripcionController {
         return "layout/inscripcion_pages/inscripciones";
     }
 
-    // Mostrar el formulario de inscripción
     @GetMapping("/add/{competenciaId}")
     public String showForm(@PathVariable("competenciaId") int competenciaId, Model model, Principal principal) {
-        // Obtener todas las competiciones
-        List<Competicion> competiciones = competicionRepository.findAll();
-        model.addAttribute("competiciones", competiciones);
+        // Obtener la competencia seleccionada
+        Competicion competicion = competicionRepository.findById(competenciaId).orElse(null);
 
-        // Crear un nuevo objeto de inscripción
+        if (competicion == null) {
+            return "redirect:/inscripcion/all?error=competenciaNotFound";
+        }
+
+        // Verificar el tipo de competencia y seleccionar el formulario correspondiente
+        String tipoCompetencia = competicion.getTipo(); // Puede ser "individual" o "grupal"
         Inscripcion inscripcion = new Inscripcion();
-        inscripcion.setCompetencia(competenciaId);  // Establecer la competencia que se está inscribiendo
-        model.addAttribute("inscripcion", inscripcion);
+        inscripcion.setCompetencia(competenciaId);
 
-        return "layout/inscripcion_pages/inscripcion_form"; // Ruta de la vista
+        model.addAttribute("inscripcion", inscripcion);
+        model.addAttribute("competencia", competicion);
+
+        if ("individual".equalsIgnoreCase(tipoCompetencia)) {
+            return "layout/inscripcion_pages/inscripcion_form_individual";
+        } else if ("grupal".equalsIgnoreCase(tipoCompetencia)) {
+            return "layout/inscripcion_pages/inscripcion_form_grupal";
+        } else {
+            return "redirect:/inscripcion/all?error=invalidCompetenciaType";
+        }
     }
 
-    // Guardar la inscripción
     @PostMapping("/add")
     public String saveInscripcion(@ModelAttribute("inscripcion") Inscripcion inscripcion, Principal principal) {
         // Obtener el correo del usuario logueado
@@ -59,9 +69,34 @@ public class InscripcionController {
         // Buscar el usuario
         Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
 
-        // Si el usuario no existe, redirigir con error
         if (usuario == null) {
             return "redirect:/inscripcion/add?error=userNotFound";
+        }
+
+        // Buscar la competencia para validar el tipo
+        Competicion competicion = competicionRepository.findById(inscripcion.getCompetencia()).orElse(null);
+        if (competicion == null) {
+            return "redirect:/inscripcion/add?error=competenciaNotFound";
+        }
+
+        // Validar inscripciones según el tipo
+        String tipoCompetencia = competicion.getTipo();
+        if ("individual".equalsIgnoreCase(tipoCompetencia)) {
+            // Validaciones para competencias individuales
+            inscripcion.setEnEquipo((byte) 0); // No es en equipo
+            inscripcion.setNombreEquipo(null); // No aplica
+            inscripcion.setCorreoParticipantes(null); // No aplica
+        } else if ("grupal".equalsIgnoreCase(tipoCompetencia)) {
+            // Validaciones para competencias grupales
+            if (inscripcion.getNombreEquipo() == null || inscripcion.getNombreEquipo().isEmpty()) {
+                return "redirect:/inscripcion/add?error=nombreEquipoRequired";
+            }
+            if (inscripcion.getCorreoParticipantes() == null || inscripcion.getCorreoParticipantes().isEmpty()) {
+                return "redirect:/inscripcion/add?error=correoParticipantesRequired";
+            }
+            inscripcion.setEnEquipo((byte) 1); // Es en equipo
+        } else {
+            return "redirect:/inscripcion/add?error=invalidCompetenciaType";
         }
 
         // Asignar el ID del usuario logueado
@@ -79,7 +114,6 @@ public class InscripcionController {
         // Guardar la inscripción
         inscripcionRepository.save(inscripcion);
 
-        // Redirigir a la vista de inscripciones
         return "redirect:/inscripcion/all";
     }
 }

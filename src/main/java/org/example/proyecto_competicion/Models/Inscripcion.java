@@ -30,6 +30,9 @@ public class Inscripcion {
     @Column(name = "fecha_pago")
     private Timestamp fechaPago;
     @Basic
+    @Column(name = "correo_participantes")
+    private String correoParticipantes;
+    @Basic
     @Column(name = "created_at")
     private Timestamp createdAt;
     @Basic
@@ -98,6 +101,14 @@ public class Inscripcion {
 
     public void setFechaPago(Timestamp fechaPago) {
         this.fechaPago = fechaPago;
+    }
+
+    public String getCorreoParticipantes() {
+        return correoParticipantes;
+    }
+
+    public void setCorreoParticipantes(String correoParticipantes) {
+        this.correoParticipantes = correoParticipantes;
     }
 
     public Timestamp getCreatedAt() {
