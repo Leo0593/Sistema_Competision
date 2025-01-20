@@ -53,9 +53,9 @@ public class InscripcionController {
         model.addAttribute("competencia", competicion);
 
         if ("individual".equalsIgnoreCase(tipoCompetencia)) {
-            return "layout/inscripcion_pages/inscripcion_form_individual";
+            return "layout/inscripcion_pages/form_individual";
         } else if ("grupal".equalsIgnoreCase(tipoCompetencia)) {
-            return "layout/inscripcion_pages/inscripcion_form_grupal";
+            return "layout/inscripcion_pages/form_grupal";
         } else {
             return "redirect:/inscripcion/all?error=invalidCompetenciaType";
         }
@@ -114,6 +114,6 @@ public class InscripcionController {
         // Guardar la inscripción
         inscripcionRepository.save(inscripcion);
 
-        return "redirect:/inscripcion/all";
+        return "Inicio";
     }
 }

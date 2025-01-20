@@ -6,13 +6,14 @@
 </head>
 <body>
 
+<h2>Inscribir Individual</h2>
 
   <form th:action="@{/inscripcion/add}" th:object="${inscripcion}" method="post">
 
     <input type="hidden" th:field="*{competencia}"/>
     <div>
-      <label for="nombre">Nombre del participante:</label>
-      <input type="text" id="nombre" th:field="*{usuario}" required/>
+      <label for="correoParticipantes">Correos de los participantes (separados por comas):</label>
+      <input type="text" id="correoParticipantes" th:field="*{correoParticipantes}" required/>
     </div>
     <div>
       <label for="pagoRealizado">¿Pago realizado?</label>
