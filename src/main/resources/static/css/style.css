@@ -11,7 +11,7 @@ body {
     margin: 0; /* Asegúrate de eliminar márgenes */
     padding: 0; /* Asegúrate de eliminar relleno */
 
-    background: url("img/fn4.png") no-repeat center center;
+    background: url("../img/fn4.png") no-repeat center center;
     background-size: cover; /* Ajusta el tamaño para que siempre ocupe todo el espacio */
 }
 
