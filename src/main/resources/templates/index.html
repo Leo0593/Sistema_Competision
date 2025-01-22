@@ -1,30 +1,100 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0"/>
-    <title>Inicio</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
-          rel="stylesheet">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-</head>
+<th:block th:replace="layout/head :: head"></th:block>
 
 <body>
-
 <div th:replace="layout/header :: header"></div>
 
+
 <div class="main-content">
-    <div class="content">
-        <h2 class="titulo" style="--margen-top: 50px;">Competencias</h2>
+
+    <div class="content-inicio">
+        <h2>INICIO</h2>
+
+        <!-- Tarjetas -->
+        <div class="sub-content-inicio">
+            <div class="sub-content-inicio-der">
+                <h1>Competencias</h1>
+
+                <p>
+                    Explora una amplia variedad de competencias diseñadas
+                    para todos los gustos e intereses. Inscríbete en aquellas
+                    que se alineen con tus pasiones y objetivos, y demuestra
+                    tus habilidades mientras te diviertes y te desafías.
+                    ¡Elige tu reto y empieza a competir!"
+                    ¿Te gustaría agregar algo más sobre las competencias, como
+                    ejemplos o algún beneficio adicional?
+                </p>
+
+                <a class="btn-w-c-1">Empieza ya</a>
+            </div>
+
+            <div class="sub-content-inicio-izq" style="height: 463px">
+                <img src="../../img/inicio/atletismo1.jpg">
+            </div>
+        </div>
+
+        <div class="sub-content-inicio">
+            <div class="sub-content-inicio-der">
+                <h1>Gestión de Usuarios</h1>
+
+                <p>
+                    Explora una amplia variedad de competencias diseñadas
+                    para todos los gustos e intereses. Inscríbete en aquellas
+                    que se alineen con tus pasiones y objetivos, y demuestra
+                    tus habilidades mientras te diviertes y te desafías.
+                </p>
+
+                <a class="btn-w-c-1">Ver mas</a>
+            </div>
+
+            <div class="sub-content-inicio-izq">
+                <img src="../../img/inicio/gestor_users.jpg">
+            </div>
+        </div>
+
+        <div class="sub-content-inicio">
+            <div class="sub-content-inicio-der">
+                <h1>Gestión de Competencias</h1>
+
+                <p>
+                    Explora una amplia variedad de competencias diseñadas
+                </p>
+
+                <a class="btn-w-c-1">Ver mas</a>
+            </div>
+
+            <div class="sub-content-inicio-izq">
+                <img src="../../img/inicio/gestor_compe1.jpg">
+            </div>
+        </div>
+
+        <div class="sub-content-inicio">
+            <div class="sub-content-inicio-der">
+                <h1>Competencias</h1>
+
+                <p>
+
+                    Explora una amplia variedad de competencias diseñadas
+                    para todos los gustos e intereses. Inscríbete en aquellas
+                    que se alineen con tus pasiones y objetivos, y demuestra
+                    tus habilidades mientras te diviertes y te desafías.
+                    ¡Elige tu reto y empieza a competir!"
+                    ¿Te gustaría agregar algo más sobre las competencias, como
+                    ejemplos o algún beneficio adicional?
+                </p>
+
+                <a class="btn-w-c-1">Empieza ya</a>
+            </div>
+
+            <div class="sub-content-inicio-izq">
+                <img src="../../img/inicio/atletismo1.jpg">
+            </div>
+        </div>
+
         <h1 class="titulo">Bienvenido a la parte Principal</h1>
 
-        <!-- Mostrar el rol del usuario -->
         <p>Rol actual: <span th:text="${#authentication.principal.authorities}">No disponible</span></p>
 
         <a th:href="@{/categoria/add}" sec:authorize="hasAnyRole('ADMIN')" class="btn btn-secondary">CATEGORÍA</a>
@@ -40,10 +110,33 @@
 </div>
 
 
-
-
 <div th:replace="layout/footer :: footer"></div>
 
-</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Función para ajustar las alturas
+        function adjustHeights() {
+            const containers = document.querySelectorAll('.sub-content-inicio');
+            containers.forEach(function (container) {
+                const derContainer = container.querySelector('.sub-content-inicio-der');
+                const izqContainer = container.querySelector('.sub-content-inicio-izq');
+                const derHeight = derContainer.offsetHeight;
+                izqContainer.style.height = `${derHeight}px`;
+            });
+        }
 
+        // Ajuste inicial
+        adjustHeights();
+
+        // Observador para cambios dinámicos de tamaño
+        const observer = new ResizeObserver(adjustHeights);
+        const targets = document.querySelectorAll('.sub-content-inicio-der');
+
+        targets.forEach((target) => {
+            observer.observe(target);
+        });
+    });
+</script>
+
+</body>
 </html>

@@ -2,13 +2,14 @@
 
 <body>
 <div class="main-login">
-    <div class="contentLogin">
+    <div class="content-login">
+
         <img src="img/el-wh2.png" alt="Logo de Elite League" class="logo">
 
-        <h1 class="texto" style="--size-font: 1.8rem; margin-top: 50px; margin-bottom: 15px">Iniciar Sesión</h1>
-        <h2 class="texto" style="--size-font: 1rem; margin-bottom: 35px">Va a ser increíble</h2>
+        <h1>Iniciar Sesión</h1>
+        <h2>Va a ser increíble</h2>
 
-        <form th:action="@{/login}" method="post" class="formulario">
+        <form th:action="@{/login}" method="post">
             <!-- Correo -->
             <div class="form-group">
                 <input type="text" class="form-control" id="username" name="username"
@@ -21,19 +22,20 @@
                        placeholder="Tu Contraseña" required>
             </div>
 
-            <button type="submit" class="btn-iniciar">Aceptar</button>
+            <!-- Mensaje de error si hay problemas en el login -->
+            <div th:if="${param.error}" class="alerta">
+                <p>Correo o contraseña incorrectos</p>
+            </div>
+
+            <button type="submit" class="btn-w-100">Aceptar</button>
 
             <!-- Enlace para registro -->
-            <a th:href="@{/registro/addusuario}" class="btn-notienescuenta">¿No tienes cuenta? Regístrate aquí</a>
+            <a th:href="@{/registro/addusuario}">¿No tienes cuenta? <strong>Regístrate aquí</strong></a>
 
         </form>
 
-        <!-- Mensaje de error si hay problemas en el login -->
-        <div th:if="${param.error}" class="alert alert-danger" style="margin-top: 15px;">
-            <p>Correo o contraseña incorrectos. Inténtalo nuevamente.</p>
-        </div>
-
     </div>
 </div>
+
 </body>
 </html>
