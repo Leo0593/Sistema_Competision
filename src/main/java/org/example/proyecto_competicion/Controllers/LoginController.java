@@ -21,4 +21,9 @@ public class LoginController {
         // Lógica de login
         return "Inicio"; // Redirige a la página de inicio o alguna otra acción
     }
+
+    @GetMapping("/menu")
+    public String menu(Model model) {
+        return "layout/menu"; // Muestra la vista de login
+    }
 }

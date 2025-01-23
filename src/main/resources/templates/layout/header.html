@@ -1,13 +1,13 @@
 <header th:fragment="header">
     <div class="wrapper">
 
-        <button class="btn-menu" id="bt1">
-            <img src="img/menu.png" alt="Logo Menu">
+        <button class="btn-menu toggle-btn" id="bt1">
+            <img src="../../img/menu.png" alt="Logo Menu">
         </button>
 
 
-        <div class="logo-container">
-            <img src="img/el-wh2.png" alt="Logo de Elite League">
+        <div class="logo-container" onclick="window.location.href = window.location.href;">
+            <img src="../../img/el-wh2.png" alt="Logo de Elite League">
         </div>
         <!--
             <form th:action="@{/login}" method="get">
@@ -18,8 +18,58 @@
          -->
 
         <div class="btn-perfil">
-            <img src="../../img/perfil_ic.png" alt="Logo de Elite League">
+            <img src="../../img/perfil_ic.png" alt="Logo Perfil">
         </div>
 
     </div>
+
+
+    <aside id="sidebar">
+        <ul class="sidebar-nav">
+
+            <div class="sidebar-separator">Home</div>
+
+            <li class="sidebar-item">
+                <a href="" class="sidebar-link">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Inicio</span>
+                </a>
+            </li>
+
+            <div class="sidebar-separator">Intefaces</div>
+
+            <li class="sidebar-item">
+                <a href="" class="sidebar-link">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span>Competencias</span>
+                </a>
+            </li>
+
+            <div class="sidebar-separator">Admin</div>
+
+            <li class="sidebar-item">
+                <a href="" class="sidebar-link">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>Gestionar Usuarios</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="" class="sidebar-link">
+                    <i class="fa-solid fa-gears"></i>
+                    <span>Gestionar Competencias</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="sidebar-footer">
+            <a th:href="@{/logout}" class="sidebar-link">
+                <i class="lni lni-exit"></i>
+                <span>Salir</span>
+            </a>
+        </div>
+    </aside>
+
+    <script src="../../js/script_menu.js"></script>
 </header>
