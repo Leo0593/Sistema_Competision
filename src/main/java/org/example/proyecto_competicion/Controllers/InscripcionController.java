@@ -11,8 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Controller
@@ -23,10 +23,11 @@ public class InscripcionController {
     private InscripcionRepository inscripcionRepository;
 
     @Autowired
-    private CompeticionRepository competicionRepository;  // Para obtener las competiciones disponibles
+    private CompeticionRepository competicionRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;  // Para obtener el usuario logueado
+    private UsuarioRepository usuarioRepository;
+
 
     @GetMapping("/all")
     public String getAllInscripciones(Model model) {
@@ -37,21 +38,19 @@ public class InscripcionController {
 
     @GetMapping("/add/{competenciaId}")
     public String showForm(@PathVariable("competenciaId") int competenciaId, Model model, Principal principal) {
-        // Obtener la competencia seleccionada
         Competicion competicion = competicionRepository.findById(competenciaId).orElse(null);
 
         if (competicion == null) {
             return "redirect:/inscripcion/all?error=competenciaNotFound";
         }
 
-        // Verificar el tipo de competencia y seleccionar el formulario correspondiente
-        String tipoCompetencia = competicion.getTipo(); // Puede ser "individual" o "grupal"
         Inscripcion inscripcion = new Inscripcion();
         inscripcion.setCompetencia(competenciaId);
 
         model.addAttribute("inscripcion", inscripcion);
         model.addAttribute("competencia", competicion);
 
+        String tipoCompetencia = competicion.getTipo();
         if ("individual".equalsIgnoreCase(tipoCompetencia)) {
             return "layout/inscripcion_pages/form_individual";
         } else if ("grupal".equalsIgnoreCase(tipoCompetencia)) {
@@ -62,59 +61,62 @@ public class InscripcionController {
     }
 
     @PostMapping("/add")
-    public String saveInscripcion(@ModelAttribute("inscripcion") Inscripcion inscripcion, Principal principal) {
-        // Obtener el correo del usuario logueado
+    public String saveInscripcion(
+            @ModelAttribute("inscripcion") Inscripcion inscripcion,
+            @RequestParam("stripeToken") String token,
+            Principal principal
+    ) {
+        // Obtener el usuario autenticado
         String correo = principal.getName();
-
-        // Buscar el usuario
         Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
-
         if (usuario == null) {
             return "redirect:/inscripcion/add?error=userNotFound";
         }
 
-        // Buscar la competencia para validar el tipo
+        // Buscar la competencia asociada
         Competicion competicion = competicionRepository.findById(inscripcion.getCompetencia()).orElse(null);
         if (competicion == null) {
             return "redirect:/inscripcion/add?error=competenciaNotFound";
         }
 
-        // Validar inscripciones según el tipo
+        // Configuración según el tipo de competencia
         String tipoCompetencia = competicion.getTipo();
         if ("individual".equalsIgnoreCase(tipoCompetencia)) {
-            // Validaciones para competencias individuales
-            inscripcion.setEnEquipo((byte) 0); // No es en equipo
-            inscripcion.setNombreEquipo(usuario.getNombre()); // Asignar el nombre del usuario como nombre del equipo
-            inscripcion.setCorreoParticipantes(usuario.getCorreo()); // Asignar el correo del usuario
-
+            // Competencia individual
+            inscripcion.setEnEquipo((byte) 0);
+            inscripcion.setNombreEquipo(usuario.getNombre());
+            inscripcion.setCorreoParticipantes(usuario.getCorreo());
         } else if ("grupal".equalsIgnoreCase(tipoCompetencia)) {
-            // Validaciones para competencias grupales
+            // Competencia grupal
             if (inscripcion.getNombreEquipo() == null || inscripcion.getNombreEquipo().isEmpty()) {
                 return "redirect:/inscripcion/add?error=nombreEquipoRequired";
             }
             if (inscripcion.getCorreoParticipantes() == null || inscripcion.getCorreoParticipantes().isEmpty()) {
                 return "redirect:/inscripcion/add?error=correoParticipantesRequired";
             }
-            inscripcion.setEnEquipo((byte) 1); // Es en equipo
+            inscripcion.setEnEquipo((byte) 1);
         } else {
             return "redirect:/inscripcion/add?error=invalidCompetenciaType";
         }
 
-        // Asignar el ID del usuario logueado
+
+
+
+
+        // Guardar información de pago en la inscripción
         inscripcion.setUsuario(usuario.getId());
-
-        // Si el pago se ha realizado, actualizar la fecha de pago
-        if (inscripcion.getPagoRealizado() != null && inscripcion.getPagoRealizado() == 1) {
-            inscripcion.setFechaPago(new Timestamp(System.currentTimeMillis()));
-        }
-
-        // Establecer las fechas de creación y actualización
+        inscripcion.setPagoRealizado((byte) 1); // Indicar que el pago se realizó
+        inscripcion.setFechaPago(new Timestamp(System.currentTimeMillis())); // Fecha del pago
         inscripcion.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         inscripcion.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
-        // Guardar la inscripción
+        // Guardar la inscripción en la base de datos
         inscripcionRepository.save(inscripcion);
 
-        return "Inicio";
+        // Redirigir con éxito
+        return "redirect:/inscripcion/all?success=true";
     }
+
+
+
 }
