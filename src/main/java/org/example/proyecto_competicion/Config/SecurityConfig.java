@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/registro/**", "/css/**", "/img/**").permitAll()
 
                         // Permite a ADMIN y USER ver la tabla de competencias
-                        .requestMatchers("/competencia/all").hasAnyRole("USER", "ADMIN", "GESTOR")
+                        .requestMatchers("/competencia/all", "/inscripcion/**","/payment/**").hasAnyRole("USER", "ADMIN", "GESTOR")
 
                         // Permite a GESTOR
 
