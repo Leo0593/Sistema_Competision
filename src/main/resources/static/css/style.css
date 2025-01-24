@@ -38,7 +38,7 @@ header {
     align-items: center; /* Centra verticalmente los elementos */
     justify-content: space-between; /* Botones a los extremos, logo al centro */
     padding: 10px 20px; /* Espaciado interno */
-    background-color: rgba(37, 41, 50, 0.75); /* Color de fondo opcional */
+    background-color: rgba(5, 5, 5, 0.5);
     backdrop-filter: blur(10px); /* Desenfoque del fondo */
     position: relative; /* Permite el centrado absoluto del logo */
 }
@@ -52,7 +52,7 @@ header {
 /* FOOTER */
 footer {
     width: 100%; /* Establece el ancho al 100% */
-    background-color: rgba(37, 41, 50, 0.75); /* Color de fondo opcional */
+    background-color: rgba(5, 5, 5, 0.5);
     backdrop-filter: blur(10px); /* Desenfoque del fondo */
     color: white; /* Color del texto */
     padding: 20px 0; /* Espaciado interno */
@@ -588,4 +588,405 @@ footer p {
 .alerta p {
     margin: 0;
     padding: 0;
+}
+
+/* MENU */
+
+/* Barra lateral */
+#sidebar {
+    width: 450px;
+    height: calc(100vh - 164px);
+
+    display: flex;
+    position: fixed;
+
+    left: -260px;
+    top: 100px;
+    bottom: 64px;
+
+    z-index: 1000;
+
+    flex-direction: column;
+
+    background-color: rgba(5, 5, 5, 0.5);
+    backdrop-filter: blur(10px);
+
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in-out, opacity 0.4s ease-in-out;
+
+    opacity: 1;
+}
+
+@media (max-width: 1000px) {
+    #sidebar {
+        width: 100%;
+    }
+}
+
+#sidebar.expand {
+    transform: translateX(260px);
+    opacity: 1;
+}
+
+.sidebar-space {
+    background-color: #393939;
+    width: 100%;
+    height: 12px;
+}
+
+.sidebar-separator {
+    padding: 0.8rem 1.8rem 0.2rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+
+.sidebar-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Icono */
+.sidebar-link i {
+    font-size: 1.15rem;
+}
+
+.sidebar-link span {
+    margin-left: 10px;
+
+    font-size: 1rem;
+}
+
+a.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #FFF;
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar-link i {
+    font-size: 1.15rem;
+}
+
+a.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: 3px solid #ffffff;
+    width: 100%;
+}
+
+.sidebar-nav {
+    padding: 10px 0px 10px 0px;
+    flex: 1 1 auto;
+}
+
+.sidebar-footer {
+    display: flex;
+    align-items: center;
+}
+
+/*  COMPETICIONES */
+.compe-container {
+    background-color: rgb(37, 41, 50, 0.8);
+    color: white;
+
+    border: none;
+    border-radius: 10px;
+
+    width: 348.5px;
+    overflow: hidden; /* Asegura que nada sobresalga */
+
+    margin: 10px 0;
+}
+
+@media (max-width: 1000px) {
+    .compe-container {
+        width: 100%;
+    }
+}
+
+.compe-container-sup {
+    display: flex;
+    height: 150px; /* Altura total de la sección superior */
+    width: 100%;
+}
+
+.compe-container-sup-izq {
+    overflow: hidden;
+
+    width: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.compe-container-sup-izq img {
+    width: auto;
+    height: 100%;
+}
+
+.compe-container-sup-der {
+    width: 50%;
+
+    display: flex;
+    flex-direction: column; /* Coloca los hijos en una columna */
+    align-items: flex-end; /* Alinea al extremo derecho */
+    justify-content: center; /* Centra verticalmente el contenido */
+
+    gap: 30px; /* Espaciado entre los elementos */
+
+    padding-right: 10px;
+}
+
+.grupal-indi {
+    height: 22px;
+
+    border: white 2px solid;
+    border-radius: 100px;
+
+    padding: 10px 10px;
+    font-size: 1em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 3px;
+}
+
+.grupal-indi i {
+    margin: 0;
+    padding: 0;
+}
+
+.grupal-indi p {
+    font-size: 0.8em;
+    margin: 0;
+    padding: 0;
+}
+
+.compe-container-inf {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+}
+
+.compe-container-inf h1 {
+    font-size: 2.2em;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 700;
+
+    margin-bottom: 20px;
+}
+
+.compe-container-inf-cont {
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--negro);
+    padding: 15px;
+
+    width: 100%;
+}
+
+.compe-container-inf-item {
+    font-size: 1.1em;
+
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaciado entre el ícono y el texto */
+    border: none;
+
+    margin: 5px 0;
+}
+
+.compe-container-inf-item p {
+    transform: translateY(40%);
+
+    font-size: 0.9em;
+    font-weight: 300;
+}
+
+.compe-container-inf-cont-circulo {
+    padding: 8px 10px;
+    border-radius: 50%;
+    border: white 2px solid;
+}
+
+.btn-w-100-outline-0-1 {
+    width: 100%;
+    background-color: transparent;
+    color: white;
+
+    border: white 2px solid;
+
+    padding: 15px 0px;
+    font-size: 1.2em;
+
+    border-radius: 10px;
+
+    cursor: pointer; /* Cursor de mano */
+
+    margin-top: 20px;
+
+    gap: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Transición suave */
+}
+
+.btn-w-100-outline-0-1:focus {
+    outline: none; /* Elimina el contorno al enfocar */
+}
+
+.btn-w-100-outline-0-1:hover {
+    background-color: white;
+    color: black;
+    transform: scale(1.07); /* Reduce ligeramente el tamaño */
+}
+
+.btn-w-100-outline-0-1:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño */
+}
+
+/* USUARIOS */
+.user-container {
+    color: white;
+
+    border: none;
+    border-radius: 10px;
+
+    width: 348.5px;
+    overflow: hidden; /* Asegura que nada sobresalga */
+
+    margin: 10px 0;
+
+    box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1000px) {
+    .user-container {
+        width: 100%;
+    }
+}
+
+.user-container-sup {
+    background-color: rgb(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+
+    padding: 15px;
+    display: flex;
+    height: 150px; /* Altura total de la sección superior */
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-container-sup img {
+    background-color: black;
+    width: auto;
+    height: 100%;
+
+    border-radius: 50%;
+}
+
+.user-container-inf {
+    background-color: rgb(37, 41, 50, 0.8);
+
+    width: 100%;
+    height: auto;
+    padding: 20px;
+}
+
+.user-container-inf h1 {
+    font-size: 1.5em;
+    margin-bottom: 0;
+}
+
+.user-container-inf p {
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+
+.user-container-btn {
+    margin-top: 2px;
+    background-color: rgb(37, 41, 50, 0.8);
+
+    /*
+    display: flex;
+    justify-content: center;
+    align-items: center;*/
+
+    padding: 15px;
+
+    gap: 10px;
+
+    display: grid; /* Configura el contenedor como una cuadrícula */
+    grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+}
+
+
+.user-container-btn a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+    padding: 10px 13px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    color: white;
+}
+
+
+.btn-edit {
+    background-color: transparent;
+
+    border: white 1px solid;
+    color: white;
+}
+
+
+.btn-edit:hover {
+    background-color: #FFC107;
+    border: transparent 1px solid;
+    color: black;
+}
+
+.btn-delete {
+    background-color: transparent;
+
+    border: white 1px solid;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f;
+    border: transparent 1px solid;
+    color: black;
 }

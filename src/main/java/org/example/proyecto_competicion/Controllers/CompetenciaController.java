@@ -8,16 +8,15 @@ import org.example.proyecto_competicion.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/competencia")
@@ -89,5 +88,4 @@ public class CompetenciaController {
         // Redirigir a la página principal o la vista correspondiente
         return "Inicio";  // O la ruta que corresponda
     }
-
 }

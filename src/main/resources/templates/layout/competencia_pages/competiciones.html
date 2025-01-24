@@ -1,56 +1,277 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Listado de Competiciones</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout/head :: head"></th:block>
+
 <body>
-<div class="container mt-5">
-    <h2>Listado de Competiciones</h2>
+<div th:replace="layout/header :: header"></div>
 
-    <!-- Tabla con competiciones -->
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Fecha Inicio</th>
-            <th>Fecha Fin</th>
-            <th>Estado</th>
-            <th>Precio Inscripción</th>
-            <th>Acciones</th>
-        </tr>z
-        </thead>
-        <tbody>
-        <!-- Iterar sobre las competiciones -->
-        <tr th:each="competicion : ${competiciones}">
-            <td th:text="${competicion.id}"></td>
-            <td th:text="${competicion.nombre}"></td>
-            <td th:text="${competicion.descripcion}"></td>
-            <td th:text="${competicion.fechaInicio}"></td>
-            <td th:text="${competicion.fechaFin}"></td>
-            <td th:text="${competicion.estado == 1 ? 'Activa' : 'Inactiva'}"></td>
-            <td th:text="${competicion.precioInscripcion} + ' €'"></td>
+<div class="main-content">
+    <div class="content-inicio">
+        <h2>Competiciones</h2>
 
-            <td>
-                <!-- Botón para Inscripción -->
-                <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
-                   sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
-                   class="btn btn-success btn-sm">Inscripción</a>
-                <!-- Botón para Ranking -->
-                <a th:href="@{/competencia/ranking/{id}(id=${competicion.id})}"
-                   sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
-                   class="btn btn-info btn-sm">Ranking</a>
-                <!-- Botón para Editar -->
-                <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}"
-                   sec:authorize="hasRole('ADMIN')"
-                   class="btn btn-primary btn-sm">Editar</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <div class="compe-container">
+            <div class="compe-container-sup">
+
+                <div class="compe-container-sup-izq">
+                    <img src="../../img/compe/imgnoenco.png">
+                </div>
+
+                <div class="compe-container-sup-der">
+
+                    <!--
+                    <div class="grupal-indi" style="background-color: #007bff; border: none">
+                        <p>Inscripciones Abiertas</p>
+                    </div> -->
+
+                    <div class="grupal-indi" style="background-color: red; border: none">
+                        <p>Registro Cerrado</p>
+                    </div>
+
+                    <div class="grupal-indi">
+                        <i class="fa-solid fa-person"></i>
+                    </div>
+
+                    <!--
+                    <div class="grupal-indi">
+                        <i class="fa-solid fa-person"></i>
+                        <i class="fa-solid fa-person"></i>
+                        <i class="fa-solid fa-person"></i>
+                    </div> -->
+                </div>
+
+            </div>
+
+            <div class="compe-container-inf">
+                <h1>Nombre de la Competencia</h1>
+
+                <div class="compe-container-inf-cont">
+
+                    <div class="compe-container-inf-item">
+                        <div class="compe-container-inf-cont-circulo">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <p>Ubicación</p>
+                    </div>
+
+                    <div class="compe-container-inf-item">
+                        <div class="compe-container-inf-cont-circulo">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <p>Del 22/02/2025 al 15/02/2025</p>
+                    </div>
+
+                    <div class="compe-container-inf-item">
+                        <div class="compe-container-inf-cont-circulo">
+                            <i class="fa-solid fa-euro-sign"></i>
+                        </div>
+                        <p>Gratis</p>
+                    </div>
+
+                </div>
+
+                <div class="btn-w-100-outline-0-1">
+                    <i class="fa-solid fa-chart-column"></i>
+                    Leadboard
+                </div>
+            </div>
+
+        </div>
+
+        <div class="compe-container">
+
+            <div class="compe-container-sup">
+
+                <div class="compe-container-sup-izq">
+                    <img src="../../img/compe/imgnoenco.png">
+                </div>
+
+                <div class="compe-container-sup-der">
+
+                    <div class="grupal-indi" style="background-color: #007bff; border: none">
+                        <p>Inscripciones Abiertas</p>
+                    </div>
+                    <!--
+                    <div class="grupal-indi" style="background-color: red; border: none">
+                        <p>Registro Cerrado</p>
+                    </div>
+
+                    <div class="grupal-indi">
+                        <i class="fa-solid fa-person"></i>
+                    </div>-->
+
+                    <div class="grupal-indi">
+                        <i class="fa-solid fa-person"></i>
+                        <i class="fa-solid fa-person"></i>
+                        <i class="fa-solid fa-person"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="compe-container-inf">
+                <h1>Nombre de la Competencia</h1>
+
+                <div class="compe-container-inf-cont">
+
+                    <div class="compe-container-inf-item">
+                        <div class="compe-container-inf-cont-circulo">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <p>?</p>
+                    </div>
+
+                    <div class="compe-container-inf-item">
+                        <div class="compe-container-inf-cont-circulo">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <p>Del 22/02/2025 al 15/02/2025</p>
+                    </div>
+
+                    <div class="compe-container-inf-item">
+                        <div class="compe-container-inf-cont-circulo">
+                            <i class="fa-solid fa-euro-sign"></i>
+                        </div>
+                        <p>10 €</p>
+                    </div>
+                </div>
+
+                <div class="btn-w-100-outline-0-1">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    Apúntate
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="compe-container" th:each="competicion : ${competiciones}">
+            <div class="compe-container-sup">
+
+                <div class="compe-container-sup-izq">
+                    <img src="../../img/compe/imgnoenco.png">
+                </div>
+
+                <div class="compe-container-sup-der">
+
+                    <div th:switch="${competicion.estado}">
+                        <!-- Si el estado es 1 (Activa) -->
+                        <div th:case="1" class="grupal-indi" style="background-color: #007bff; border: none">
+                            <p>Inscripciones Abiertas</p>
+                        </div>
+                        <!-- Si el estado no es 1 (Inactiva) -->
+                        <div th:case="*">
+                            <div class="grupal-indi" style="background-color: red; border: none">
+                                <p>Registro Cerrado</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grupal-indi" th:switch="${competicion.tipo}">
+                        <!-- Si es tipo individual -->
+                        <div th:case="'individual'">
+                            <i class="fa-solid fa-person"></i>
+                        </div>
+                        <!-- Si es tipo grupal -->
+                        <div th:case="'grupal'">
+                            <i class="fa-solid fa-person"></i>
+                            <i class="fa-solid fa-person"></i>
+                            <i class="fa-solid fa-person"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="compe-container-inf">
+                <h1 th:text="${competicion.nombre}"></h1>
+
+                <div class="compe-container-inf-cont">
+
+                    <div class="compe-container-inf-item">
+                        <div class="compe-container-inf-cont-circulo">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <p>Ubicación</p>
+                    </div>
+
+                    <div class="compe-container-inf-item">
+                        <div class="compe-container-inf-cont-circulo">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+
+                        <p>
+                            <!-- Formatear las fechas usando Thymeleaf -->
+                            Del <span th:text="${#temporals.format(competicion.fechaInicio, 'dd/MM/yyyy')}"></span> al
+                            <span th:text="${#temporals.format(competicion.fechaFin, 'dd/MM/yyyy')}"></span>
+                        </p>
+                    </div>
+
+                    <div class="compe-container-inf-item">
+                        <div class="compe-container-inf-cont-circulo">
+                            <i class="fa-solid fa-euro-sign"></i>
+                        </div>
+                        <!--<p th:text="${competicion.precioInscripcion} + ' €'"></p>-->
+                        <p th:if="${competicion.precioInscripcion == 0}">Gratis</p>
+                        <p th:if="${competicion.precioInscripcion != 0}"
+                           th:text="${competicion.precioInscripcion + ' €'}"></p>
+                    </div>
+
+                </div>
+
+                <div class="btn-w-100-outline-0-1">
+                    <i class="fa-solid fa-chart-column"></i>
+                    Leadboard
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!--
+<div class="container mt-5">
+<h2>Listado de Competiciones</h2>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Estado</th>
+        <th>Precio Inscripción</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="competicion : ${competiciones}">
+        <td th:text="${competicion.id}"></td>
+        <td th:text="${competicion.nombre}"></td>
+        <td th:text="${competicion.descripcion}"></td>
+        <td th:text="${competicion.fechaInicio}"></td>
+        <td th:text="${competicion.fechaFin}"></td>
+        <td th:text="${competicion.estado == 1 ? 'Activa' : 'Inactiva'}"></td>
+        <td th:text="${competicion.precioInscripcion} + ' €'"></td>
+
+        <td>
+            <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
+               sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
+               class="btn btn-success btn-sm">Inscripción</a>
+
+            <a th:href="@{/competencia/ranking/{id}(id=${competicion.id})}"
+               sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
+               class="btn btn-info btn-sm">Ranking</a>
+
+            <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}"
+               sec:authorize="hasRole('ADMIN')"
+               class="btn btn-primary btn-sm">Editar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+-->
+<div th:replace="layout/footer :: footer"></div>
+
 </body>
 </html>
