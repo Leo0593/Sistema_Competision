@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Inscripción Grupal</title>
+    <style>
+        /* Añadir un poco de espacio entre las etiquetas y los campos */
+        .email-group {
+            margin-bottom: 1rem;
+        }
+        .email-group label {
+            display: block;
+            margin-bottom: 0.5rem; /* Espacio entre el texto y la casilla */
+        }
+    </style>
+</head>
+<body>
+
+<h2>Inscribir Grupal</h2>
+<p>Precio de la Inscripción: <span th:text="${competencia.precioInscripcion == 0 ? 'GRATIS' : competencia.precioInscripcion}"></span></p>
+<button type="button" onclick="window.location.href='/competencia/all'">Volver al inicio</button>
+
+<!-- Formulario con evento para AJAX -->
+<form th:action="@{/inscripcion/add_grupal_gratis}" th:object="${inscripcion}" method="post" onsubmit="submitForm(event)">
+    <input type="hidden" th:field="*{competencia}"/>
+    <input type="hidden" id="personas-por-grupo" name="personasPorGrupo" th:value="${competencia.personasPorGrupo}" />
+
+    <!-- Checkbox para aceptar los términos y condiciones -->
+    <div>
+        <label>
+            <input type="checkbox" id="acceptTerms" onclick="toggleEmailField()"> Acepto los términos y condiciones
+        </label>
+    </div>
+
+    <!-- Campo de nombre del equipo, visible solo si se aceptan los términos -->
+    <div id="teamNameField" style="display:none;">
+        <label for="nombreEquipo">Nombre del Equipo</label>
+        <input type="text" id="nombreEquipo" th:field="*{nombreEquipo}" required/>
+    </div>
+
+    <!-- Campos de correos, inicialmente vacíos y ocultos -->
+    <div id="emailFields" style="display:none;"></div>
+
+    <!-- Botón de envío, inicialmente oculto -->
+    <button type="submit" id="submitButton" style="display:none;">Inscribirse</button>
+</form>
+
+<script>
+    // Función para manejar el envío del formulario
+    function submitForm(event) {
+        event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+
+        // Verificar si el checkbox está marcado
+        var termsAccepted = document.getElementById("acceptTerms").checked;
+        if (!termsAccepted) {
+            alert("Debes aceptar los términos y condiciones para continuar.");
+            return;
+        }
+
+        // Crear el objeto FormData para enviar el formulario mediante AJAX
+        var formData = new FormData(event.target);
+
+        // Obtener los correos de los campos dinámicos
+        var emailFields = document.getElementsByClassName("emailField");
+        var emailList = [];
+        for (var i = 0; i < emailFields.length; i++) {
+            if (emailFields[i].value) {
+                emailList.push(emailFields[i].value);
+            }
+        }
+
+        // Concatenar los correos con una coma
+        formData.append("correoParticipantes", emailList.join(","));
+
+        // Enviar los datos del formulario usando fetch (AJAX)
+        fetch("/inscripcion/add_grupal_gratis", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("Inscripción guardada con éxito");
+                    // Redirigir al usuario a la página de inicio
+                    window.location.href = "/competencia/all";
+                } else {
+                    alert("Error al guardar la inscripción");
+                }
+            })
+            .catch(error => {
+                alert("Hubo un error en la comunicación con el servidor.");
+                console.error(error);
+            });
+    }
+
+    // Función para mostrar u ocultar el campo de correos, nombre del equipo y el botón de envío
+    function toggleEmailField() {
+        var termsAccepted = document.getElementById("acceptTerms").checked;
+        var emailFieldsContainer = document.getElementById("emailFields");
+        var teamNameField = document.getElementById("teamNameField");
+        var submitButton = document.getElementById("submitButton");
+        var personasPorGrupo = document.getElementById("personas-por-grupo").value;
+
+        // Si el checkbox está marcado
+        if (termsAccepted) {
+            emailFieldsContainer.style.display = "block"; // Mostrar los campos de correo
+            teamNameField.style.display = "block"; // Mostrar el campo de nombre del equipo
+            submitButton.style.display = "block"; // Mostrar el botón de enviar
+
+            // Crear los campos de correo dinámicamente según el número de personas
+            emailFieldsContainer.innerHTML = ''; // Limpiar cualquier campo previo
+            for (var i = 1; i <= personasPorGrupo; i++) {
+                // Contenedor para cada campo de correo
+                var emailGroup = document.createElement('div');
+                emailGroup.classList.add('email-group');
+
+                var label = document.createElement('label');
+                label.textContent = "Correo del participante " + i;
+
+                var input = document.createElement('input');
+                input.type = "email";
+                input.classList.add("emailField");
+                input.required = true;
+
+                emailGroup.appendChild(label);
+                emailGroup.appendChild(input);
+                emailFieldsContainer.appendChild(emailGroup);
+            }
+        } else {
+            emailFieldsContainer.style.display = "none"; // Ocultar los campos de correo
+            teamNameField.style.display = "none"; // Ocultar el campo de nombre del equipo
+            submitButton.style.display = "none"; // Ocultar el botón de enviar
+        }
+    }
+
+    window.onload = function() {
+        toggleEmailField(); // Llama a la función al cargar la página para mantener el estado inicial
+    }
+</script>
+
+</body>
+</html>

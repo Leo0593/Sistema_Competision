@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <th:block th:replace="layout/head :: head"></th:block>
 
 <body>
@@ -214,6 +214,12 @@
                         <p th:if="${competicion.precioInscripcion != 0}"
                            th:text="${competicion.precioInscripcion + ' €'}"></p>
                     </div>
+
+                    <!-- AGREGA LA REDIRECCION DEL BOTON PARA HACER PRUEBAS-->
+
+                    <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
+                       class="btn btn-success btn-sm">Inscripción</a>
 
                 </div>
 

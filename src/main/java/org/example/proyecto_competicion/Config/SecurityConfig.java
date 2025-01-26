@@ -52,7 +52,6 @@ public class SecurityConfig {
 
                         // Permite a GESTOR
 
-
                         // ADMIN puede acceder a todo bajo estas rutas
                         .requestMatchers("/categoria/**", "/competencia/**", "/usuario/**").hasRole("ADMIN")
 
