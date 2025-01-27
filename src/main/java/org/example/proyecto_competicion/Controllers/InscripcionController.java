@@ -1,23 +1,36 @@
 package org.example.proyecto_competicion.Controllers;
 
+import com.stripe.Stripe;
+import com.stripe.model.PaymentIntent;
 import org.example.proyecto_competicion.Models.Competicion;
 import org.example.proyecto_competicion.Models.Inscripcion;
 import org.example.proyecto_competicion.Models.Usuario;
 import org.example.proyecto_competicion.Repository.CompeticionRepository;
 import org.example.proyecto_competicion.Repository.InscripcionRepository;
 import org.example.proyecto_competicion.Repository.UsuarioRepository;
+import org.example.proyecto_competicion.Service.StripeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/inscripcion")
 public class InscripcionController {
+
+    @Value("${stripe.keys.public}")
+    private String API_PUBLIC_KEY;
+
+    private StripeService stripeService;
 
     @Autowired
     private InscripcionRepository inscripcionRepository;
@@ -28,6 +41,10 @@ public class InscripcionController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    public InscripcionController(StripeService stripeService)
+    {
+        this.stripeService = stripeService;
+    }
 
     @GetMapping("/all")
     public String getAllInscripciones(Model model) {
@@ -49,6 +66,7 @@ public class InscripcionController {
 
         model.addAttribute("inscripcion", inscripcion);
         model.addAttribute("competencia", competicion);
+        model.addAttribute("stripePublicKey", API_PUBLIC_KEY);
 
         String tipoCompetencia = competicion.getTipo();
         if ("individual".equalsIgnoreCase(tipoCompetencia)) {
@@ -60,61 +78,60 @@ public class InscripcionController {
         }
     }
 
+
     @PostMapping("/add")
     public String saveInscripcion(
-            @ModelAttribute("inscripcion") Inscripcion inscripcion,
-            @RequestParam("stripeToken") String token,
-            Principal principal
+            @RequestBody Map<String, Object> inscripcionData,
+            Principal principal,
+            RedirectAttributes redirectAttributes
     ) {
-        // Obtener el usuario autenticado
-        String correo = principal.getName();
-        Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
-        if (usuario == null) {
-            return "redirect:/inscripcion/add?error=userNotFound";
-        }
+        try {
+            String correo = principal.getName();
+            Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
+            if (usuario == null) {
+                redirectAttributes.addFlashAttribute("error", "Usuario no encontrado");
+                return "redirect:/Error";
+            }
 
-        // Buscar la competencia asociada
-        Competicion competicion = competicionRepository.findById(inscripcion.getCompetencia()).orElse(null);
-        if (competicion == null) {
-            return "redirect:/inscripcion/add?error=competenciaNotFound";
-        }
+            String competenciaIdStr = (String) inscripcionData.get("competenciaId");
+            Integer competenciaId = Integer.parseInt(competenciaIdStr);
 
-        // Configuración según el tipo de competencia
-        String tipoCompetencia = competicion.getTipo();
-        if ("individual".equalsIgnoreCase(tipoCompetencia)) {
-            // Competencia individual
+            Competicion competicion = competicionRepository.findById(competenciaId).orElse(null);
+            if (competicion == null) {
+                redirectAttributes.addFlashAttribute("error", "Competencia no encontrada");
+                return "redirect:/Error";
+            }
+
+            String correoParticipante = (String) inscripcionData.get("correoParticipantes");
+
+            Stripe.apiKey = stripeService.getApiSecretKey();
+            PaymentIntent paymentIntent = PaymentIntent.retrieve((String) inscripcionData.get("paymentIntentId"));
+
+            if (!"succeeded".equals(paymentIntent.getStatus())) {
+                redirectAttributes.addFlashAttribute("error", "Pago fallido");
+                return "redirect:/Error";
+            }
+
+            Inscripcion inscripcion = new Inscripcion();
+            inscripcion.setUsuario(usuario.getId());
+            inscripcion.setCompetencia(competicion.getId());
             inscripcion.setEnEquipo((byte) 0);
             inscripcion.setNombreEquipo(usuario.getNombre());
-            inscripcion.setCorreoParticipantes(usuario.getCorreo());
-        } else if ("grupal".equalsIgnoreCase(tipoCompetencia)) {
-            // Competencia grupal
-            if (inscripcion.getNombreEquipo() == null || inscripcion.getNombreEquipo().isEmpty()) {
-                return "redirect:/inscripcion/add?error=nombreEquipoRequired";
-            }
-            if (inscripcion.getCorreoParticipantes() == null || inscripcion.getCorreoParticipantes().isEmpty()) {
-                return "redirect:/inscripcion/add?error=correoParticipantesRequired";
-            }
-            inscripcion.setEnEquipo((byte) 1);
-        } else {
-            return "redirect:/inscripcion/add?error=invalidCompetenciaType";
+            inscripcion.setPagoRealizado((byte) 1);
+            inscripcion.setFechaPago(new Timestamp(System.currentTimeMillis()));
+            inscripcion.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            inscripcion.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+            inscripcion.setCorreoParticipantes(correoParticipante);
+
+            inscripcionRepository.save(inscripcion);
+
+            redirectAttributes.addFlashAttribute("success", "Inscripción guardada con éxito");
+            return "redirect:/competencia/all"; // Redirige a la pantalla de inicio
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Error al procesar la inscripción");
+            return "redirect:/Error";
         }
-
-
-
-
-
-        // Guardar información de pago en la inscripción
-        inscripcion.setUsuario(usuario.getId());
-        inscripcion.setPagoRealizado((byte) 1); // Indicar que el pago se realizó
-        inscripcion.setFechaPago(new Timestamp(System.currentTimeMillis())); // Fecha del pago
-        inscripcion.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        inscripcion.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-
-        // Guardar la inscripción en la base de datos
-        inscripcionRepository.save(inscripcion);
-
-        // Redirigir con éxito
-        return "redirect:/inscripcion/all?success=true";
     }
 
 
