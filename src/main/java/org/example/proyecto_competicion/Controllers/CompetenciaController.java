@@ -8,11 +8,14 @@ import org.example.proyecto_competicion.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -47,6 +50,7 @@ public class CompetenciaController {
         return "layout/competencia_pages/addcompeticion";
     }
 
+    /*
     @PostMapping("/add")
     public String saveCompeticion(@ModelAttribute("competicion") Competicion competicion, Principal principal) {
         // Obtener el correo del usuario logueado desde 'principal'
@@ -62,6 +66,73 @@ public class CompetenciaController {
 
         // Asignar el ID del usuario logueado como el creador de la competición
         competicion.setIdCreador(usuario.getId());
+
+        // Si el tipo es "individual", asignar 1 persona por grupo
+        if ("individual".equals(competicion.getTipo())) {
+            competicion.setPersonasPorGrupo(1);  // Si es individual, asignamos 1
+        }
+
+        // Validación de fechas: la fecha de inicio no debe ser después de la fecha de fin
+        LocalDateTime fechaInicio = competicion.getFechaInicio();
+        LocalDateTime fechaFin = competicion.getFechaFin();
+
+        if (fechaInicio == null || fechaFin == null || fechaInicio.isAfter(fechaFin)) {
+            // Redirigir si las fechas no son válidas
+            return "redirect:/competencia/add?error=invalidDates";
+        }
+
+        // Configurar otras propiedades de la competición
+        competicion.setEstado((byte) 1);
+        competicion.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        competicion.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+
+        // Guardar la competición
+        competicionRepository.save(competicion);
+
+        // Redirigir a la página principal o la vista correspondiente
+        return "Inicio";  // O la ruta que corresponda
+    }*/
+
+
+    @PostMapping("/add")
+    public String saveCompeticion(@ModelAttribute("competicion") Competicion competicion,
+                                  @RequestParam("logoCompetencia") MultipartFile logoCompetencia,
+                                  Principal principal) {
+
+        // Obtener el correo del usuario logueado desde 'principal'
+        String correo = principal.getName();
+
+        // Buscar el usuario en la base de datos por el correo electrónico
+        Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
+
+        // Verificar si el usuario existe
+        if (usuario == null) {
+            return "redirect:/competencia/add?error=userNotFound";
+        }
+
+        // Asignar el ID del usuario logueado como el creador de la competición
+        competicion.setIdCreador(usuario.getId());
+
+
+        // Verificar si el archivo no está vacío
+        if (!logoCompetencia.isEmpty()) {
+            // Generar un nombre único para el archivo
+            String fileName = System.currentTimeMillis() + "_" + logoCompetencia.getOriginalFilename();
+
+            // Guardar el archivo en una carpeta del servidor (por ejemplo, /imagenes/)
+            try {
+                // Definir la ruta del archivo en el sistema
+                Path path = Paths.get("path/a/imagenes/" + fileName);
+                Files.copy(logoCompetencia.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+                // Establecer la ruta del archivo en el objeto competicion
+                competicion.setLogoCompetencia("/imagenes/" + fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Manejar el error, tal vez retornar un mensaje de error al usuario
+            }
+        }
+
 
         // Si el tipo es "individual", asignar 1 persona por grupo
         if ("individual".equals(competicion.getTipo())) {

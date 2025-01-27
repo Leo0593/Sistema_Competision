@@ -1,6 +1,7 @@
 package org.example.proyecto_competicion.Models;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
@@ -46,6 +47,7 @@ public class Competicion {
     @Column(name = "personas_por_grupo")
     private Integer personasPorGrupo;
     @Basic
+    @NotNull
     @Column(name = "logo_competencia")
     private String logoCompetencia;
     @Basic
