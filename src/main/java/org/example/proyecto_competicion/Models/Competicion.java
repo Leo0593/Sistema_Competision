@@ -49,6 +49,9 @@ public class Competicion {
     @Column(name = "logo_competencia")
     private String logoCompetencia;
     @Basic
+    @Column(name ="ubicacion")
+    private String ubicacion;
+    @Basic
     @Column(name = "created_at")
     private Timestamp createdAt;
     @Basic
@@ -152,6 +155,10 @@ public class Competicion {
     }
 
     public String getLogoCompetencia() { return logoCompetencia; }
+
+    public String getUbicacion() { return ubicacion; }
+
+    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
 
     public void setLogoCompetencia(String logoCompetencia) { this.logoCompetencia = logoCompetencia; }
     public Timestamp getCreatedAt() {
