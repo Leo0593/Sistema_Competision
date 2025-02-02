@@ -315,7 +315,11 @@ public class InscripcionController {
         }
     }
 
-
+    @GetMapping("/delete/{id}")
+    public String deleteInscripcion(@PathVariable("id") int id) {
+        inscripcionRepository.deleteById(id);
+        return "redirect:/inscripcion/all";
+    }
 
 
 

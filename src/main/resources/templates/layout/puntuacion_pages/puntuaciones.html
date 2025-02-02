@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Puntuaciones</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"> <!-- Enlace a tu CSS -->
+</head>
+<body>
+
+<h1>Lista de Puntuaciones</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Inscripción ID</th>
+        <th>Puntaje</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="puntuacion : ${puntuaciones}">
+        <td th:text="${puntuacion.id}"></td>
+        <td th:text="${puntuacion.inscripcionId}"></td>
+        <td th:text="${puntuacion.puntaje}"></td>
+        <td th:text="${#dates.format(puntuacion.fecha, 'yyyy-MM-dd HH:mm')}"></td>
+        <td>
+            <a th:href="@{/puntuacion/edit/{id}(id=${puntuacion.id})}">Editar</a>
+            <a th:href="@{/puntuacion/delete/{id}(id=${puntuacion.id})}">Delete</a>
+        </td>
+
+
+    </tr>
+
+    </tbody>
+</table>
+
+</body>
+</html>

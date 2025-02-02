@@ -101,6 +101,10 @@
         <a th:href="@{/competencia/add}" sec:authorize="hasAnyRole('ADMIN')" class="btn btn-secondary">COMPETENCIA</a>
         <a th:href="@{/usuario/all}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">USUARIOS</a>
         <a th:href="@{/competencia/all}"  class="btn btn-secondary">Tabla Competencias</a>
+        <a th:href="@{/inscripcion/all}"  class="btn btn-secondary">Inscripciones Competencias</a>
+        <a th:href="@{/puntuacion/all}"  class="btn btn-secondary">puntuaciones Competencias</a>
+
+
 
         <form th:action="@{/logout}" method="post" style="display: inline;">
             <button type="submit" class="btn btn-danger">Cerrar Sesión</button>

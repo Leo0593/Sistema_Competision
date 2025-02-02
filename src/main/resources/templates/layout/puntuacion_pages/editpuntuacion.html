@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Puntuación</title>
+</head>
+<body>
+
+<h2>Editar Puntuación</h2>
+
+<form th:action="@{/puntuacion/update}" method="post">
+    <!-- Campo oculto para el ID de la puntuación -->
+    <input type="hidden" name="id" th:value="${puntuacion.id}">
+
+    <label>Participante:</label>
+    <select name="inscripcionId" required>
+        <option th:each="inscrito : ${inscritos}"
+                th:value="${inscrito.id}"
+                th:text="${inscrito.usuarioByUsuario.nombre}"
+                th:selected="${inscrito.id == puntuacion.inscripcionId}">
+        </option>
+    </select>
+
+    <label>Puntuación:</label>
+    <input type="number" name="puntaje" required min="0" th:value="${puntuacion.puntaje}">
+
+    <button type="submit">Actualizar</button>
+</form>
+
+<a href="/puntuacion/all">Volver</a>
+
+</body>
+</html>

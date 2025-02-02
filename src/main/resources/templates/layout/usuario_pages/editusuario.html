@@ -26,7 +26,12 @@
         </div>
         <div class="mb-3">
             <label for="rol" class="form-label">Rol</label>
-            <input type="text" id="rol" name="rol" class="form-control" th:value="${usuario.rol}">
+            <select id="rol" name="rol" class="form-control">
+
+                <option value="ADMIN" th:selected="${usuario.rol == 'ADMIN'}">Admin</option>
+                <option value="USER" th:selected="${usuario.rol == 'USER'}">Usuario</option>
+                <option value="GESTOR" th:selected="${usuario.rol == 'GESTOR'}">Gestor</option>
+            </select>
         </div>
         <div class="mb-3">
             <label for="estado" class="form-label">Estado</label>

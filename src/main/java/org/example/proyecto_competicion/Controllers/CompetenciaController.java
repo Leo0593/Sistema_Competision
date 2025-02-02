@@ -8,10 +8,7 @@ import org.example.proyecto_competicion.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.sql.Timestamp;
@@ -86,6 +83,90 @@ public class CompetenciaController {
         competicionRepository.save(competicion);
 
         // Redirigir a la página principal o la vista correspondiente
-        return "Inicio";  // O la ruta que corresponda
+        return "redirect:/competencia/all";  // O la ruta que corresponda
     }
+
+    @GetMapping("/edit/{id}")
+    public String editCompeticion(@PathVariable("id") int id, Model model) {
+        // Buscar la competición por su ID
+        Competicion competicion = competicionRepository.findById(id).orElse(null);
+
+        // Si no existe la competición, redirigir con un mensaje de error
+        if (competicion == null) {
+            return "redirect:/competencia/all?error=notFound";
+        }
+
+        // Agregar la competición y las categorías disponibles al modelo
+        model.addAttribute("competicion", competicion);
+        model.addAttribute("categorias", categoriaRepository.findAll()); // Obtener todas las categorías
+        return "layout/competencia_pages/editcompeticion";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateCompeticion(@PathVariable("id") int id, @ModelAttribute("competicion") Competicion competicion) {
+        // Buscar la competición por su ID
+        Competicion competicionActual = competicionRepository.findById(id).orElse(null);
+
+        // Si no existe la competición, redirigir con un mensaje de error
+        if (competicionActual == null) {
+            return "redirect:/competencia/all?error=notFound";
+        }
+
+        // Validación de fechas: la fecha de inicio no debe ser después de la fecha de fin
+        LocalDateTime fechaInicio = competicion.getFechaInicio();
+        LocalDateTime fechaFin = competicion.getFechaFin();
+
+        if (fechaInicio == null || fechaFin == null || fechaInicio.isAfter(fechaFin)) {
+            return "redirect:/competencia/all?error=invalidDates";
+        }
+
+        // Actualizar las propiedades de la competición
+        competicionActual.setNombre(competicion.getNombre());
+        competicionActual.setDescripcion(competicion.getDescripcion());
+        competicionActual.setFechaInicio(fechaInicio);
+        competicionActual.setFechaFin(fechaFin);
+        competicionActual.setIdCategoria(competicion.getIdCategoria());
+
+        competicionActual.setTipo(competicion.getTipo());
+
+        if ("individual".equals(competicion.getTipo())) {
+            competicionActual.setPersonasPorGrupo(1);
+        } else {
+            competicionActual.setPersonasPorGrupo(competicion.getPersonasPorGrupo());
+        }
+
+        competicionActual.setPrecioInscripcion(competicion.getPrecioInscripcion());
+
+        // Actualizar el ID de la categoría (suponiendo que 'idCategoria' es un campo en Competicion)
+        competicionActual.setEstado(competicion.getEstado());
+        competicionActual.setUbicacion(competicion.getUbicacion());
+
+        competicionActual.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        // Guardar los cambios
+        competicionRepository.save(competicionActual);
+
+        // Redirigir a la página correspondiente después de la actualización
+        return "redirect:/competencia/all";  // O la ruta que corresponda, puede ser la vista de la competición
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCompeticion(@PathVariable("id") int id) {
+        // Buscar la competición por su ID
+        Competicion competicion = competicionRepository.findById(id).orElse(null);
+
+        // Si no existe la competición, redirigir con un mensaje de error
+        if (competicion == null) {
+            return "redirect:/competencia/all?error=notFound";
+        }
+
+        // Eliminar la competición
+        competicionRepository.delete(competicion);
+
+        // Redirigir a la página principal o la vista correspondiente
+        return "redirect:/competencia/all";  // O la ruta que corresponda
+    }
+
+
+
+
 }

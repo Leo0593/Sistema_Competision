@@ -221,6 +221,27 @@
                        sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
                        class="btn btn-success btn-sm">Inscripción</a>
 
+                    <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}" sec:authorize  ="hasAnyRole('ADMIN', 'GESTOR')"
+                       class="btn btn-info btn-sm">Editar</a>
+
+                    <a th:href="@{/competencia/delete/{id}(id=${competicion.id})}"
+                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
+                       class="btn btn-info btn-sm"
+                       onclick="return confirm('¿Seguro que quieres eliminar esta competencia?')">
+                        Eliminar
+                    </a>
+                    <a th:href="@{/puntuacion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
+                       class="btn btn-warning btn-sm">
+                        <i class="fa-solid fa-star"></i> Agregar Puntuación
+                    </a>
+
+                    <a th:href="@{/puntuacion/ranking/{competenciaId}(competenciaId=${competicion.id})}"
+                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
+                       class="btn btn-success btn-sm">
+                        <i class="fa-solid fa-trophy"></i> Ver Ranking
+                    </a>
+
                 </div>
 
                 <div class="btn-w-100-outline-0-1">

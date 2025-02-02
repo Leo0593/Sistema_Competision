@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Agregar Puntuación</title>
+</head>
+<body>
+
+<h2>Agregar Puntuación</h2>
+
+<form th:action="@{/puntuacion/save}" method="post">
+    <label>Participante:</label>
+    <select name="inscripcionId" required>
+        <option th:each="inscrito : ${inscritos}"
+                th:value="${inscrito.id}"
+                th:text="${inscrito.usuarioByUsuario.nombre}">
+        </option>
+    </select>
+
+    <label>Puntuación:</label>
+    <input type="number" name="puntaje" required min="0">
+
+
+    <button type="submit">Guardar</button>
+</form>
+
+<a href="/competicion/list">Volver</a>
+
+</body>
+</html>
