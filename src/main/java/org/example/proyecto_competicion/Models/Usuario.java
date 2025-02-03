@@ -27,6 +27,9 @@ public class Usuario {
     @Column(name = "contrasena")
     private String contrasena;
     @Basic
+    @Column(name = "reset_token")
+    private String resetToken;
+    @Basic
     @Column(name = "avatar")
     private String avatar;
     @Basic
@@ -92,6 +95,14 @@ public class Usuario {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
     }
 
     public String getAvatar() {
