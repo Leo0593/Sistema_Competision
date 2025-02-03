@@ -77,6 +77,13 @@ public class PuntuacionController {
         return "redirect:/puntuacion/all"; // Redirige a la pantalla de inicio
     }
 
+    @GetMapping("/ranking/{competenciaId}")
+    public String verRanking(@PathVariable int competenciaId, Model model) {
+        List<Object[]> ranking = puntuacionesRepository.obtenerRankingPorCompetencia(competenciaId);
+        model.addAttribute("ranking", ranking);
+        return "layout/puntuacion_pages/ranking"; // Ruta de la vista
+    }
+
 
 
 }
