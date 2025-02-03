@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stripe Payment Test</title>
+  <script src="https://js.stripe.com/v3/"></script> <!-- Incluye la biblioteca de Stripe -->
+</head>
+<body>
+<h1>Prueba de pago con Stripe Individual</h1>
+<p>Precio de la Inscripción: <span th:text="${competencia.precioInscripcion} + ' €'"></span></p>
+<button type="button" onclick="window.location.href='/competencia/all'">Volver al inicio</button>
+
+<!-- Checkbox de aceptación de términos -->
+<div>
+  <label>
+    <input type="checkbox" id="accept-terms"> Acepto los <a href="/terms" target="_blank">términos y condiciones</a>
+  </label>
+</div>
+
+<!-- Formulario simple (oculto inicialmente) -->
+<form id="payment-form" style="display: none;">
+
+  <!-- Campo oculto para el competenciaId -->
+  <input type="hidden" id="competencia-id" name="competenciaId" th:value="${competencia.id}" />
+
+  <div>
+    <label for="card-holder-email">Correo electrónico:</label>
+    <input type="email" id="card-holder-email" placeholder="Correo electrónico" required>
+  </div>
+
+  <!-- Contenedor para el elemento de la tarjeta -->
+  <div id="card-element"></div>
+
+  <!-- Muestra errores -->
+  <div id="card-errors" role="alert" style="color: red; margin-top: 10px;"></div>
+
+  <button type="submit" id="card-button">Pagar</button>
+
+</form>
+
+<script>
+  // Usa tu clave pública de Stripe
+  const stripe = Stripe("pk_test_51QWavTKX75wThlZA4ff4gIOT4IMlo7PminJsNKpSNLbKU2IbpTxXbdgVBneLsbfvVd90bhWbMBPWOo7dkf6UAemD00DLT6Paa0");
+  const elements = stripe.elements();
+
+  // Elemento de la tarjeta
+  const cardElement = elements.create("card");
+  cardElement.mount("#card-element");
+
+  // Obtener el formulario y los elementos
+  const form = document.getElementById("payment-form");
+  const acceptTermsCheckbox = document.getElementById("accept-terms");
+
+  // Mostrar el formulario solo si se acepta el checkbox
+  acceptTermsCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+      form.style.display = 'block'; // Mostrar el formulario
+    } else {
+      form.style.display = 'none'; // Ocultar el formulario
+    }
+  });
+
+  // Manejo del formulario
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    // Obtenemos el correo electrónico del formulario
+    const email = document.getElementById("card-holder-email").value;
+
+    // Obtenemos el competenciaId del campo oculto
+    const competenciaId = document.getElementById("competencia-id").value;
+
+    // Llamada al backend para obtener un PaymentIntent
+    const { clientSecret } = await fetch("/payment/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: 5000 }) // Cantidad en centavos: $50.00
+    }).then((r) => r.json());
+
+    // Confirmar el pago
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          email: email,  // Aquí pasamos el correo electrónico
+        },
+      },
+    });
+
+    if (error) {
+      // Maneja errores
+      cardErrors.textContent = error.message;
+    } else if (paymentIntent && paymentIntent.status === "succeeded") {
+      // Éxito
+      alert("Pago realizado con éxito");
+
+      // Enviar datos al backend para guardar la inscripción
+      const inscripcionData = {
+        paymentIntentId: paymentIntent.id,
+        competenciaId: competenciaId,
+        correoParticipantes: email // Aquí pasamos el correo electrónico
+      };
+
+      const response = await fetch("/inscripcion/add_individual_pago", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(inscripcionData)
+      });
+
+      if (response.ok) {
+        alert("Inscripción guardada con éxito");
+        // Redirigir al usuario a la página de inicio
+        window.location.href = "/competencia/all";
+      } else {
+        alert("Error al guardar la inscripción");
+      }
+    }
+  });
+</script>
+</body>
+</html>

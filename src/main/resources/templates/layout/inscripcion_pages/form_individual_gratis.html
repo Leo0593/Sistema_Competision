@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Inscripción Individual</title>
+
+</head>
+<body>
+
+<h2>Inscribir Individual</h2>
+<p>Precio de la Inscripción: <span th:text="${competencia.precioInscripcion == 0 ? 'GRATIS' : competencia.precioInscripcion}"></span></p>
+<button type="button" onclick="window.location.href='/competencia/all'">Volver al inicio</button>
+
+<!-- Formulario con evento para AJAX -->
+<form th:action="@{/inscripcion/add_individual_gratis}" th:object="${inscripcion}" method="post" onsubmit="submitForm(event)">
+    <input type="hidden" th:field="*{competencia}"/>
+
+    <!-- Checkbox para aceptar los términos y condiciones -->
+    <div>
+        <label>
+            <input type="checkbox" id="acceptTerms" onclick="toggleEmailField()"> Acepto los términos y condiciones
+        </label>
+    </div>
+
+    <!-- Campo de correo, inicialmente oculto -->
+    <div id="emailField" style="display:none;">
+        <label for="correoParticipantes">Correo del participante</label>
+        <input type="email" id="correoParticipantes" th:field="*{correoParticipantes}" required/>
+    </div>
+
+    <!-- Botón de envío, inicialmente oculto -->
+    <button type="submit" id="submitButton" style="display:none;">Inscribirse</button>
+</form>
+
+
+<script>
+    // Función para manejar el envío del formulario
+    function submitForm(event) {
+        event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+
+        // Verificar si el checkbox está marcado
+        var termsAccepted = document.getElementById("acceptTerms").checked;
+        if (!termsAccepted) {
+            alert("Debes aceptar los términos y condiciones para continuar.");
+            return;
+        }
+
+        // Crear el objeto FormData para enviar el formulario mediante AJAX
+        var formData = new FormData(event.target);
+
+        // Enviar los datos del formulario usando fetch (AJAX)
+        fetch("/inscripcion/add_individual_gratis", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("Inscripción guardada con éxito");
+                    // Redirigir al usuario a la página de inicio
+                    window.location.href = "/competencia/all";
+                } else {
+                    alert("Error al guardar la inscripción");
+                }
+            })
+            .catch(error => {
+                alert("Hubo un error en la comunicación con el servidor.");
+                console.error(error);
+            });
+    }
+
+    // Función para mostrar u ocultar el campo de correo y el botón de envío
+    function toggleEmailField() {
+        var termsAccepted = document.getElementById("acceptTerms").checked;
+        var emailField = document.getElementById("emailField");
+        var submitButton = document.getElementById("submitButton");
+
+        // Si el checkbox está marcado
+        if (termsAccepted) {
+            emailField.style.display = "block"; // Mostrar el campo de correo
+            submitButton.style.display = "block"; // Mostrar el botón de enviar
+        } else {
+            emailField.style.display = "none"; // Ocultar el campo de correo
+            submitButton.style.display = "none"; // Ocultar el botón de enviar
+        }
+    }
+
+    window.onload = function() {
+        toggleEmailField(); // Llama a la función al cargar la página para mantener el estado inicial
+    }
+</script>
+
+</body>
+</html>

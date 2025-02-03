@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Crear Competición</title>
+    <title>Editar Competición</title>
     <script>
         // Función para mostrar el campo de "personasPorGrupo" solo si se selecciona "grupal"
         function togglePersonasPorGrupo() {
@@ -15,13 +15,19 @@
                 personasPorGrupoField.style.display = "none";  // Ocultar el campo
             }
         }
+
+        // Función para establecer el campo de personasPorGrupo si el tipo es "grupal"
+        window.onload = function () {
+            togglePersonasPorGrupo();
+        };
     </script>
 </head>
 <body>
 
-<h2>Crear Competición</h2>
+<h2>Editar Competición</h2>
 
-<form th:action="@{/competencia/add}" th:object="${competicion}" method="post" enctype="multipart/form-data">
+<form th:action="@{/competencia/edit/{id}(id=${competicion.id})}" th:object="${competicion}" method="post"
+      enctype="multipart/form-data">
     <!-- Nombre -->
     <div>
         <label for="nombre">Nombre:</label>
@@ -46,17 +52,24 @@
         <input type="datetime-local" id="fechaFin" th:field="*{fechaFin}" required>
     </div>
 
-
     <!-- Tipo -->
     <div>
         <label for="tipo">Tipo:</label>
         <select id="tipo" th:field="*{tipo}" required onchange="togglePersonasPorGrupo()">
-            <option value="individual">Individual</option>
-            <option value="grupal">Grupal</option>
+            <option value="individual" th:selected="${competicion.tipo == 'individual'}">Individual</option>
+            <option value="grupal" th:selected="${competicion.tipo == 'grupal'}">Grupal</option>
         </select>
     </div>
 
-    <!-- Personas por Grupo (oculto por defecto) -->
+    <dic>
+        <label for="estado" class="form-label">Estado</label>
+        <select id="estado" name="estado" class="form-control">
+            <option value="1" th:selected="${competicion.estado == 1}">Activo</option>
+            <option value="0" th:selected="${competicion.estado == 0}">Inactivo</option>
+        </select>
+    </dic>
+
+    <!-- Personas por Grupo (oculto por defecto si el tipo es "individual") -->
     <div id="personasPorGrupoField" style="display: none;">
         <label for="personasPorGrupo">Personas por Grupo:</label>
         <input type="number" id="personasPorGrupo" th:field="*{personasPorGrupo}">
@@ -68,7 +81,8 @@
         <select id="idCategoria" th:field="*{idCategoria}" required>
             <option th:each="categoria : ${categorias}"
                     th:value="${categoria.id}"
-                    th:text="${categoria.nombre}"></option>
+                    th:text="${categoria.nombre}"
+                    th:selected="${competicion.idCategoria == categoria.id}"></option>
         </select>
     </div>
 
@@ -83,21 +97,12 @@
         <input type="text" id="ubicacion" th:field="*{ubicacion}" required>
     </div>
 
-
-
-
-    <!-- Logo de la Competición -->
-    <div>
-        <label for="logoCompetencia">Logo de la Competición:</label>
-        <input type="file" id="logoCompetencia" name="logoCompetencia" accept="image/*">
-    </div>
-
-
     <!-- Botón de Enviar -->
     <div>
-        <button type="submit">Guardar Competición</button>
+        <button type="submit">Actualizar Competición</button>
     </div>
 </form>
+
 <!-- Mensaje de error si las fechas son inválidas -->
 <div th:if="${param.error == 'invalidDates'}" style="color: red;">
     <p>Las fechas de inicio y fin no son válidas. Asegúrate de que la fecha de inicio no sea posterior a la de fin.</p>

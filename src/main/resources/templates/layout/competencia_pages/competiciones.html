@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <th:block th:replace="layout/head :: head"></th:block>
 
 <body>
@@ -214,6 +214,33 @@
                         <p th:if="${competicion.precioInscripcion != 0}"
                            th:text="${competicion.precioInscripcion + ' €'}"></p>
                     </div>
+
+                    <!-- AGREGA LA REDIRECCION DEL BOTON PARA HACER PRUEBAS-->
+
+                    <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
+                       class="btn btn-success btn-sm">Inscripción</a>
+
+                    <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}" sec:authorize  ="hasAnyRole('ADMIN', 'GESTOR')"
+                       class="btn btn-info btn-sm">Editar</a>
+
+                    <a th:href="@{/competencia/delete/{id}(id=${competicion.id})}"
+                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
+                       class="btn btn-info btn-sm"
+                       onclick="return confirm('¿Seguro que quieres eliminar esta competencia?')">
+                        Eliminar
+                    </a>
+                    <a th:href="@{/puntuacion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
+                       class="btn btn-warning btn-sm">
+                        <i class="fa-solid fa-star"></i> Agregar Puntuación
+                    </a>
+
+                    <a th:href="@{/puntuacion/ranking/{competenciaId}(competenciaId=${competicion.id})}"
+                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
+                       class="btn btn-success btn-sm">
+                        <i class="fa-solid fa-trophy"></i> Ver Ranking
+                    </a>
 
                 </div>
 

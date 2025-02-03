@@ -58,5 +58,13 @@ public class UsuarioController {
         return "redirect:/usuario/all"; // Redirige de nuevo a la lista de usuarios
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteUsuario(@PathVariable("id") int id) {
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        if (usuario != null) {
+            usuarioRepository.delete(usuario);
+        }
+        return "redirect:/usuario/all"; // Redirige de nuevo a la lista de usuarios
+    }
 
 }
