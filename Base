@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-01-2025 a las 09:31:36
+-- Tiempo de generación: 13-02-2025 a las 10:43:12
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -59,23 +59,34 @@ CREATE TABLE `competicion` (
   `precio_inscripcion` int(11) NOT NULL,
   `personas_por_grupo` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `logo_competencia` varchar(255) DEFAULT NULL,
+  `ubicacion` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `competicion`
 --
 
-INSERT INTO `competicion` (`id`, `nombre`, `descripcion`, `fecha_inicio`, `fecha_fin`, `estado`, `id_creador`, `tipo`, `id_categoria`, `precio_inscripcion`, `personas_por_grupo`, `created_at`, `updated_at`) VALUES
-(1, 'adadasdasd', 'dasjaksjdjkadhas', '2025-01-16 22:16:00', '2025-01-24 22:16:00', NULL, 1, 'grupal', 1, 25, 2, '2025-01-11 21:17:10', '2025-01-11 21:17:10'),
-(2, 'holaaaa 2', 'dasdadasd', '2025-01-18 22:18:00', '2025-01-29 22:19:00', NULL, 1, 'individual', 1, 30, NULL, '2025-01-11 21:19:10', '2025-01-11 21:19:10'),
-(5, 'CORRE CORRE', 'ADADADAAD ', '2025-01-01 22:22:00', '2025-01-30 22:22:00', 1, 1, 'individual', 1, 35, NULL, '2025-01-11 21:23:05', '2025-01-11 21:23:05'),
-(6, 'ADIOOOOS', 'COMO ESTASASDAS', '2025-01-01 22:24:00', '2025-01-24 22:24:00', 1, 1, 'individual', 1, 35, NULL, '2025-01-11 21:24:21', '2025-01-11 21:24:21'),
-(7, 'Una vida sana', 'kjhsfjkhjb khdkja jdga dhjasgd', '2025-01-01 22:30:00', '2025-01-15 22:30:00', 1, 4, 'individual', 2, 30, NULL, '2025-01-11 21:31:07', '2025-01-11 21:31:07'),
-(8, 'Admin', 'dasda gsfsdfsdf', '2025-01-08 22:34:00', '2025-01-22 22:34:00', 1, 2, 'individual', 2, 30, 1, '2025-01-11 21:34:45', '2025-01-11 21:34:45'),
-(9, 'dasdasd', 'asdasdasdas', '2025-01-02 22:00:00', '2025-01-31 22:00:00', 1, 1, 'individual', 2, 0, 1, '2025-01-13 21:00:36', '2025-01-13 21:00:36'),
-(10, 'Salud, vida y amor', 'dakdhakd kdasjdbshavdasdasd', '2025-01-13 23:02:00', '2025-01-22 23:02:00', 1, 5, 'grupal', 2, 10, 4, '2025-01-13 22:02:26', '2025-01-13 22:02:26'),
-(11, 'vive sano, corre sano', 'asjdlaksd lajdlkas ajdj jdahsdjahdk kjadkajdkajs', '2025-01-08 20:20:00', '2025-01-23 20:20:00', 1, 1, 'individual', 2, 25, 1, '2025-01-16 19:20:36', '2025-01-16 19:20:36');
+INSERT INTO `competicion` (`id`, `nombre`, `descripcion`, `fecha_inicio`, `fecha_fin`, `estado`, `id_creador`, `tipo`, `id_categoria`, `precio_inscripcion`, `personas_por_grupo`, `created_at`, `updated_at`, `logo_competencia`, `ubicacion`) VALUES
+(1, 'pepele', 'dasjaksjdjkadhas', '2025-01-16 22:16:00', '2025-01-24 22:16:00', 1, 1, 'grupal', 1, 0, 3, '2025-01-11 21:17:10', '2025-02-03 07:37:54', NULL, 'Lleida Pirineos'),
+(2, '789', '789', '2025-02-18 22:18:00', '2025-02-28 22:19:00', 1, 1, 'grupal', 2, 0, 5, '2025-01-11 21:19:10', '2025-02-01 19:06:42', NULL, 'Lleida Pirineos54'),
+(5, 'TE AMA', 'ADADADAAD ', '2025-01-01 22:22:00', '2025-01-30 22:22:00', 1, 1, 'individual', 1, 10, 1, '2025-01-11 21:23:05', '2025-02-08 15:46:12', NULL, 'gjhghj'),
+(6, 'ADIOOOOS', 'COMO ESTASASDAS', '2025-01-01 22:24:00', '2025-01-24 22:24:00', 1, 1, 'grupal', 1, 35, 3, '2025-01-11 21:24:21', '2025-01-26 00:00:23', NULL, NULL),
+(7, 'Una vida sana', 'kjhsfjkhjb khdkja jdga dhjasgd', '2025-01-01 22:30:00', '2025-01-15 22:30:00', 1, 4, 'individual', 2, 30, NULL, '2025-01-11 21:31:07', '2025-01-11 21:31:07', NULL, NULL),
+(8, 'Admin', 'dasda gsfsdfsdf', '2025-01-08 22:34:00', '2025-01-22 22:34:00', 1, 2, 'individual', 2, 30, 1, '2025-01-11 21:34:45', '2025-01-11 21:34:45', NULL, NULL),
+(9, 'dasdasd', 'asdasdasdas', '2025-01-02 22:00:00', '2025-01-31 22:00:00', 1, 1, 'individual', 2, 0, 1, '2025-01-13 21:00:36', '2025-01-13 21:00:36', NULL, NULL),
+(10, 'Salud, vida y amor', 'dakdhakd kdasjdbshavdasdasd', '2025-01-13 23:02:00', '2025-01-22 23:02:00', 1, 5, 'grupal', 2, 10, 4, '2025-01-13 22:02:26', '2025-01-13 22:02:26', NULL, NULL),
+(11, 'vive sano, corre sano', 'asjdlaksd lajdlkas ajdj jdahsdjahdk kjadkajdkajs', '2025-01-08 20:20:00', '2025-01-23 20:20:00', 1, 1, 'individual', 2, 25, 1, '2025-01-16 19:20:36', '2025-01-16 19:20:36', NULL, NULL),
+(12, 'dasdas', 'dasdasd', '2025-01-09 16:34:00', '2025-01-24 16:34:00', 1, 1, 'individual', 2, 12, 1, '2025-01-18 15:35:00', '2025-01-18 15:35:00', NULL, NULL),
+(13, 'aa', 'asas', '2025-01-10 22:54:00', '2025-01-17 22:54:00', 1, 1, 'individual', 1, 12, NULL, '2025-01-18 21:54:16', '2025-01-18 21:54:16', '/imagenes/logos/imgapp15.png', NULL),
+(14, '123', 'dasdas12', '2025-01-01 23:02:00', '2025-01-25 23:02:00', 1, 1, 'individual', 1, 123, 1, '2025-01-18 22:03:00', '2025-02-03 09:26:02', '/imagenes/logos/tarjeta de acceso.png', 'Lleida Pirineos54'),
+(15, 'dasdas13123123', 'da', '2025-01-01 00:28:00', '2025-01-31 00:28:00', 1, 1, 'individual', 1, 21, NULL, '2025-01-18 23:28:55', '2025-01-18 23:28:55', '/imagenes/logos/tarjeta de acceso.png', NULL),
+(16, 'aq', 'dasd', '2025-01-01 00:48:00', '2025-01-09 00:48:00', 1, 1, 'individual', 1, 12, NULL, '2025-01-18 23:49:02', '2025-01-18 23:49:02', '/imagenes/logos/Cuenta.png', NULL),
+(17, 'asd', 'sas', '2025-01-11 00:50:00', '2025-01-31 00:50:00', 1, 1, 'individual', 1, 12, NULL, '2025-01-18 23:50:11', '2025-01-18 23:50:11', '/imagenes/logos/Tarjeta_de_Seguridad.png', NULL),
+(18, '122', '12ewe', '2025-01-17 13:06:00', '2025-01-31 13:06:00', NULL, 1, 'individual', 1, 12, NULL, '2025-01-19 12:06:42', '2025-01-19 12:06:42', '/uploads/1737288402425_imgapp15.png', NULL),
+(19, '12344', 'adasd', '2025-01-25 13:10:00', '2025-01-30 13:10:00', NULL, 1, 'grupal', 1, 12, 12, '2025-01-19 12:10:57', '2025-01-19 12:10:57', '/uploads/logos/1737288657283_tarjeta de acceso.png', NULL),
+(20, 'dadas', 'dasdas', '2025-01-08 13:27:00', '2025-01-10 13:28:00', 1, 1, 'individual', 1, 0, 1, '2025-01-19 12:28:08', '2025-01-19 12:28:08', '/uploads/logos/1737289688791_tarjeta de acceso.png', NULL);
 
 -- --------------------------------------------------------
 
@@ -92,15 +103,97 @@ CREATE TABLE `inscripcion` (
   `pago_realizado` tinyint(1) DEFAULT 0,
   `fecha_pago` datetime DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `correo_participantes` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `inscripcion`
 --
 
-INSERT INTO `inscripcion` (`id`, `usuario`, `competencia`, `en_equipo`, `nombre_equipo`, `pago_realizado`, `fecha_pago`, `created_at`, `updated_at`) VALUES
-(1, 1, 10, 0, NULL, 0, NULL, '2025-01-16 21:43:58', '2025-01-16 21:43:58');
+INSERT INTO `inscripcion` (`id`, `usuario`, `competencia`, `en_equipo`, `nombre_equipo`, `pago_realizado`, `fecha_pago`, `created_at`, `updated_at`, `correo_participantes`) VALUES
+(1, 1, 10, 0, NULL, 0, NULL, '2025-01-16 21:43:58', '2025-01-16 21:43:58', NULL),
+(2, 2, 1, 0, NULL, 0, NULL, '2025-01-18 15:34:22', '2025-01-18 15:34:22', NULL),
+(3, 1, 1, 1, 'dasdas', 1, '2025-01-20 10:41:25', '2025-01-20 09:41:25', '2025-01-20 09:41:25', 'hola@gmail.com, santi@gmail.com'),
+(4, 1, 1, 1, 'dada', 1, '2025-01-20 10:45:31', '2025-01-20 09:45:31', '2025-01-20 09:45:31', 'hola@gmail.com, santi@gmail.com'),
+(5, 1, 2, 0, NULL, 1, '2025-01-20 10:46:31', '2025-01-20 09:46:31', '2025-01-20 09:46:31', NULL),
+(6, 3, 2, 0, 'Steve', 1, '2025-01-20 13:18:59', '2025-01-20 12:18:59', '2025-01-20 12:18:59', 'steve@gmail.com'),
+(8, 1, 1, NULL, NULL, 1, '2025-01-23 13:26:54', '2025-01-23 12:26:54', '2025-01-23 12:26:54', NULL),
+(9, 1, 1, NULL, NULL, 1, '2025-01-23 13:27:51', '2025-01-23 12:27:51', '2025-01-23 12:27:51', NULL),
+(10, 1, 1, NULL, NULL, 1, '2025-01-23 13:34:58', '2025-01-23 12:34:58', '2025-01-23 12:34:58', NULL),
+(11, 1, 1, NULL, NULL, 1, '2025-01-23 13:35:30', '2025-01-23 12:35:30', '2025-01-23 12:35:30', NULL),
+(12, 1, 1, NULL, NULL, 1, '2025-01-23 13:43:16', '2025-01-23 12:43:16', '2025-01-23 12:43:16', NULL),
+(13, 3, 1, NULL, NULL, 1, '2025-01-23 13:54:06', '2025-01-23 12:54:06', '2025-01-23 12:54:06', NULL),
+(14, 1, 1, NULL, NULL, 1, '2025-01-23 18:36:35', '2025-01-23 17:36:35', '2025-01-23 17:36:35', NULL),
+(15, 1, 1, NULL, NULL, 1, '2025-01-23 18:48:56', '2025-01-23 17:48:56', '2025-01-23 17:48:56', NULL),
+(16, 1, 19, NULL, NULL, 1, '2025-01-24 09:09:25', '2025-01-24 08:09:25', '2025-01-24 08:09:25', NULL),
+(17, 1, 1, NULL, NULL, 1, '2025-01-24 09:22:25', '2025-01-24 08:22:25', '2025-01-24 08:22:25', NULL),
+(18, 1, 5, NULL, NULL, 1, '2025-01-24 09:55:10', '2025-01-24 08:55:10', '2025-01-24 08:55:10', NULL),
+(19, 1, 5, 0, 'Leandro', 1, '2025-01-24 09:57:06', '2025-01-24 08:57:06', '2025-01-24 08:57:06', NULL),
+(20, 1, 6, 0, 'Leandro', 1, '2025-01-24 10:14:26', '2025-01-24 09:14:26', '2025-01-24 09:14:26', 'leandro@gmail.com'),
+(21, 2, 7, 0, 'Santiago23123', 1, '2025-01-24 10:23:46', '2025-01-24 09:23:46', '2025-01-24 09:23:46', 'hola@gmial.com'),
+(22, 2, 7, 0, 'Santiago23123', 1, '2025-01-24 10:37:44', '2025-01-24 09:37:44', '2025-01-24 09:37:44', 'hola@gmial.com'),
+(23, 2, 13, 0, 'Santiago23123', 1, '2025-01-24 10:45:33', '2025-01-24 09:45:33', '2025-01-24 09:45:33', 'leandro@gmail.com'),
+(24, 2, 13, 0, 'Santiago23123', 1, '2025-01-24 10:49:55', '2025-01-24 09:49:55', '2025-01-24 09:49:55', 'leandro@gmail.com'),
+(25, 1, 13, 0, 'Leandro', 1, '2025-01-24 13:03:29', '2025-01-24 12:03:29', '2025-01-24 12:03:29', 'santi@gmial.com'),
+(26, 1, 13, 0, 'Leandro', 1, '2025-01-24 13:09:03', '2025-01-24 12:09:03', '2025-01-24 12:09:03', 'santi@gmial.com'),
+(27, 1, 13, 0, 'Leandro', 1, '2025-01-24 13:11:41', '2025-01-24 12:11:41', '2025-01-24 12:11:41', 'leandro@gmail.com'),
+(28, 1, 13, 0, 'Leandro', 1, '2025-01-24 13:12:27', '2025-01-24 12:12:27', '2025-01-24 12:12:27', 'leandro@gmail.com'),
+(29, 1, 13, 0, 'Leandro', 1, '2025-01-24 13:13:39', '2025-01-24 12:13:39', '2025-01-24 12:13:39', 'hola@gmial.com'),
+(30, 1, 13, 0, 'Leandro', 1, '2025-01-24 13:16:36', '2025-01-24 12:16:36', '2025-01-24 12:16:36', 'leandro@gmail.com'),
+(31, 1, 11, 0, 'Leandro', 1, '2025-01-24 13:19:29', '2025-01-24 12:19:29', '2025-01-24 12:19:29', 'leandro@gmail.com'),
+(32, 1, 5, 0, 'Leandro', 1, '2025-01-24 13:22:05', '2025-01-24 12:22:05', '2025-01-24 12:22:05', 'leandro@gmail.com'),
+(33, 1, 5, 0, 'Leandro', 1, '2025-01-24 13:26:03', '2025-01-24 12:26:03', '2025-01-24 12:26:03', 'leandro@gmail.com'),
+(34, 1, 5, 0, 'Leandro', 1, '2025-01-24 13:26:55', '2025-01-24 12:26:55', '2025-01-24 12:26:55', 'leandro@gmail.com'),
+(35, 1, 5, 0, 'Leandro', 1, '2025-01-24 13:28:10', '2025-01-24 12:28:10', '2025-01-24 12:28:10', 'asdasd6@asdsad.com'),
+(36, 1, 5, 0, 'Leandro', 1, '2025-01-24 13:39:51', '2025-01-24 12:39:51', '2025-01-24 12:39:51', 'leandro@gmail.com'),
+(37, 1, 8, 0, 'Leandro', 1, '2025-01-24 13:47:01', '2025-01-24 12:47:01', '2025-01-24 12:47:01', 'leandro@gmail.com'),
+(38, 1, 2, 0, 'Leandro', 1, '2025-01-25 21:46:53', '2025-01-25 20:46:53', '2025-01-25 20:46:53', 'leandro@gmail.com'),
+(39, 1, 2, 0, 'Leandro', 1, '2025-01-25 21:49:50', '2025-01-25 20:49:50', '2025-01-25 20:49:50', 'leandro@gmail.com'),
+(40, 1, 2, 0, 'Leandro', 1, '2025-01-25 21:59:59', '2025-01-25 20:59:59', '2025-01-25 20:59:59', 'leandro@gmail.com'),
+(41, 1, 6, 1, 'BandidosFC', 1, '2025-01-25 23:41:20', '2025-01-25 22:41:20', '2025-01-25 22:41:20', 'leandro@gmail.com,santiago@gmail.com'),
+(42, 1, 2, 0, 'Leandro', 1, '2025-01-25 23:42:26', '2025-01-25 22:42:26', '2025-01-25 22:42:26', 'asdasd6@asdsad.com'),
+(43, 1, 10, 1, 'BandidosFC12', 1, '2025-01-25 23:43:31', '2025-01-25 22:43:31', '2025-01-25 22:43:31', 'leandro@gmail.com,santiago1@gmail.com'),
+(44, 1, 6, 1, 'BandidosFC12', 1, '2025-01-26 01:01:03', '2025-01-26 00:01:03', '2025-01-26 00:01:03', 'leandro@gmail.com,santiago@gmail.com,pepe@gmail.com'),
+(45, 2, 6, 1, 'pepecoin', 1, '2025-01-26 01:03:17', '2025-01-26 00:03:17', '2025-01-26 00:03:17', 'pepe@gmail.com,lala@gmail.com,dada@gmail.com'),
+(46, 2, 2, 0, 'Santiago23123', 1, '2025-01-26 01:03:51', '2025-01-26 00:03:51', '2025-01-26 00:03:51', 'santi@gmial.com'),
+(47, 1, 6, 1, 'BandidosFC122q', 1, '2025-01-26 17:00:16', '2025-01-26 16:00:16', '2025-01-26 16:00:16', 'leandro@gmail.com,santiago@gmail.com,dada@gmail.com'),
+(48, 1, 9, 0, 'Leandro', 1, '2025-01-26 18:18:25', '2025-01-26 17:18:25', '2025-01-26 17:18:25', 'leo123@gmail.com'),
+(49, 1, 9, 0, 'Leandro', 1, '2025-01-26 18:19:43', '2025-01-26 17:19:43', '2025-01-26 17:19:43', 'hola@gmail.com'),
+(50, 1, 20, 0, 'Leandro', 1, '2025-01-26 18:23:34', '2025-01-26 17:23:34', '2025-01-26 17:23:34', 'hola123@gmail.com'),
+(51, 1, 20, 0, 'Leandro', 1, '2025-01-26 18:43:05', '2025-01-26 17:43:05', '2025-01-26 17:43:05', 'hola12371@gmail.com'),
+(52, 1, 2, 0, 'Leandro', 1, '2025-01-26 18:45:12', '2025-01-26 17:45:12', '2025-01-26 17:45:12', 'leandro@gmail.com'),
+(53, 1, 5, 0, 'Leandro', 1, '2025-01-26 18:45:45', '2025-01-26 17:45:45', '2025-01-26 17:45:45', 'hola@gmail.com'),
+(54, 1, 6, 1, 'pepecoin54654', 1, '2025-01-26 18:46:33', '2025-01-26 17:46:33', '2025-01-26 17:46:33', 'leandro@gmail.com,santiago1@gmail.com,pepe@gmail.com'),
+(55, 1, 5, 0, 'Leandro', 1, '2025-01-26 19:04:21', '2025-01-26 18:04:21', '2025-01-26 18:04:21', 'LALO@GMIAL.COM'),
+(56, 1, 5, 0, 'Leandro', 1, '2025-01-26 19:13:32', '2025-01-26 18:13:32', '2025-01-26 18:13:32', 'leandro@gmail.com'),
+(57, 1, 5, 0, 'Leandro', 1, '2025-01-26 19:18:49', '2025-01-26 18:18:49', '2025-01-26 18:18:49', 'hola123@gmail.com'),
+(58, 1, 5, 0, 'Leandro', 1, '2025-01-26 19:39:08', '2025-01-26 18:39:08', '2025-01-26 18:39:08', 'bebe123@gmail.com'),
+(59, 1, 1, 0, 'fdsfsdfds', 1, '2025-01-26 20:08:30', '2025-01-26 19:08:30', '2025-01-26 19:08:30', 'fsdfsdfsdfsd@maskdjas.com'),
+(60, 1, 1, 0, 'asdasdas', 1, '2025-01-26 20:13:54', '2025-01-26 19:13:54', '2025-01-26 19:13:54', 'leandro@gmail.com,pepe@gmail.com,lala@gmail.com,dada@gmail.com'),
+(61, 1, 6, 1, 'lalalefgdf', 1, '2025-01-26 20:22:05', '2025-01-26 19:22:05', '2025-01-26 19:22:05', 'leandro@gmail.com,santiago1@gmail.com,dada@gmail.com'),
+(62, 1, 1, 1, '1232423', 1, '2025-01-26 20:23:04', '2025-01-26 19:23:04', '2025-01-26 19:23:04', 'leandro@gmail.com,pepe@gmail.com,lla@gmial.com,dada@gmail.com'),
+(63, 1, 5, 0, 'Leandro', 1, '2025-01-27 22:30:23', '2025-01-27 21:30:23', '2025-01-27 21:30:23', 'leandroclavijo854@gmail.com'),
+(64, 1, 5, 0, 'Leandro', 1, '2025-01-27 22:42:24', '2025-01-27 21:42:24', '2025-01-27 21:42:24', 'leandroclavijo854@gmail.com'),
+(65, 1, 1, 1, '123123', 1, '2025-01-27 22:47:29', '2025-01-27 21:47:29', '2025-01-27 21:47:29', 'dasd@dasd.com,das12d@dasd.com,dasweqwd@dasd.com,dasdsadasd@dasd.com'),
+(66, 1, 2, 0, 'Leandro', 1, '2025-01-27 22:47:56', '2025-01-27 21:47:56', '2025-01-27 21:47:56', 'hola@gmial.com'),
+(67, 1, 5, 0, 'Leandro', 1, '2025-01-27 22:48:08', '2025-01-27 21:48:08', '2025-01-27 21:48:08', 'asdasd@sadasd.com'),
+(68, 1, 6, 1, '13wsad', 1, '2025-01-27 22:48:45', '2025-01-27 21:48:45', '2025-01-27 21:48:45', 'leandro@gmail.com,santiago1@gmail.com,pepe@gmail.com'),
+(69, 1, 2, 0, 'Leandro', 1, '2025-01-31 08:35:15', '2025-01-31 07:35:15', '2025-01-31 07:35:15', 'hola@gmial.com'),
+(70, 1, 5, 0, 'Leandro', 1, '2025-01-31 22:22:55', '2025-01-31 21:22:55', '2025-01-31 21:22:55', 'leandroclavijo854@gmail.com'),
+(71, 1, 5, 0, 'Leandro', 1, '2025-01-31 22:24:13', '2025-01-31 21:24:13', '2025-01-31 21:24:13', 'leandro@gmail.com'),
+(72, 1, 5, 0, 'Leandro', 1, '2025-01-31 22:31:05', '2025-01-31 21:31:05', '2025-01-31 21:31:05', 'leandroclavijo854@gmail.com'),
+(73, 1, 5, 0, 'Leandro', 1, '2025-01-31 22:32:02', '2025-01-31 21:32:02', '2025-01-31 21:32:02', 'leandroclavijo854@gmail.com'),
+(74, 1, 5, 0, 'Leandro', 1, '2025-01-31 22:32:17', '2025-01-31 21:32:17', '2025-01-31 21:32:17', 'leandroclavijo854@gmail.com'),
+(75, 1, 5, 0, 'Leandro', 1, '2025-01-31 22:34:36', '2025-01-31 21:34:36', '2025-01-31 21:34:36', 'leandroclavijo854@gmail.com'),
+(76, 1, 5, 0, 'Leandro', 1, '2025-01-31 22:50:01', '2025-01-31 21:50:01', '2025-01-31 21:50:01', 'leandroclavijo854@gmail.com'),
+(77, 1, 5, 0, 'Leandro', 1, '2025-01-31 23:00:38', '2025-01-31 22:00:38', '2025-01-31 22:00:38', 'leandroclavijo854@gmail.com'),
+(78, 1, 5, 0, 'Leandro', 1, '2025-01-31 23:03:31', '2025-01-31 22:03:31', '2025-01-31 22:03:31', 'leandroclavijo854@gmail.com'),
+(79, 1, 2, 0, 'Leandro', 1, '2025-01-31 23:10:34', '2025-01-31 22:10:34', '2025-01-31 22:10:34', 'leandroclavijo854@gmail.com'),
+(80, 1, 5, 0, 'Leandro', 1, '2025-01-31 23:12:42', '2025-01-31 22:12:42', '2025-01-31 22:12:42', 'stevejph48@gmail.con'),
+(81, 1, 5, 0, 'Leandro', 1, '2025-01-31 23:16:40', '2025-01-31 22:16:40', '2025-01-31 22:16:40', 'stevejph48@gmail.com'),
+(82, 1, 1, 1, 'bebitas fc', 1, '2025-02-01 00:18:48', '2025-01-31 23:18:48', '2025-01-31 23:18:48', 'leandroclavijo854@gmail.com,leandro.clavijo2504@gmail.com'),
+(83, 1, 1, 1, 'dasda212', 1, '2025-02-01 00:23:12', '2025-01-31 23:23:12', '2025-01-31 23:23:12', 'leandroclavijo854@gmail.com,leandro.clavijo2504@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -115,6 +208,18 @@ CREATE TABLE `puntuaciones` (
   `fecha` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `puntuaciones`
+--
+
+INSERT INTO `puntuaciones` (`id`, `inscripcion_id`, `puntaje`, `fecha`) VALUES
+(1, 79, 120, '2025-02-03 09:28:30'),
+(2, 6, 1000, '2025-02-02 15:31:01'),
+(4, 9, 131321, '2025-02-02 19:26:03'),
+(5, 8, 12312, '2025-02-03 09:24:12'),
+(6, 2, 123123, '2025-02-03 09:24:29'),
+(7, 59, 11, '2025-02-03 09:24:48');
+
 -- --------------------------------------------------------
 
 --
@@ -128,6 +233,7 @@ CREATE TABLE `usuario` (
   `rol` enum('ADMIN','USER','GESTOR') NOT NULL,
   `correo` varchar(100) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
+  `reset_token` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
   `estado` tinyint(1) DEFAULT 1,
   `historial` text DEFAULT NULL,
@@ -139,15 +245,13 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `rol`, `correo`, `contrasena`, `avatar`, `estado`, `historial`, `created_at`, `updated_at`) VALUES
-(1, 'Leandro', 'Clavijo', 'ADMIN', 'leo123@gmail.com', '$2a$10$DzZ19.NYisc/HshmJwq.nuizXBq0a6dCyQ6du8nNnShBxtv6AmrLC', NULL, 1, NULL, '2025-01-11 14:07:16', '2025-01-14 21:33:03'),
-(2, 'Santiago23123', 'Ortega3123123', 'USER', 'santiago@gmail.com', '$2a$10$nxFRxY6hlYKG8BNNdJNt4.It6Imy7j77IlOkvTYpyPvyTl.rVlsnu', '', 1, '', '2025-01-11 14:32:23', '2025-01-16 11:53:52'),
-(3, 'Steve', 'Portella', 'GESTOR', 'steve@gmail.com', '$2a$10$DezaQRBc95PMGzHNQrvm.uGFIBbM.aVJAHQFSDYub4ZOya93SHYTq', NULL, 1, NULL, '2025-01-11 14:50:07', '2025-01-16 19:43:38'),
-(4, 'Nuria', 'Ronquillo', '', 'nuria@gmail.com', '$2a$10$ghejaqiZa2EFsRad.MZBiufghG4jxa.CLQjq9Hl3PninRZeLi4fze', NULL, 1, NULL, '2025-01-11 21:29:18', '2025-01-14 21:07:45'),
-(5, 'Melany', 'Pamela', '', 'melany@gmail.com', '$2a$10$mhvl4AtcIwPJdXhaZvUBeOx9sXW4fszC7iZKjlfik2O2KnDa134tu', NULL, 1, NULL, '2025-01-13 22:00:42', '2025-01-14 21:07:48'),
-(6, 'dlkasjdlkasd', 'dasdasdasd', '', 'dasdasd@gmail.com', '$2a$10$zixVOBS9krApzpY/Xwn59OsuDC6iOH7DsTjW507M9IeOxNP7V09Gq', NULL, 1, NULL, '2025-01-14 10:45:01', '2025-01-14 21:07:52'),
-(7, 'Pepe', 'asdas', 'USER', 'admin@gmail.com', '$2a$10$tq75425i2SDMOsNdruszUuGLq3R/gRoonFxkVcTovEugPuzDKSxEy', NULL, 1, NULL, '2025-01-14 23:22:12', '2025-01-14 23:22:12'),
-(8, 'dasdas', 'dasdas', 'USER', 'asdas@dasdas.com', '$2a$10$8uca1l8zQdiFmg./q2P.vOEuaOn9t7jEU7aewBzE67ge5UqT9HM3G', NULL, 1, NULL, '2025-01-14 23:22:55', '2025-01-14 23:22:55');
+INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `rol`, `correo`, `contrasena`, `reset_token`, `avatar`, `estado`, `historial`, `created_at`, `updated_at`) VALUES
+(1, 'Leandro', 'Clavijo', 'ADMIN', 'leo123@gmail.com', '$2a$10$DzZ19.NYisc/HshmJwq.nuizXBq0a6dCyQ6du8nNnShBxtv6AmrLC', NULL, NULL, 1, NULL, '2025-01-11 14:07:16', '2025-01-14 21:33:03'),
+(2, 'Santiago23123', 'Ortega3123123', 'USER', 'santiago@gmail.com', '$2a$10$nxFRxY6hlYKG8BNNdJNt4.It6Imy7j77IlOkvTYpyPvyTl.rVlsnu', NULL, '', 0, '', '2025-01-11 14:32:23', '2025-02-01 16:47:02'),
+(3, 'Steve', 'Portella', 'ADMIN', 'steve@gmail.com', '$2a$10$DezaQRBc95PMGzHNQrvm.uGFIBbM.aVJAHQFSDYub4ZOya93SHYTq', NULL, NULL, 1, NULL, '2025-01-11 14:50:07', '2025-01-23 12:53:11'),
+(4, 'Nuria', 'Ronquillo', '', 'nuria@gmail.com', '$2a$10$ghejaqiZa2EFsRad.MZBiufghG4jxa.CLQjq9Hl3PninRZeLi4fze', NULL, NULL, 1, NULL, '2025-01-11 21:29:18', '2025-01-14 21:07:45'),
+(5, 'Melany', 'Pamela', 'GESTOR', 'melany@gmail.com', '$2a$10$mhvl4AtcIwPJdXhaZvUBeOx9sXW4fszC7iZKjlfik2O2KnDa134tu', NULL, '', 1, '', '2025-01-13 22:00:42', '2025-02-02 14:30:13'),
+(10, 'Leandro', 'Clavijo', 'USER', 'leandroclavijo854@gmail.com', '$2a$10$j0zE7ueysy2S24otViO2OeM6/7cMjxsZ8nXA/E6xfkqSlUrg2l6/q', NULL, NULL, 1, NULL, '2025-02-03 18:46:41', '2025-02-03 18:46:41');
 
 --
 -- Índices para tablas volcadas
@@ -203,25 +307,25 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `competicion`
 --
 ALTER TABLE `competicion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `inscripcion`
 --
 ALTER TABLE `inscripcion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT de la tabla `puntuaciones`
 --
 ALTER TABLE `puntuaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas

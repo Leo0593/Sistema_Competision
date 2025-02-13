@@ -1,0 +1,30 @@
+<th:block th:replace="layout/head :: head"></th:block>
+
+<body>
+<div class="main-login">
+    <div class="content-login">
+        <h1>Restablecer Contraseña</h1>
+        <p>Ingresa una nueva contraseña para tu cuenta.</p>
+
+        <form th:action="@{/recuperar/nueva}" method="post">
+            <input type="hidden" name="token" th:value="${token}">
+
+            <div class="form-group">
+                <input type="password" class="form-control" name="nuevaContrasena" placeholder="Nueva Contraseña" required>
+            </div>
+
+            <button type="submit" class="btn-w-100">Restablecer</button>
+
+            <div th:if="${mensaje}" class="alerta">
+                <p th:text="${mensaje}"></p>
+            </div>
+            <div th:if="${error}" class="alerta error">
+                <p th:text="${error}"></p>
+            </div>
+
+            <a th:href="@{/login}">Volver al login</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

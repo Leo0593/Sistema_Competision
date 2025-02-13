@@ -45,7 +45,7 @@ public class SecurityConfig {
                 // Autorización de solicitudes
                 .authorizeHttpRequests(auth -> auth
                         // Accesos públicos
-                        .requestMatchers("/login", "/registro/**", "/css/**", "/img/**").permitAll()
+                        .requestMatchers("/login", "/registro/**", "/css/**", "/img/**","/recuperar/nueva","recuperar/password").permitAll()
 
                         // Permite a ADMIN y USER ver la tabla de competencias
                         .requestMatchers("/competencia/all", "/inscripcion/**","/payment/**","/puntuacion/**").hasAnyRole("USER", "ADMIN", "GESTOR")
