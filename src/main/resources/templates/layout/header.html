@@ -1,4 +1,4 @@
-<header th:fragment="header">
+<header th:fragment="header" xmlns:sec="http://www.w3.org/1999/xhtml">
     <div class="wrapper">
 
         <button class="btn-menu toggle-btn" id="bt1">
@@ -30,7 +30,7 @@
             <div class="sidebar-separator">Home</div>
 
             <li class="sidebar-item">
-                <a href="" class="sidebar-link">
+                <a th:href="@{http://localhost:8082/}" class="sidebar-link">
                     <i class="fa-solid fa-house"></i>
                     <span>Inicio</span>
                 </a>
@@ -39,7 +39,7 @@
             <div class="sidebar-separator">Intefaces</div>
 
             <li class="sidebar-item">
-                <a href="" class="sidebar-link">
+                <a th:href="@{/competencia/all}" class="sidebar-link">
                     <i class="fa-solid fa-trophy"></i>
                     <span>Competencias</span>
                 </a>
@@ -48,7 +48,7 @@
             <div class="sidebar-separator">Admin</div>
 
             <li class="sidebar-item">
-                <a href="" class="sidebar-link">
+                <a th:href="@{/usuario/all}" sec:authorize="hasRole('ADMIN')" class="sidebar-link">
                     <i class="fa-solid fa-users-gear"></i>
                     <span>Gestionar Usuarios</span>
                 </a>

@@ -100,8 +100,6 @@
 
         <a th:href="@{/categoria/add}" sec:authorize="hasAnyRole('ADMIN')" class="btn btn-secondary">CATEGORÍA</a>
         <a th:href="@{/competencia/add}" sec:authorize="hasAnyRole('ADMIN')" class="btn btn-secondary">COMPETENCIA</a>
-        <a th:href="@{/usuario/all}" sec:authorize="hasRole('ADMIN')" class="btn btn-secondary">USUARIOS</a>
-        <a th:href="@{/competencia/all}"  class="btn btn-secondary">Tabla Competencias</a>
         <a th:href="@{/inscripcion/all}"  class="btn btn-secondary">Inscripciones Competencias</a>
         <a th:href="@{/puntuacion/all}"  class="btn btn-secondary">puntuaciones Competencias</a>
 

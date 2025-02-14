@@ -32,7 +32,9 @@ public class CompetenciaController {
     @GetMapping("/all")
     public String getAllCompeticiones(Model model) {
         List<Competicion> competiciones = competicionRepository.findAll();
+        LocalDateTime fechaActual = LocalDateTime.now();  // Fecha y hora actual
         model.addAttribute("competiciones", competiciones);
+        model.addAttribute("fechaActual", fechaActual);  // Agregar la fecha actual al modelo
         return "layout/competencia_pages/competiciones";  // Asegúrate que esta sea la ruta correcta
     }
 

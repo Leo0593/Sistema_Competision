@@ -192,7 +192,7 @@
                         <div class="compe-container-inf-cont-circulo">
                             <i class="fa-solid fa-location-dot"></i>
                         </div>
-                        <p>Ubicación</p>
+                        <p th:text="${competicion.ubicacion}"></p> <!-- Aquí se muestra la ubicación -->
                     </div>
 
                     <div class="compe-container-inf-item">
@@ -219,87 +219,65 @@
 
                     <!-- AGREGA LA REDIRECCION DEL BOTON PARA HACER PRUEBAS-->
 
-                    <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
-                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
-                       class="btn btn-success btn-sm">Inscripción</a>
 
-                    <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}" sec:authorize  ="hasAnyRole('ADMIN', 'GESTOR')"
-                       class="btn btn-info btn-sm">Editar</a>
 
-                    <a th:href="@{/competencia/delete/{id}(id=${competicion.id})}"
-                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
-                       class="btn btn-info btn-sm"
-                       onclick="return confirm('¿Seguro que quieres eliminar esta competencia?')">
-                        Eliminar
-                    </a>
-                    <a th:href="@{/puntuacion/add/{competenciaId}(competenciaId=${competicion.id})}"
-                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
-                       class="btn btn-warning btn-sm">
-                        <i class="fa-solid fa-star"></i> Agregar Puntuación
-                    </a>
 
-                    <a th:href="@{/puntuacion/ranking/{competenciaId}(competenciaId=${competicion.id})}"
-                       sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
-                       class="btn btn-success btn-sm">
-                        <i class="fa-solid fa-trophy"></i> Ver Ranking
-                    </a>
+
 
                 </div>
 
-                <div class="btn-w-100-outline-0-1">
-                    <i class="fa-solid fa-chart-column"></i>
-                    Leadboard
+
+
+                <!-- Botones de acción (editar y eliminar) visibles solo para ADMIN y GESTOR -->
+                <div sec:authorize="hasAnyRole('ADMIN', 'GESTOR')">
+                    <div class="user-container-btn">
+                        <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}" class="btn-edit">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+                        <a th:href="@{/competencia/delete/{id}(id=${competicion.id})}" class="btn-delete"
+                           onclick="return confirm('¿Seguro que quieres eliminar esta competencia?')">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </a>
+                    </div>
+
+                    <a th:if="${competicion.fechaFin < fechaActual}"
+                       th:href="@{/puntuacion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                       class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
+                        <i class="fa-solid fa-star"></i>
+                        Agregar Puntuación
+                    </a>
+
+
                 </div>
+
+                <!-- Botón "Apúntate" visible por defecto si la fecha no ha pasado -->
+                <a th:if="${competicion.fechaFin >= fechaActual}"
+                   th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                   sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
+                   class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    Apúntate
+                </a>
+
+                <!-- Botón "Ver Ranking" visible solo si la fecha de fin ya pasó -->
+                <a th:if="${competicion.fechaFin < fechaActual}"
+                   th:href="@{/puntuacion/ranking/{competenciaId}(competenciaId=${competicion.id})}"
+                   class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
+                    <i class="fa-solid fa-trophy me-2"></i>
+                    Ver Ranking
+                </a>
+
+
+
+
+
+
+
             </div>
         </div>
     </div>
 </div>
-<!--
-<div class="container mt-5">
-<h2>Listado de Competiciones</h2>
 
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Fecha Inicio</th>
-        <th>Fecha Fin</th>
-        <th>Estado</th>
-        <th>Precio Inscripción</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    <tr th:each="competicion : ${competiciones}">
-        <td th:text="${competicion.id}"></td>
-        <td th:text="${competicion.nombre}"></td>
-        <td th:text="${competicion.descripcion}"></td>
-        <td th:text="${competicion.fechaInicio}"></td>
-        <td th:text="${competicion.fechaFin}"></td>
-        <td th:text="${competicion.estado == 1 ? 'Activa' : 'Inactiva'}"></td>
-        <td th:text="${competicion.precioInscripcion} + ' €'"></td>
-
-        <td>
-            <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
-               sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
-               class="btn btn-success btn-sm">Inscripción</a>
-
-            <a th:href="@{/competencia/ranking/{id}(id=${competicion.id})}"
-               sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
-               class="btn btn-info btn-sm">Ranking</a>
-
-            <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}"
-               sec:authorize="hasRole('ADMIN')"
-               class="btn btn-primary btn-sm">Editar</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-</div>
--->
 <div th:replace="layout/footer :: footer"></div>
 
 </body>
