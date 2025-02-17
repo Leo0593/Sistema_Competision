@@ -16,11 +16,7 @@ public class LoginController {
         return "layout/login_pages/login"; // Muestra la vista de login
     }
 
-    @PostMapping
-    public String login(@RequestParam String username, @RequestParam String password) {
-        // Lógica de login
-        return "Inicio"; // Redirige a la página de inicio o alguna otra acción
-    }
+
 
     @GetMapping("/menu")
     public String menu(Model model) {
