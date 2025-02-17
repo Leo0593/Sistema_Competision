@@ -35,33 +35,72 @@
                     <span>Inicio</span>
                 </a>
             </li>
-
             <div class="sidebar-separator">Intefaces</div>
 
+            <!-- APARTADO USUARIO-->
+
             <li class="sidebar-item">
-                <a th:href="@{/competencia/all}" class="sidebar-link">
+                <a th:href="@{/competencia/all}"
+                   sec:authorize="hasRole('USER')"
+                    class="sidebar-link">
                     <i class="fa-solid fa-trophy"></i>
                     <span>Competencias</span>
                 </a>
             </li>
 
-            <div class="sidebar-separator">Admin</div>
+            <!-- APARTADO GESTOR Y ADMIN-->
 
             <li class="sidebar-item">
-                <a th:href="@{/usuario/all}" sec:authorize="hasRole('ADMIN')" class="sidebar-link">
+                <a th:href="@{/competencia/all}"
+                   sec:authorize="hasRole('ADMIN') or hasRole('GESTOR')"
+                    class="sidebar-link">
+                    <i class="fa-solid fa-gears"></i>
+                    <span>Gestionar Competencias</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a th:href="@{/categoria/add}"
+                   sec:authorize="hasRole('ADMIN') or hasRole('GESTOR')"
+                   class="sidebar-link">
+                    <i class="fa-solid fa-tags"></i>
+                    <span>Gestionar Categoriaas</span>
+                </a>
+            </li>
+
+
+
+            <!-- APARTADO ADMIN-->
+
+            <li class="sidebar-item">
+                <a th:href="@{/usuario/all}"
+                   sec:authorize="hasRole('ADMIN')"
+                   class="sidebar-link">
                     <i class="fa-solid fa-users-gear"></i>
                     <span>Gestionar Usuarios</span>
                 </a>
             </li>
 
             <li class="sidebar-item">
-                <a href="" class="sidebar-link">
-                    <i class="fa-solid fa-gears"></i>
-                    <span>Gestionar Competencias</span>
+                <a th:href="@{/puntuacion/all}"
+                   sec:authorize="hasRole('ADMIN')"
+                   class="sidebar-link">
+                    <i class="fa-solid fa-star"></i>
+                    <span>Puntuaciones Globales</span>
                 </a>
             </li>
 
+            <li class="sidebar-item">
+                <a th:href="@{/inscripcion/all}"
+                   sec:authorize="hasRole('ADMIN')"
+                   class="sidebar-link">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Inscripciones Globales</span>
+                </a>
+            </li>
         </ul>
+
+
 
         <div class="sidebar-footer">
             <a th:href="@{/logout}" class="sidebar-link">
@@ -69,6 +108,15 @@
                 <span>Salir</span>
             </a>
         </div>
+
+        <div class="sidebar-footer">
+            <p class="role-info text-white bg-dark p-3 rounded d-flex align-items-center">
+                <strong class="mr-2">Rol actual:</strong>
+                <span th:text="${#authentication.principal.authorities}">No disponible</span>
+            </p>
+        </div>
+
+
     </aside>
 
     <script src="../../js/script_menu.js"></script>

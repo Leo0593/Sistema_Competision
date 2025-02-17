@@ -14,11 +14,83 @@
         <h2>INICIO</h2>
 
         <!-- Tarjetas -->
+        <div sec:authorize="hasRole('USER')">
+            <div class="sub-content-inicio">
+                <div class="sub-content-inicio-der">
+                    <h1>Competencias</h1>
+
+                    <p>
+                        Explora una amplia variedad de competencias diseñadas
+                        para todos los gustos e intereses. Inscríbete en aquellas
+                        que se alineen con tus pasiones y objetivos, y demuestra
+                        tus habilidades mientras te diviertes y te desafías.
+                        ¡Elige tu reto y empieza a competir!"
+                        ¿Te gustaría agregar algo más sobre las competencias, como
+                        ejemplos o algún beneficio adicional?
+                    </p>
+
+                    <a th:href="@{/competencia/all}"
+                       class="btn-w-c-1">
+                        Empieza ya
+                    </a>
+                </div>
+
+                <div class="sub-content-inicio-izq" style="height: 463px">
+                    <img src="../../img/inicio/atletismo1.jpg">
+                </div>
+            </div>
+        </div>
+
+        <div sec:authorize="hasAnyRole('ADMIN', 'GESTOR')">
+            <div class="sub-content-inicio">
+                <div class="sub-content-inicio-der">
+                    <h1>Gestión de Usuarios</h1>
+
+                    <p>
+                        Explora una amplia variedad de competencias diseñadas
+                        para todos los gustos e intereses. Inscríbete en aquellas
+                        que se alineen con tus pasiones y objetivos, y demuestra
+                        tus habilidades mientras te diviertes y te desafías.
+                    </p>
+
+                    <a th:href="@{/usuario/all}"
+                       class="btn-w-c-1">
+                        Ver mas
+                    </a>
+                </div>
+
+                <div class="sub-content-inicio-izq">
+                    <img src="../../img/inicio/gestor_users.jpg">
+                </div>
+            </div>
+
+            <div class="sub-content-inicio">
+                <div class="sub-content-inicio-der">
+                    <h1>Gestión de Competencias</h1>
+
+                    <p>
+                        Explora una amplia variedad de competencias diseñadas
+                    </p>
+
+                    <a th:href="@{/competencia/all}"
+                       class="btn-w-c-1">
+                        Ver mas
+                    </a>
+
+                </div>
+
+                <div class="sub-content-inicio-izq">
+                    <img src="../../img/inicio/gestor_compe1.jpg">
+                </div>
+            </div>
+        </div>
+<!--
         <div class="sub-content-inicio">
             <div class="sub-content-inicio-der">
                 <h1>Competencias</h1>
 
                 <p>
+
                     Explora una amplia variedad de competencias diseñadas
                     para todos los gustos e intereses. Inscríbete en aquellas
                     que se alineen con tus pasiones y objetivos, y demuestra
@@ -31,83 +103,11 @@
                 <a class="btn-w-c-1">Empieza ya</a>
             </div>
 
-            <div class="sub-content-inicio-izq" style="height: 463px">
-                <img src="../../img/inicio/atletismo1.jpg">
-            </div>
-        </div>
-
-        <div class="sub-content-inicio">
-            <div class="sub-content-inicio-der">
-                <h1>Gestión de Usuarios</h1>
-
-                <p>
-                    Explora una amplia variedad de competencias diseñadas
-                    para todos los gustos e intereses. Inscríbete en aquellas
-                    que se alineen con tus pasiones y objetivos, y demuestra
-                    tus habilidades mientras te diviertes y te desafías.
-                </p>
-
-                <a class="btn-w-c-1">Ver mas</a>
-            </div>
-
-            <div class="sub-content-inicio-izq">
-                <img src="../../img/inicio/gestor_users.jpg">
-            </div>
-        </div>
-
-        <div class="sub-content-inicio">
-            <div class="sub-content-inicio-der">
-                <h1>Gestión de Competencias</h1>
-
-                <p>
-                    Explora una amplia variedad de competencias diseñadas
-                </p>
-
-                <a class="btn-w-c-1">Ver mas</a>
-            </div>
-
-            <div class="sub-content-inicio-izq">
-                <img src="../../img/inicio/gestor_compe1.jpg">
-            </div>
-        </div>
-
-        <div class="sub-content-inicio">
-            <div class="sub-content-inicio-der">
-                <h1>Competencias</h1>
-
-                <p>
-
-                    Explora una amplia variedad de competencias diseñadas
-                    para todos los gustos e intereses. Inscríbete en aquellas
-                    que se alineen con tus pasiones y objetivos, y demuestra
-                    tus habilidades mientras te diviertes y te desafías.
-                    ¡Elige tu reto y empieza a competir!"
-                    ¿Te gustaría agregar algo más sobre las competencias, como
-                    ejemplos o algún beneficio adicional?
-                </p>
-
-                <a class="btn-w-c-1">Empieza ya</a>
-            </div>
-
             <div class="sub-content-inicio-izq">
                 <img src="../../img/inicio/atletismo1.jpg">
             </div>
         </div>
-
-        <h1 class="titulo">Bienvenido a la parte Principal</h1>
-
-        <p>Rol actual: <span th:text="${#authentication.principal.authorities}">No disponible</span></p>
-
-        <a th:href="@{/categoria/add}" sec:authorize="hasAnyRole('ADMIN')" class="btn btn-secondary">CATEGORÍA</a>
-        <a th:href="@{/competencia/add}" sec:authorize="hasAnyRole('ADMIN')" class="btn btn-secondary">COMPETENCIA</a>
-        <a th:href="@{/inscripcion/all}"  class="btn btn-secondary">Inscripciones Competencias</a>
-        <a th:href="@{/puntuacion/all}"  class="btn btn-secondary">puntuaciones Competencias</a>
-
-
-
-        <form th:action="@{/logout}" method="post" style="display: inline;">
-            <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
-        </form>
+-->
 
     </div>
 </div>

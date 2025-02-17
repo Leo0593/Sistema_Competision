@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Prueba de pago con Stripe Individual</h1>
-<p>Precio de la Inscripción: <span th:text="${competencia.precioInscripcion} + ' €'"></span></p>
+<p>Precio de la Inscripción: <span id="precioInscripcion" th:text="${competencia.precioInscripcion} + ' €'"></span></p>
 <button type="button" onclick="window.location.href='/competencia/all'">Volver al inicio</button>
 
 <!-- Checkbox de aceptación de términos -->
@@ -61,6 +61,10 @@
     }
   });
 
+  // Obtener el precio de la inscripción desde el HTML
+  const precioInscripcionElement = document.getElementById("precioInscripcion");
+  let precioInscripcion = parseFloat(precioInscripcionElement.innerText.replace(' €', '').trim()); // Extraemos el valor numérico y lo convertimos a float
+
   // Manejo del formulario
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -71,11 +75,11 @@
     // Obtenemos el competenciaId del campo oculto
     const competenciaId = document.getElementById("competencia-id").value;
 
-    // Llamada al backend para obtener un PaymentIntent
+    // Llamada al backend para obtener un PaymentIntent con el precio dinámico
     const { clientSecret } = await fetch("/payment/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 5000 }) // Cantidad en centavos: $50.00
+      body: JSON.stringify({ amount: precioInscripcion * 100 }) // Cantidad en centavos (multiplicamos por 100 si se necesita)
     }).then((r) => r.json());
 
     // Confirmar el pago
@@ -90,7 +94,7 @@
 
     if (error) {
       // Maneja errores
-      cardErrors.textContent = error.message;
+      document.getElementById('card-errors').textContent = error.message;
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       // Éxito
       alert("Pago realizado con éxito");

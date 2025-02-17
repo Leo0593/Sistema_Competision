@@ -8,7 +8,11 @@
 </head>
 <body>
 <h1>Inscripción Grupal</h1>
-<p>Precio de la Inscripción: <span th:text="${competencia.precioInscripcion} + ' €'"></span></p>
+<p>Precio de la Inscripción: <span id="precio-inscripcion" th:text="${competencia.precioInscripcion} + ' €'"></span></p>
+
+<!-- Mostrar el precio total de inscripción -->
+<p>Precio de la Inscripción Total: <span id="precio-inscripcion-total">Calculando...</span></p>
+
 <button type="button" onclick="window.location.href='/competencia/all'">Volver al inicio</button>
 
 <!-- Checkbox de aceptación de términos -->
@@ -63,8 +67,13 @@
     }
   });
 
+  const precioInscripcion = parseFloat(document.getElementById('precio-inscripcion').textContent.replace(' €', '').trim());
   const personasPorGrupo = document.getElementById('personas-por-grupo').value;
   const emailContainer = document.getElementById("email-container");
+
+  // Calcula el precio total y actualiza el mensaje en el DOM
+  const precioTotal = precioInscripcion * personasPorGrupo;
+  document.getElementById("precio-inscripcion-total").textContent = `${precioTotal} €`;
 
   for (let i = 0; i < parseInt(personasPorGrupo); i++) {
     const emailDiv = document.createElement("div");
@@ -99,10 +108,13 @@
     const equipo = document.getElementById("card-holder-equipo").value;
     const competenciaId = document.getElementById("competencia-id").value;
 
+    // Multiplicamos el precio de inscripción por el número de participantes
+    const totalAmount = precioInscripcion * personasPorGrupo * 100; // Convertimos a centavos para Stripe
+
     const { clientSecret } = await fetch("/payment/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 5000 })
+      body: JSON.stringify({ amount: totalAmount })
     }).then((r) => r.json());
 
     const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
