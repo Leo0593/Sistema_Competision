@@ -21,10 +21,4 @@ public interface CompeticionRepository extends JpaRepository<Competicion, Intege
 
     List<Competicion> findByTipo(String tipo);
 
-    // En el repositorio CompeticionRepository
-    List<Competicion> findAllByOrderByUbicacionAsc();  // Método para ordenar por localidad (ascendente)
-    List<Competicion> findAllByOrderByUbicacionDesc(); // Método para ordenar por localidad (descendente)
-
-
-
 }

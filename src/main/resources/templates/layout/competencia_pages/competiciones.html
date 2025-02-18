@@ -1,6 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <th:block th:replace="layout/head :: head"></th:block>
 
+<head>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
 <body>
 <div th:replace="layout/header :: header"></div>
 
@@ -9,28 +13,43 @@
     <div class="content-inicio">
         <h2>Competiciones</h2>
 
-        <div>
+        <div class="2button-container">
             <!-- estado -->
-            <button onclick="ordenarEstado('abierto')">Abiertos</button>
-            <button onclick="ordenarEstado('cerrado')">Cerrados</button>
+            <button class="bubbly-button" onclick="ordenarEstado('abierto')">
+                <i class="fa-solid fa-check-circle"></i> Abiertos
+            </button>
+            <button class="bubbly-button" onclick="ordenarEstado('cerrado')">
+                <i class="fa-solid fa-times-circle"></i> Cerrados
+            </button>
 
             <!-- precio -->
-            <button onclick="ordenarPrecio('precio', 'asc')">Más Barato</button>
-            <button onclick="ordenarPrecio('precio', 'desc')">Más Caro</button>
+            <button class="bubbly-button" onclick="ordenarPrecio('precio', 'asc')">
+                <i class="fa-solid fa-arrow-up"></i> Más Barato
+            </button>
+            <button class="bubbly-button" onclick="ordenarPrecio('precio', 'desc')">
+                <i class="fa-solid fa-arrow-down"></i> Más Caro
+            </button>
 
             <!-- tipo -->
-            <button onclick="ordenarTipo('grupal')">Grupales</button>
-            <button onclick="ordenarTipo('individual')">Individuales</button>
+            <button class="bubbly-button" onclick="ordenarTipo('grupal')">
+                <i class="fa-solid fa-users"></i> Grupales
+            </button>
+            <button class="bubbly-button" onclick="ordenarTipo('individual')">
+                <i class="fa-solid fa-user"></i> Individuales
+            </button>
 
             <!-- fecha -->
-            <button onclick="ordenarFecha('fecha', 'desc')">Más Reciente</button>
-            <button onclick="ordenarFecha('fecha', 'asc')">Más Viejo</button>
-
-            <!-- localidad -->
-            <button onclick="ordenarLoc('localidad')">Ordenar por Localidad</button>
+            <button class="bubbly-button" onclick="ordenarFecha('fecha', 'desc')">
+                <i class="fa-solid fa-calendar-day"></i> Más Reciente
+            </button>
+            <button class="bubbly-button" onclick="ordenarFecha('fecha', 'asc')">
+                <i class="fa-solid fa-calendar-day"></i> Más Viejo
+            </button>
 
             <!-- eliminar filtros -->
-            <button onclick="eliminarFiltros()">Eliminar Filtros</button>
+            <button class="bubbly-button" onclick="eliminarFiltros()">
+                <i class="fa-solid fa-eraser"></i> Eliminar Filtros
+            </button>
 
         </div>
 
@@ -79,17 +98,6 @@
             function ordenarFecha(campo, tipo) {
                 actualizarURL("ordenar", campo);
                 actualizarURL("order", tipo);  // Se actualiza el parámetro `order` para el tipo de orden
-            }
-
-            function ordenarLoc(campo) {
-                let url = new URL(window.location.href);  // Obtener la URL actual
-
-                // Cambiar o añadir el parámetro para ordenar por localidad
-                url.searchParams.set('order', 'asc');  // Ascendente por defecto, puedes cambiarlo si quieres descendente
-                url.searchParams.set('campo', campo);  // Enviar el campo de ordenación como 'localidad'
-
-                // Recargar la página con los parámetros actualizados
-                window.location.href = url.toString();
             }
 
             function eliminarFiltros() {

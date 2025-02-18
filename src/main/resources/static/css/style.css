@@ -1179,3 +1179,43 @@ a.sidebar-link:hover {
     border: transparent 1px solid;
     color: black;
 }
+
+
+/* styles.css botones competencias*/
+.button-container {
+    text-align: center;
+    margin-bottom: 20px;  /* Espaciado opcional entre los botones y el contenido inferior */
+}
+
+.bubbly-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #8c6aff;
+    color: #ffffff;
+    border-radius: 30px;
+    border: none;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+}
+
+.bubbly-button i {
+    margin-right: 8px;
+    font-size: 24px;
+}
+
+.bubbly-button:hover {
+    background-color: rgb(145, 192, 246);
+    transform: scale(1.05);
+}
+
+.bubbly-button:active {
+    background-color: rgb(145, 192, 246);
+    transform: scale(0.98);
+}
+
