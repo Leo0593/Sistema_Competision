@@ -4,147 +4,111 @@
 <body>
 <div th:replace="layout/header :: header"></div>
 
-<th:block th:replace="layout/background :: background"></th:block>
 
 <div class="main-content">
     <div class="content-inicio">
         <h2>Competiciones</h2>
 
-        <div class="compe-container">
-            <div class="compe-container-sup">
+        <div>
+            <!-- estado -->
+            <button onclick="ordenarEstado('abierto')">Abiertos</button>
+            <button onclick="ordenarEstado('cerrado')">Cerrados</button>
 
-                <div class="compe-container-sup-izq">
-                    <img src="../../img/compe/imgnoenco.png">
-                </div>
+            <!-- precio -->
+            <button onclick="ordenarPrecio('precio', 'asc')">Más Barato</button>
+            <button onclick="ordenarPrecio('precio', 'desc')">Más Caro</button>
 
-                <div class="compe-container-sup-der">
+            <!-- tipo -->
+            <button onclick="ordenarTipo('grupal')">Grupales</button>
+            <button onclick="ordenarTipo('individual')">Individuales</button>
 
-                    <!--
-                    <div class="grupal-indi" style="background-color: #007bff; border: none">
-                        <p>Inscripciones Abiertas</p>
-                    </div> -->
+            <!-- fecha -->
+            <button onclick="ordenarFecha('fecha', 'desc')">Más Reciente</button>
+            <button onclick="ordenarFecha('fecha', 'asc')">Más Viejo</button>
 
-                    <div class="grupal-indi" style="background-color: red; border: none">
-                        <p>Registro Cerrado</p>
-                    </div>
+            <!-- localidad -->
+            <button onclick="ordenarLoc('localidad')">Ordenar por Localidad</button>
 
-                    <div class="grupal-indi">
-                        <i class="fa-solid fa-person"></i>
-                    </div>
-
-                    <!--
-                    <div class="grupal-indi">
-                        <i class="fa-solid fa-person"></i>
-                        <i class="fa-solid fa-person"></i>
-                        <i class="fa-solid fa-person"></i>
-                    </div> -->
-                </div>
-
-            </div>
-
-            <div class="compe-container-inf">
-                <h1>Nombre de la Competencia</h1>
-
-                <div class="compe-container-inf-cont">
-
-                    <div class="compe-container-inf-item">
-                        <div class="compe-container-inf-cont-circulo">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </div>
-                        <p>Ubicación</p>
-                    </div>
-
-                    <div class="compe-container-inf-item">
-                        <div class="compe-container-inf-cont-circulo">
-                            <i class="fa-solid fa-calendar-days"></i>
-                        </div>
-                        <p>Del 22/02/2025 al 15/02/2025</p>
-                    </div>
-
-                    <div class="compe-container-inf-item">
-                        <div class="compe-container-inf-cont-circulo">
-                            <i class="fa-solid fa-euro-sign"></i>
-                        </div>
-                        <p>Gratis</p>
-                    </div>
-
-                </div>
-
-                <div class="btn-w-100-outline-0-1">
-                    <i class="fa-solid fa-chart-column"></i>
-                    Leadboard
-                </div>
-            </div>
+            <!-- eliminar filtros -->
+            <button onclick="eliminarFiltros()">Eliminar Filtros</button>
 
         </div>
 
-        <div class="compe-container">
+        <script>
+            function actualizarURL(parametro, valor) {
+                let url = new URL(window.location.href);
+                if (valor) {
+                    url.searchParams.set(parametro, valor);
+                } else {
+                    url.searchParams.delete(parametro);
+                }
+                console.log("Nueva URL: " + url.toString());
+                window.location.href = url.toString();
+            }
 
-            <div class="compe-container-sup">
+            function ordenarEstado(estado) {
+                let url = new URL(window.location.href);  // Obtener la URL actual
 
-                <div class="compe-container-sup-izq">
-                    <img src="../../img/compe/imgnoenco.png">
-                </div>
+                // Cambiar o añadir el parámetro para filtrar por estado
+                if (estado === 'abierto') {
+                    url.searchParams.set('estado', '1');  // Asumimos que '1' representa "Abierto"
+                } else if (estado === 'cerrado') {
+                    url.searchParams.set('estado', '0');  // Asumimos que '0' representa "Cerrado"
+                }
 
-                <div class="compe-container-sup-der">
+                // Recargar la página con los parámetros actualizados
+                window.location.href = url.toString();
+            }
 
-                    <div class="grupal-indi" style="background-color: #007bff; border: none">
-                        <p>Inscripciones Abiertas</p>
-                    </div>
-                    <!--
-                    <div class="grupal-indi" style="background-color: red; border: none">
-                        <p>Registro Cerrado</p>
-                    </div>
+            function ordenarPrecio(direccion) {
+                let url = new URL(window.location.href);  // Obtener la URL actual
 
-                    <div class="grupal-indi">
-                        <i class="fa-solid fa-person"></i>
-                    </div>-->
+                // Modificar o añadir los parámetros de ordenación por precio
+                url.searchParams.set('order', direccion);  // 'asc' para más barato, 'desc' para más caro
 
-                    <div class="grupal-indi">
-                        <i class="fa-solid fa-person"></i>
-                        <i class="fa-solid fa-person"></i>
-                        <i class="fa-solid fa-person"></i>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="compe-container-inf">
-                <h1>Nombre de la Competencia</h1>
-
-                <div class="compe-container-inf-cont">
-
-                    <div class="compe-container-inf-item">
-                        <div class="compe-container-inf-cont-circulo">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </div>
-                        <p>?</p>
-                    </div>
-
-                    <div class="compe-container-inf-item">
-                        <div class="compe-container-inf-cont-circulo">
-                            <i class="fa-solid fa-calendar-days"></i>
-                        </div>
-                        <p>Del 22/02/2025 al 15/02/2025</p>
-                    </div>
-
-                    <div class="compe-container-inf-item">
-                        <div class="compe-container-inf-cont-circulo">
-                            <i class="fa-solid fa-euro-sign"></i>
-                        </div>
-                        <p>10 €</p>
-                    </div>
-                </div>
-
-                <div class="btn-w-100-outline-0-1">
-                    <i class="fa-solid fa-cart-plus"></i>
-                    Apúntate
-                </div>
-            </div>
-
-        </div>
+                // Recargar la página con los parámetros actualizados
+                window.location.href = url.toString();
+            }
 
 
+
+            function ordenarTipo(tipo) {
+                actualizarURL("tipo", tipo);
+            }
+
+            function ordenarFecha(campo, tipo) {
+                actualizarURL("ordenar", campo);
+                actualizarURL("order", tipo);  // Se actualiza el parámetro `order` para el tipo de orden
+            }
+
+            function ordenarLoc(campo) {
+                let url = new URL(window.location.href);  // Obtener la URL actual
+
+                // Cambiar o añadir el parámetro para ordenar por localidad
+                url.searchParams.set('order', 'asc');  // Ascendente por defecto, puedes cambiarlo si quieres descendente
+                url.searchParams.set('campo', campo);  // Enviar el campo de ordenación como 'localidad'
+
+                // Recargar la página con los parámetros actualizados
+                window.location.href = url.toString();
+            }
+
+            function eliminarFiltros() {
+                let url = new URL(window.location.href);
+
+                // Eliminar los parámetros de los filtros
+                url.searchParams.delete("precio");
+                url.searchParams.delete("estado");
+                url.searchParams.delete("fechaInicio");
+                url.searchParams.delete("fechaFin");
+                url.searchParams.delete("tipo");
+                url.searchParams.delete("ordenar");
+                url.searchParams.delete("order");
+
+                // Recargar la página con la URL limpia de filtros
+                window.location.href = url.toString();
+            }
+
+        </script>
         <div class="compe-container" th:each="competicion : ${competiciones}">
             <div class="compe-container-sup">
 
@@ -219,11 +183,6 @@
 
                     <!-- AGREGA LA REDIRECCION DEL BOTON PARA HACER PRUEBAS-->
 
-
-
-
-
-
                 </div>
 
 
@@ -266,11 +225,6 @@
                     <i class="fa-solid fa-trophy me-2"></i>
                     Ver Ranking
                 </a>
-
-
-
-
-
 
 
             </div>

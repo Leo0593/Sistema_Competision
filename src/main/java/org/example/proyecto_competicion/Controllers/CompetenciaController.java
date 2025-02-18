@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -30,13 +31,72 @@ public class CompetenciaController {
 
     // Obtener todas las competiciones
     @GetMapping("/all")
-    public String getAllCompeticiones(Model model) {
-        List<Competicion> competiciones = competicionRepository.findAll();
-        LocalDateTime fechaActual = LocalDateTime.now();  // Fecha y hora actual
+    public String getAllCompeticiones(Model model,
+                                      @RequestParam(defaultValue = "asc") String order,
+                                      @RequestParam(required = false) String tipo,
+                                      @RequestParam(required = false) String ordenar,
+                                      @RequestParam(required = false) String estado,
+                                      @RequestParam(required = false) String precio) {
+        List<Competicion> competiciones;
+
+        // Filtrar por estado (abierto o cerrado)
+        if (estado != null) {
+            if (estado.equals("1")) {
+                competiciones = competicionRepository.findByEstado(1);  // Abierto
+            } else if (estado.equals("0")) {
+                competiciones = competicionRepository.findByEstado(0);  // Cerrado
+            } else {
+                competiciones = competicionRepository.findAll();
+            }
+        } else {
+            competiciones = competicionRepository.findAll();  // Si no se filtra por estado, mostrar todas las competiciones
+        }
+
+        // Ordenar por localidad
+        if (ordenar != null && ordenar.equals("localidad")) {
+            if (order.equals("desc")) {
+                competiciones.sort(Comparator.comparing(Competicion::getUbicacion).reversed());
+            } else {
+                competiciones.sort(Comparator.comparing(Competicion::getUbicacion));
+            }
+        } else if (precio != null) {
+            // Ordenar por precio si el parámetro 'precio' está presente
+            if (order.equals("desc")) {
+                competiciones.sort(Comparator.comparingDouble(Competicion::getPrecioInscripcion).reversed()); // Precio más caro
+            } else {
+                competiciones.sort(Comparator.comparingDouble(Competicion::getPrecioInscripcion));  // Precio más barato
+            }
+        } else {
+            // Ordenar por fecha si no se especifica 'localidad' ni 'precio'
+            if (tipo != null) {
+                if (tipo.equals("grupal")) {
+                    competiciones = competicionRepository.findByTipo("grupal");
+                } else if (tipo.equals("individual")) {
+                    competiciones = competicionRepository.findByTipo("individual");
+                } else {
+                    competiciones = competicionRepository.findAll();
+                }
+            } else {
+                if (order.equals("desc")) {
+                    competiciones = competicionRepository.findAllByOrderByFechaInicioDesc();
+                } else {
+                    competiciones = competicionRepository.findAllByOrderByFechaInicioAsc();
+                }
+            }
+        }
+
+        LocalDateTime fechaActual = LocalDateTime.now();
         model.addAttribute("competiciones", competiciones);
-        model.addAttribute("fechaActual", fechaActual);  // Agregar la fecha actual al modelo
-        return "layout/competencia_pages/competiciones";  // Asegúrate que esta sea la ruta correcta
+        model.addAttribute("fechaActual", fechaActual);
+        model.addAttribute("order", order);
+        model.addAttribute("tipo", tipo);
+        model.addAttribute("estado", estado);
+        model.addAttribute("precio", precio);
+
+        return "layout/competencia_pages/competiciones"; // Nombre de la vista
     }
+
+
 
     @GetMapping("/add")
     public String addCompeticion(Model model) {
@@ -168,7 +228,29 @@ public class CompetenciaController {
         return "redirect:/competencia/all";  // O la ruta que corresponda
     }
 
+    @GetMapping("/competencia/all")
+    public String listarCompeticiones(
+            @RequestParam(required = false) String estado, // Asegúrate de que este parámetro sea capturado correctamente
+            Model model
+    ) {
+        List<Competicion> competiciones;
 
+        // Filtrar por estado si se ha proporcionado un valor
+        if (estado != null) {
+            if (estado.equals("1")) {
+                competiciones = competicionRepository.findByEstado(1); // Estado "1" (abierto)
+            } else if (estado.equals("0")) {
+                competiciones = competicionRepository.findByEstado(0); // Estado "0" (cerrado)
+            } else {
+                competiciones = competicionRepository.findAll(); // Sin filtro de estado
+            }
+        } else {
+            competiciones = competicionRepository.findAll(); // Sin filtro de estado
+        }
+
+        model.addAttribute("competiciones", competiciones);
+        return "competencia/all"; // Asegúrate de que este sea el nombre correcto de la vista
+    }
 
 
 }
