@@ -6,6 +6,7 @@ import org.example.proyecto_competicion.Repository.CategoriaRepository;
 import org.example.proyecto_competicion.Repository.CompeticionRepository;
 import org.example.proyecto_competicion.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -52,36 +54,30 @@ public class CompetenciaController {
             competiciones = competicionRepository.findAll();  // Si no se filtra por estado, mostrar todas las competiciones
         }
 
-        // Ordenar por localidad
-        if (ordenar != null && ordenar.equals("localidad")) {
-            if (order.equals("desc")) {
-                competiciones.sort(Comparator.comparing(Competicion::getUbicacion).reversed());
-            } else {
-                competiciones.sort(Comparator.comparing(Competicion::getUbicacion));
+        // Ordenar por tipo (si se especifica)
+        if (tipo != null) {
+            if (tipo.equals("grupal")) {
+                competiciones = competicionRepository.findByTipo("grupal");
+            } else if (tipo.equals("individual")) {
+                competiciones = competicionRepository.findByTipo("individual");
             }
-        } else if (precio != null) {
-            // Ordenar por precio si el parámetro 'precio' está presente
-            if (order.equals("desc")) {
-                competiciones.sort(Comparator.comparingDouble(Competicion::getPrecioInscripcion).reversed()); // Precio más caro
-            } else {
-                competiciones.sort(Comparator.comparingDouble(Competicion::getPrecioInscripcion));  // Precio más barato
+        }
+
+        // Ordenar por precio (si se especifica)
+        if (precio != null) {
+            if (order.equals("asc")) {
+                competiciones = competicionRepository.findAll(Sort.by(Sort.Order.asc("precioInscripcion")));
+            } else if (order.equals("desc")) {
+                competiciones = competicionRepository.findAll(Sort.by(Sort.Order.desc("precioInscripcion")));
             }
-        } else {
-            // Ordenar por fecha si no se especifica 'localidad' ni 'precio'
-            if (tipo != null) {
-                if (tipo.equals("grupal")) {
-                    competiciones = competicionRepository.findByTipo("grupal");
-                } else if (tipo.equals("individual")) {
-                    competiciones = competicionRepository.findByTipo("individual");
-                } else {
-                    competiciones = competicionRepository.findAll();
-                }
+        }
+
+        // Ordenar por fecha
+        if (ordenar != null && ordenar.equals("fecha")) {
+            if (order.equals("desc")) {
+                competiciones = competicionRepository.findAllByOrderByFechaInicioDesc();
             } else {
-                if (order.equals("desc")) {
-                    competiciones = competicionRepository.findAllByOrderByFechaInicioDesc();
-                } else {
-                    competiciones = competicionRepository.findAllByOrderByFechaInicioAsc();
-                }
+                competiciones = competicionRepository.findAllByOrderByFechaInicioAsc();
             }
         }
 
@@ -95,7 +91,6 @@ public class CompetenciaController {
 
         return "layout/competencia_pages/competiciones"; // Nombre de la vista
     }
-
 
 
     @GetMapping("/add")
@@ -228,28 +223,43 @@ public class CompetenciaController {
         return "redirect:/competencia/all";  // O la ruta que corresponda
     }
 
-    @GetMapping("/competencia/all")
+    @GetMapping("/list")
     public String listarCompeticiones(
-            @RequestParam(required = false) String estado, // Asegúrate de que este parámetro sea capturado correctamente
-            Model model
-    ) {
-        List<Competicion> competiciones;
+            @RequestParam(required = false) String estado,
+            @RequestParam(required = false) String order,
+            @RequestParam(required = false) String tipo,
+            @RequestParam(required = false) String ordenar,
+            Model model) {
 
-        // Filtrar por estado si se ha proporcionado un valor
+        List<Competicion> competiciones = new ArrayList<>();
+
         if (estado != null) {
-            if (estado.equals("1")) {
-                competiciones = competicionRepository.findByEstado(1); // Estado "1" (abierto)
-            } else if (estado.equals("0")) {
-                competiciones = competicionRepository.findByEstado(0); // Estado "0" (cerrado)
-            } else {
-                competiciones = competicionRepository.findAll(); // Sin filtro de estado
+            competiciones = competicionRepository.findByEstado(Integer.parseInt(estado));
+        }
+
+        if (tipo != null) {
+            competiciones = competicionRepository.findByTipo(tipo);
+        }
+
+        if (ordenar != null && order != null) {
+            if ("fecha".equals(ordenar)) {
+                if ("asc".equals(order)) {
+                    competiciones = competicionRepository.findAllByOrderByFechaInicioAsc();
+                } else {
+                    competiciones = competicionRepository.findAllByOrderByFechaInicioDesc();
+                }
+            } else if ("precio".equals(ordenar)) {
+                // Aquí necesitarías un método en tu repositorio para ordenar por precio
+                if ("asc".equals(order)) {
+                    competiciones = competicionRepository.findAll(Sort.by(Sort.Order.asc("precioInscripcion")));
+                } else {
+                    competiciones = competicionRepository.findAll(Sort.by(Sort.Order.desc("precioInscripcion")));
+                }
             }
-        } else {
-            competiciones = competicionRepository.findAll(); // Sin filtro de estado
         }
 
         model.addAttribute("competiciones", competiciones);
-        return "competencia/all"; // Asegúrate de que este sea el nombre correcto de la vista
+        return "competicion/list";
     }
 
 
