@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Historial de Inscripciones</title>
+</head>
+<body>
+<h1>Historial de Inscripciones</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Competencia</th>
+        <th>Tipo</th>
+        <th>Categoría</th>  <!-- Nueva columna -->
+        <th>Fecha de Pago</th>
+        <th>Estado de Pago</th>
+        <th>Puntuación</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="inscripcion : ${inscripciones}">
+        <td th:text="${inscripcion.competicionByCompetencia.nombre}"></td>
+        <td th:text="${inscripcion.competicionByCompetencia.tipo}"></td>
+        <td th:text="${inscripcion.competicionByCompetencia.categoriaByIdCategoria.nombre}"></td>  <!-- Mostrar Categoría -->
+        <td th:text="${inscripcion.fechaPago}"></td>
+        <td th:text="${inscripcion.pagoRealizado == 1 ? 'Pagado' : 'Pendiente'}"></td>
+        <td>
+        <span th:if="${not #lists.isEmpty(inscripcion.puntuacionesById)}"
+              th:text="${inscripcion.puntuacionesById.size() > 0 ? inscripcion.puntuacionesById[inscripcion.puntuacionesById.size() - 1].puntaje : 'N/A'}">
+        </span>
+            <span th:if="${#lists.isEmpty(inscripcion.puntuacionesById)}">N/A</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
