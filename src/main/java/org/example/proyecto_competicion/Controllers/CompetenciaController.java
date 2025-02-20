@@ -198,6 +198,8 @@ public class CompetenciaController {
         competicionActual.setEstado(competicion.getEstado());
         competicionActual.setUbicacion(competicion.getUbicacion());
 
+        competicionActual.setAforo(competicion.getAforo());
+
         competicionActual.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         // Guardar los cambios
         competicionRepository.save(competicionActual);
