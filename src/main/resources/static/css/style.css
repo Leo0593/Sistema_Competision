@@ -202,7 +202,7 @@ body {
 
     /*
     background: url("../img/fn4.png") no-repeat center center;
-    background-size: cover;
+    background-size: user-container;
     background-attachment: fixed; /* Mantiene el fondo fijo al hacer scroll (opcional) */
 
 
@@ -227,7 +227,7 @@ header {
     align-items: center; /* Centra verticalmente los elementos */
     justify-content: space-between; /* Botones a los extremos, logo al centro */
     padding: 10px 20px; /* Espaciado interno */
-    background-color: rgba(5, 5, 5, 0.5);
+    background-color: rgba(5, 5, 5, 0.8);
     backdrop-filter: blur(10px); /* Desenfoque del fondo */
     position: relative; /* Permite el centrado absoluto del logo */
 }
@@ -241,7 +241,7 @@ header {
 /* FOOTER */
 footer {
     width: 100%; /* Establece el ancho al 100% */
-    background-color: rgba(5, 5, 5, 0.5);
+    background-color: rgba(5, 5, 5, 0.8);
     backdrop-filter: blur(10px); /* Desenfoque del fondo */
     color: white; /* Color del texto */
     padding: 20px 0; /* Espaciado interno */
@@ -319,26 +319,28 @@ footer p {
 }
 
 .btn-perfil {
-    background-color: transparent;
-    border: none;
+    background-image: url('../../img/user-icon.png');
+    width: 50px;
+    height: 50px;
     cursor: pointer; /* Cursor de mano */
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out, opacity 0.3s ease-in-out;
 
     border-radius: 50%;
+    border: 2px solid white;
+
+    background-size: cover; /* O usa 'contain' si quieres ver toda la imagen */
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.btn-perfil:hover {
+.btn-perfil:hover, .btn-perfil:focus {
     transform: scale(1.1); /* Reduce ligeramente el tamaño */
     opacity: 0.5;
+    outline: none;
 }
 
 .btn-perfil:active {
     transform: scale(0.9); /* Reduce ligeramente el tamaño */
-    border: none;
-}
-
-.btn-perfil:focus {
-    outline: none;
 }
 
 /* LOGO */
@@ -445,7 +447,6 @@ footer p {
     border-top-right-radius: 10px; /* Esquina superior derecha */
     border-bottom-right-radius: 10px; /* Esquina inferior derecha */
 
-    background-color: red;
     overflow: hidden; /* Oculta cualquier contenido que se salga */
     display: flex; /* Centrar el contenido opcionalmente */
     justify-content: center;
@@ -891,7 +892,6 @@ a.sidebar-link:hover {
 
 /*  COMPETICIONES */
 .compe-container {
-    background-color: rgb(37, 41, 50, 0.8);
     color: white;
 
     border: none;
@@ -910,6 +910,7 @@ a.sidebar-link:hover {
 }
 
 .compe-container-sup {
+    background-color: rgb(37, 41, 50, 0.8);
     display: flex;
     height: 150px; /* Altura total de la sección superior */
     width: 100%;
@@ -938,7 +939,7 @@ a.sidebar-link:hover {
     align-items: flex-end; /* Alinea al extremo derecho */
     justify-content: center; /* Centra verticalmente el contenido */
 
-    gap: 30px; /* Espaciado entre los elementos */
+    gap: 15px; /* Espaciado entre los elementos */
 
     padding-right: 10px;
 }
@@ -971,6 +972,7 @@ a.sidebar-link:hover {
 }
 
 .compe-container-inf {
+    background-color: rgb(37, 41, 50, 0.8);
     width: 100%;
     height: auto;
     padding: 20px;
@@ -1080,9 +1082,15 @@ a.sidebar-link:hover {
 
 .user-container-sup {
     background-color: rgb(255, 255, 255, 0.15);
+    background-image: url("./../img/user-icon.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
     backdrop-filter: blur(20px);
 
-    padding: 15px;
+    padding: 10px;
+    background-origin: content-box;
     display: flex;
     height: 150px; /* Altura total de la sección superior */
     width: 100%;
@@ -1180,6 +1188,20 @@ a.sidebar-link:hover {
     color: black;
 }
 
+.btn-default {
+    background-color: transparent;
+
+    border: white 1px solid;
+    color: white;
+}
+
+
+.btn-default:hover {
+    background-color: #ffffff;
+    border: transparent 1px solid;
+    color: #000000;
+}
+
 
 /* styles.css botones competencias*/
 .button-container {
@@ -1193,11 +1215,15 @@ a.sidebar-link:hover {
     justify-content: center;
     padding: 10px 20px;
     margin: 5px;
-    background-color: #8c6aff;
+
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+
+    border: 2px solid #ffffff;
     color: #ffffff;
+
     border-radius: 30px;
-    border: none;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
@@ -1206,16 +1232,39 @@ a.sidebar-link:hover {
 
 .bubbly-button i {
     margin-right: 8px;
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .bubbly-button:hover {
-    background-color: rgb(145, 192, 246);
+    background-color: rgb(255, 255, 255);
+    color: #000000;
     transform: scale(1.05);
+    outline: none;
 }
 
 .bubbly-button:active {
-    background-color: rgb(145, 192, 246);
+    background-color: rgb(255, 255, 255);
+    color: #000000;
     transform: scale(0.98);
 }
 
+.wrap-organizador {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.scale {
+    transition: transform 0.3s;
+}
+
+.scale:hover, .scale:focus {
+    transform: scale(1.1);
+}
+
+.scale:active {
+    transform: scale(1);
+}

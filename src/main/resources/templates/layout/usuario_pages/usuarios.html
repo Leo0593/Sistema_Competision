@@ -7,59 +7,61 @@
 <th:block th:replace="layout/background :: background"></th:block>
 
 <div class="main-content">
-    <div class="content-inicio">
+    <div class="content-inicio" style="width: 80%">
         <h2>Usuarios</h2>
 
-        <div class="user-container">
-            <div class="user-container-sup">
-                <img src="../../img/perfil_ic.png">
-            </div>
+        <!--
+<div class="user-container">
+<div class="user-container-sup">
+    <img src="../../img/perfil_ic.png">
+</div>
 
-            <div class="user-container-inf">
-                <h1>Nombre</h1>
-                <hr class="divider" style="border-top: 1px solid rgba(255, 255, 255, 100);">
-                <p>Apellido</p>
-                <p>Correo</p>
-                <p>Rol</p>
-                <p>Estado</p>
-            </div>
 
-            <div class="user-container-btn">
-                <a href="#" class="btn-edit">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                </a>
-                <a href="#" class="btn-delete">
-                    <i class="fa-regular fa-trash-can"></i>
-                </a>
-            </div>
-        </div>
+<div class="user-container-inf">
+    <h1>Nombre</h1>
+    <hr class="divider" style="border-top: 1px solid rgba(255, 255, 255, 100);">
+    <p>Apellido</p>
+    <p>Correo</p>
+    <p>Rol</p>
+    <p>Estado</p>
+</div>
 
-        <div class="user-container" th:each="usuario : ${usuarios}">
-            <!-- Contenedor superior con la imagen de perfil -->
-            <div class="user-container-sup">
-                <img src="../../img/perfil_ic.png" alt="Imagen de perfil">
-            </div>
+<div class="user-container-btn">
+    <a href="#" class="btn-edit">
+        <i class="fa-regular fa-pen-to-square"></i>
+    </a>
+    <a href="#" class="btn-delete">
+        <i class="fa-regular fa-trash-can"></i>
+    </a>
+</div>
+</div>
+-->
 
-            <!-- Contenedor de la información del usuario -->
-            <div class="user-container-inf">
-                <h1 th:text="${usuario.nombre}">Nombre</h1>
-                <hr class="divider" style="border-top: 1px solid rgba(255, 255, 255, 100);">
-                <p><strong>Apellido:</strong> <span th:text="${usuario.apellido}"></span></p>
-                <p><strong>Correo:</strong> <span th:text="${usuario.correo}"></span></p>
-                <p><strong>Rol:</strong> <span th:text="${usuario.rol}"></span></p>
-                <p><strong>Estado:</strong> <span th:text="${usuario.estado == 1 ? 'Activo' : 'Inactivo'}"></span></p>
-            </div>
+        <div class="wrap-organizador">
+            <div class="user-container scale" th:each="usuario : ${usuarios}">
+                <!-- Contenedor superior con la imagen de perfil -->
+                <div class="user-container-sup"></div>
+                <!-- Contenedor de la información del usuario -->
+                <div class="user-container-inf">
+                    <h1 th:text="${usuario.nombre}">Nombre</h1>
+                    <hr class="divider" style="border-top: 1px solid rgba(255, 255, 255, 100);">
+                    <p><strong>Apellido:</strong> <span th:text="${usuario.apellido}"></span></p>
+                    <p><strong>Correo:</strong> <span th:text="${usuario.correo}"></span></p>
+                    <p><strong>Rol:</strong> <span th:text="${usuario.rol}"></span></p>
+                    <p><strong>Estado:</strong> <span th:text="${usuario.estado == 1 ? 'Activo' : 'Inactivo'}"></span>
+                    </p>
+                </div>
 
-            <!-- Botones de acción (editar y eliminar) -->
-            <div class="user-container-btn">
-                <a th:href="@{/usuario/edit/{id}(id=${usuario.id})}" class="btn-edit">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                </a>
-                <a th:href="@{/usuario/delete/{id}(id=${usuario.id})}" class="btn-delete"
-                   onclick="return confirm('¿Seguro que quieres eliminar este usuario?')">
-                    <i class="fa-regular fa-trash-can"></i>
-                </a>
-
+                <!-- Botones de acción (editar y eliminar) -->
+                <div class="user-container-btn">
+                    <a th:href="@{/usuario/edit/{id}(id=${usuario.id})}" class="btn-edit">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
+                    <a th:href="@{/usuario/delete/{id}(id=${usuario.id})}" class="btn-delete"
+                       onclick="return confirm('¿Seguro que quieres eliminar este usuario?')">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </a>
+                </div>
             </div>
         </div>
 

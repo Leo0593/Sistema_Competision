@@ -8,12 +8,13 @@
 <body>
 <div th:replace="layout/header :: header"></div>
 
+<th:block th:replace="layout/background :: background"></th:block>
 
 <div class="main-content">
-    <div class="content-inicio">
+    <div class="content-inicio" style="width: 80%">
         <h2>Competiciones</h2>
 
-        <div class="2button-container">
+        <div class="2button-container" style="margin: 20px 0;">
             <!-- estado -->
             <button class="bubbly-button" onclick="ordenarEstado('abierto')">
                 <i class="fa-solid fa-check-circle"></i> Abiertos
@@ -117,139 +118,144 @@
             }
 
         </script>
-        <div class="compe-container" th:each="competicion : ${competiciones}">
-            <div class="compe-container-sup">
 
-                <div class="compe-container-sup-izq">
-                    <img src="../../img/compe/imgnoenco.png">
-                </div>
+        <div class="wrap-organizador">
+            <div class="compe-container scale" th:each="competicion : ${competiciones}">
+                <div class="compe-container-sup">
+                    <div class="compe-container-sup-izq">
+                        <img src="../../img/compe/imgnoenco.png">
+                    </div>
 
-                <div class="compe-container-sup-der">
+                    <div class="compe-container-sup-der">
 
-                    <div th:switch="${competicion.estado}">
-                        <!-- Si el estado es 1 (Activa) -->
-                        <div th:case="1" class="grupal-indi" style="background-color: #007bff; border: none">
-                            <p>Inscripciones Abiertas</p>
-                        </div>
-                        <!-- Si el estado no es 1 (Inactiva) -->
-                        <div th:case="*">
-                            <div class="grupal-indi" style="background-color: red; border: none">
-                                <p>Registro Cerrado</p>
+                        <div th:switch="${competicion.estado}">
+                            <!-- Si el estado es 1 (Activa) -->
+                            <div th:case="1" class="grupal-indi" style="background-color: #007bff; border: none">
+                                <p>Inscripciones Abiertas</p>
+                            </div>
+                            <!-- Si el estado no es 1 (Inactiva) -->
+                            <div th:case="*">
+                                <div class="grupal-indi" style="background-color: red; border: none">
+                                    <p>Registro Cerrado</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="grupal-indi" th:switch="${competicion.tipo}">
-                        <!-- Si es tipo individual -->
-                        <div th:case="'individual'">
-                            <i class="fa-solid fa-person"></i>
+                        <div class="grupal-indi" th:switch="${competicion.tipo}">
+                            <!-- Si es tipo individual -->
+                            <div th:case="'individual'">
+                                <i class="fa-solid fa-person"></i>
+                            </div>
+                            <!-- Si es tipo grupal -->
+                            <div th:case="'grupal'">
+                                <i class="fa-solid fa-person"></i>
+                                <i class="fa-solid fa-person"></i>
+                                <i class="fa-solid fa-person"></i>
+                            </div>
                         </div>
-                        <!-- Si es tipo grupal -->
-                        <div th:case="'grupal'">
-                            <i class="fa-solid fa-person"></i>
-                            <i class="fa-solid fa-person"></i>
-                            <i class="fa-solid fa-person"></i>
+
+                        <div>
+                            <p th:text="|${competicion.aforo} / ${competicion.personasInscritas}|"
+                               style="margin-bottom: 0;"></p>
                         </div>
                     </div>
                 </div>
 
-            </div>
+                <div class="compe-container-inf">
+                    <h1 th:text="${competicion.nombre}"></h1>
 
-            <div class="compe-container-inf">
-                <h1 th:text="${competicion.nombre}"></h1>
+                    <div class="compe-container-inf-cont">
 
-                <div class="compe-container-inf-cont">
-
-                    <div class="compe-container-inf-item">
-                        <div class="compe-container-inf-cont-circulo">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </div>
-                        <p th:text="${competicion.ubicacion}"></p> <!-- Aquí se muestra la ubicación -->
-                    </div>
-
-                    <div class="compe-container-inf-item">
-                        <div class="compe-container-inf-cont-circulo">
-                            <i class="fa-solid fa-calendar-days"></i>
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <p th:text="${competicion.ubicacion != null and !#strings.isEmpty(competicion.ubicacion) ? competicion.ubicacion : '?'}"></p>
                         </div>
 
-                        <p>
-                            <!-- Formatear las fechas usando Thymeleaf -->
-                            Del <span th:text="${#temporals.format(competicion.fechaInicio, 'dd/MM/yyyy')}"></span> al
-                            <span th:text="${#temporals.format(competicion.fechaFin, 'dd/MM/yyyy')}"></span>
-                        </p>
-                    </div>
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
 
-                    <div class="compe-container-inf-item">
-                        <div class="compe-container-inf-cont-circulo">
-                            <i class="fa-solid fa-euro-sign"></i>
+                            <p>
+                                <!-- Formatear las fechas usando Thymeleaf -->
+                                Del <span th:text="${#temporals.format(competicion.fechaInicio, 'dd/MM/yyyy')}"></span>
+                                al
+                                <span th:text="${#temporals.format(competicion.fechaFin, 'dd/MM/yyyy')}"></span>
+                            </p>
                         </div>
-                        <!--<p th:text="${competicion.precioInscripcion} + ' €'"></p>-->
-                        <p th:if="${competicion.precioInscripcion == 0}">Gratis</p>
-                        <p th:if="${competicion.precioInscripcion != 0}"
-                           th:text="${competicion.precioInscripcion + ' €'}"></p>
-                    </div>
 
-                    <div class="compe-container-inf-item">
-                        <div class="compe-container-inf-cont-circulo">
-                            <i class="fa-solid fa-users"></i>
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo">
+                                <i class="fa-solid fa-euro-sign"></i>
+                            </div>
+                            <!--<p th:text="${competicion.precioInscripcion} + ' €'"></p>-->
+                            <p th:if="${competicion.precioInscripcion == 0}">Gratis</p>
+                            <p th:if="${competicion.precioInscripcion != 0}"
+                               th:text="${competicion.precioInscripcion + ' €'}"></p>
                         </div>
-                        <p th:text="'Aforo: ' + ${competicion.aforo}"></p>
+
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo" style="padding: 8px 5.5px;">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <p th:text="${competicion.aforo}"></p>
+                        </div>
+
+                        <!-- AGREGA LA REDIRECCION DEL BOTON PARA HACER PRUEBAS-->
+
                     </div>
-
-                    <!-- AGREGA LA REDIRECCION DEL BOTON PARA HACER PRUEBAS-->
-
                 </div>
-
-
 
                 <!-- Botones de acción (editar y eliminar) visibles solo para ADMIN y GESTOR -->
                 <div sec:authorize="hasAnyRole('ADMIN', 'GESTOR')">
                     <div class="user-container-btn">
+
+                        <!-- Boton editar -->
                         <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}" class="btn-edit">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
+
+                        <!-- Boton eliminar -->
                         <a th:href="@{/competencia/delete/{id}(id=${competicion.id})}" class="btn-delete"
                            onclick="return confirm('¿Seguro que quieres eliminar esta competencia?')">
                             <i class="fa-regular fa-trash-can"></i>
                         </a>
-                    </div>
 
-                    <a th:if="${competicion.fechaFin < fechaActual}"
-                       th:href="@{/puntuacion/add/{competenciaId}(competenciaId=${competicion.id})}"
-                       class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
-                        <i class="fa-solid fa-star"></i>
-                        Agregar Puntuación
-                    </a>
+                        <!-- Botón "Añadir Puntuación" visible solo si la fecha de fin ya pasó -->
+                        <a th:if="${competicion.fechaFin < fechaActual}"
+                           th:href="@{/puntuacion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                           class="btn-default">
+                            <i class="fa-solid fa-star"></i>
+                        </a>
 
+                        <!-- Botón "Apúntate" visible por defecto si la fecha no ha pasado -->
+                        <!-- Botón "Apúntate" visible solo si la fecha no ha pasado y el aforo no está lleno -->
+                        <div th:if="${competicion.fechaFin >= fechaActual}">
+                            <div th:if="${competicion.personasInscritas < competicion.aforo}">
+                                <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                                   sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
+                                   class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                    Apúntate
+                                </a>
+                            </div>
 
-                </div>
+                            <!-- Mensaje si el aforo está lleno -->
+                            <p th:unless="${competicion.personasInscritas < competicion.aforo}" class="text-danger">
+                                Inscripción llena
+                            </p>
+                        </div>
 
-                <!-- Botón "Apúntate" visible por defecto si la fecha no ha pasado --><!-- Botón "Apúntate" visible solo si la fecha no ha pasado y el aforo no está lleno -->
-                <div th:if="${competicion.fechaFin >= fechaActual}">
-                    <div th:if="${competicion.personasInscritas < competicion.aforo}">
-                        <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
-                           sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
-                           class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
-                            <i class="fa-solid fa-cart-plus"></i>
-                            Apúntate
+                        <!-- Botón "Ver Ranking" visible solo si la fecha de fin ya pasó -->
+                        <a th:if="${competicion.fechaFin < fechaActual}"
+                           th:href="@{/puntuacion/ranking/{competenciaId}(competenciaId=${competicion.id})}"
+                           class="btn-default">
+                            <i class="fa-solid fa-trophy me-2"></i>
                         </a>
                     </div>
-
-                    <!-- Mensaje si el aforo está lleno -->
-                    <p th:unless="${competicion.personasInscritas < competicion.aforo}" class="text-danger">
-                        Inscripción llena
-                    </p>
                 </div>
-
-                <!-- Botón "Ver Ranking" visible solo si la fecha de fin ya pasó -->
-                <a th:if="${competicion.fechaFin < fechaActual}"
-                   th:href="@{/puntuacion/ranking/{competenciaId}(competenciaId=${competicion.id})}"
-                   class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
-                    <i class="fa-solid fa-trophy me-2"></i>
-                    Ver Ranking
-                </a>
-
-
             </div>
         </div>
     </div>

@@ -14,8 +14,9 @@
         <h2>INICIO</h2>
 
         <!-- Tarjetas -->
-        <div sec:authorize="hasRole('USER')">
-            <div class="sub-content-inicio">
+        <div sec:authorize="hasRole('USER')"
+             style="display: flex; flex-direction: column;  align-items: center; padding: 0 20px">
+            <div class="sub-content-inicio scale">
                 <div class="sub-content-inicio-der">
                     <h1>Competencias</h1>
 
@@ -35,14 +36,39 @@
                     </a>
                 </div>
 
-                <div class="sub-content-inicio-izq" style="height: 463px">
-                    <img src="../../img/inicio/atletismo1.jpg">
+                <div class="sub-content-inicio-izq"
+                     style="background-image: url('../../img/inicio/atletismo1.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                 </div>
+            </div>
+
+            <div class="sub-content-inicio scale">
+                <div class="sub-content-inicio-der">
+                    <h1>Historial</h1>
+
+                    <p>
+                        Explora una amplia variedad de competencias diseñadas
+                        para todos los gustos e intereses. Inscríbete en aquellas
+                        que se alineen con tus pasiones y objetivos, y demuestra
+                        tus habilidades mientras te diviertes y te desafías.
+                        ¡Elige tu reto y empieza a competir!"
+                        ¿Te gustaría agregar algo más sobre las competencias, como
+                        ejemplos o algún beneficio adicional?
+                    </p>
+
+                    <a th:href="@{/inscripcion/historial}"
+                       class="btn-w-c-1">
+                        Empieza ya
+                    </a>
+                </div>
+
+                <div class="sub-content-inicio-izq"
+                     style="background-image: url('../../img/inicio/atletismo1.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
             </div>
         </div>
 
-        <div sec:authorize="hasAnyRole('ADMIN', 'GESTOR')">
-            <div class="sub-content-inicio">
+        <div sec:authorize="hasAnyRole('ADMIN', 'GESTOR')"
+             style="display: flex; flex-direction: column;  align-items: center; padding: 0 20px">
+            <div class="sub-content-inicio scale">
                 <div class="sub-content-inicio-der">
                     <h1>Gestión de Usuarios</h1>
 
@@ -59,12 +85,11 @@
                     </a>
                 </div>
 
-                <div class="sub-content-inicio-izq">
-                    <img src="../../img/inicio/gestor_users.jpg">
-                </div>
+                <div class="sub-content-inicio-izq"
+                     style="background-image: url('../../img/inicio/gestor_users.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
             </div>
 
-            <div class="sub-content-inicio">
+            <div class="sub-content-inicio scale">
                 <div class="sub-content-inicio-der">
                     <h1>Gestión de Competencias</h1>
 
@@ -79,67 +104,40 @@
 
                 </div>
 
-                <div class="sub-content-inicio-izq">
-                    <img src="../../img/inicio/gestor_compe1.jpg">
+                <div class="sub-content-inicio-izq"
+                     style="background-image: url('../../img/inicio/gestor_compe1.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+            </div>
+        </div>
+        <!--
+                <div class="sub-content-inicio">
+                    <div class="sub-content-inicio-der">
+                        <h1>Competencias</h1>
+
+                        <p>
+
+                            Explora una amplia variedad de competencias diseñadas
+                            para todos los gustos e intereses. Inscríbete en aquellas
+                            que se alineen con tus pasiones y objetivos, y demuestra
+                            tus habilidades mientras te diviertes y te desafías.
+                            ¡Elige tu reto y empieza a competir!"
+                            ¿Te gustaría agregar algo más sobre las competencias, como
+                            ejemplos o algún beneficio adicional?
+                        </p>
+
+                        <a class="btn-w-c-1">Empieza ya</a>
+                    </div>
+
+                    <div class="sub-content-inicio-izq">
+                        <img src="../../img/inicio/atletismo1.jpg">
+                    </div>
                 </div>
-            </div>
-        </div>
-<!--
-        <div class="sub-content-inicio">
-            <div class="sub-content-inicio-der">
-                <h1>Competencias</h1>
-
-                <p>
-
-                    Explora una amplia variedad de competencias diseñadas
-                    para todos los gustos e intereses. Inscríbete en aquellas
-                    que se alineen con tus pasiones y objetivos, y demuestra
-                    tus habilidades mientras te diviertes y te desafías.
-                    ¡Elige tu reto y empieza a competir!"
-                    ¿Te gustaría agregar algo más sobre las competencias, como
-                    ejemplos o algún beneficio adicional?
-                </p>
-
-                <a class="btn-w-c-1">Empieza ya</a>
-            </div>
-
-            <div class="sub-content-inicio-izq">
-                <img src="../../img/inicio/atletismo1.jpg">
-            </div>
-        </div>
--->
+        -->
 
     </div>
 </div>
 
 
 <div th:replace="layout/footer :: footer"></div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Función para ajustar las alturas
-        function adjustHeights() {
-            const containers = document.querySelectorAll('.sub-content-inicio');
-            containers.forEach(function (container) {
-                const derContainer = container.querySelector('.sub-content-inicio-der');
-                const izqContainer = container.querySelector('.sub-content-inicio-izq');
-                const derHeight = derContainer.offsetHeight;
-                izqContainer.style.height = `${derHeight}px`;
-            });
-        }
-
-        // Ajuste inicial
-        adjustHeights();
-
-        // Observador para cambios dinámicos de tamaño
-        const observer = new ResizeObserver(adjustHeights);
-        const targets = document.querySelectorAll('.sub-content-inicio-der');
-
-        targets.forEach((target) => {
-            observer.observe(target);
-        });
-    });
-</script>
 
 </body>
 </html>
