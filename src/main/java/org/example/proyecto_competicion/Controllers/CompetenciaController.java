@@ -81,6 +81,7 @@ public class CompetenciaController {
             }
         }
 
+
         LocalDateTime fechaActual = LocalDateTime.now();
         model.addAttribute("competiciones", competiciones);
         model.addAttribute("fechaActual", fechaActual);
