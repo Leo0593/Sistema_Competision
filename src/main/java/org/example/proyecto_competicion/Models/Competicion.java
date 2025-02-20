@@ -54,6 +54,12 @@ public class Competicion {
     @Column(name ="ubicacion")
     private String ubicacion;
     @Basic
+    @Column(name = "aforo")
+    private int aforo;
+    @Basic
+    @Column(name = "personas_inscritas")
+    private int personasInscritas;
+    @Basic
     @Column(name = "created_at")
     private Timestamp createdAt;
     @Basic
@@ -66,6 +72,8 @@ public class Competicion {
     @JoinColumn(name = "id_categoria", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Categoria categoriaByIdCategoria;
     @OneToMany(mappedBy = "competicionByCompetencia")
+
+    
     private Collection<Inscripcion> inscripcionsById;
 
     public int getId() {
@@ -161,6 +169,14 @@ public class Competicion {
     public String getUbicacion() { return ubicacion; }
 
     public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
+
+    public int getAforo() { return aforo; }
+
+    public void setAforo(int aforo) { this.aforo = aforo; }
+
+    public int getPersonasInscritas() { return personasInscritas; }
+
+    public void setPersonasInscritas(int personasInscritas) { this.personasInscritas = personasInscritas; }
 
     public void setLogoCompetencia(String logoCompetencia) { this.logoCompetencia = logoCompetencia; }
     public Timestamp getCreatedAt() {

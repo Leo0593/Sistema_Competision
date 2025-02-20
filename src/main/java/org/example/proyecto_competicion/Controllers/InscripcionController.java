@@ -22,6 +22,7 @@ import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/inscripcion")
@@ -321,6 +322,24 @@ public class InscripcionController {
         return "redirect:/inscripcion/all";
     }
 
+    @GetMapping("/historial")
+    public String getHistorialInscripciones(Model model, Principal principal) {
+        // Obtener el usuario autenticado
+        String email = principal.getName();
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByCorreo(email);
+
+        if (usuarioOptional.isEmpty()) {
+            return "redirect:/login"; // Redirigir si el usuario no está autenticado
+        }
+
+        Usuario usuario = usuarioOptional.get(); // Obtener el usuario si está presente
+
+        // Obtener inscripciones del usuario con sus puntuaciones
+        List<Inscripcion> inscripciones = inscripcionRepository.findByUsuario(usuario.getId());
+        model.addAttribute("inscripciones", inscripciones);
+
+        return "layout/inscripcion_pages/historial";
+    }
 
 
 

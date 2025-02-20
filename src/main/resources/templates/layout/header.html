@@ -48,6 +48,16 @@
                 </a>
             </li>
 
+            <li class="sidebar-item">
+                <a th:href="@{/inscripcion/historial}"
+                   sec:authorize="hasRole('USER') or hasRole('ADMIN') or hasRole('GESTOR')"
+                   class="sidebar-link">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Historial</span>
+                </a>
+            </li>
+
+
             <!-- APARTADO GESTOR Y ADMIN-->
 
             <li class="sidebar-item">

@@ -81,6 +81,7 @@ public class CompetenciaController {
             }
         }
 
+
         LocalDateTime fechaActual = LocalDateTime.now();
         model.addAttribute("competiciones", competiciones);
         model.addAttribute("fechaActual", fechaActual);
@@ -197,6 +198,8 @@ public class CompetenciaController {
         // Actualizar el ID de la categoría (suponiendo que 'idCategoria' es un campo en Competicion)
         competicionActual.setEstado(competicion.getEstado());
         competicionActual.setUbicacion(competicion.getUbicacion());
+
+        competicionActual.setAforo(competicion.getAforo());
 
         competicionActual.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         // Guardar los cambios

@@ -189,6 +189,13 @@
                            th:text="${competicion.precioInscripcion + ' €'}"></p>
                     </div>
 
+                    <div class="compe-container-inf-item">
+                        <div class="compe-container-inf-cont-circulo">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <p th:text="'Aforo: ' + ${competicion.aforo}"></p>
+                    </div>
+
                     <!-- AGREGA LA REDIRECCION DEL BOTON PARA HACER PRUEBAS-->
 
                 </div>
@@ -217,14 +224,22 @@
 
                 </div>
 
-                <!-- Botón "Apúntate" visible por defecto si la fecha no ha pasado -->
-                <a th:if="${competicion.fechaFin >= fechaActual}"
-                   th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
-                   sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
-                   class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
-                    <i class="fa-solid fa-cart-plus"></i>
-                    Apúntate
-                </a>
+                <!-- Botón "Apúntate" visible por defecto si la fecha no ha pasado --><!-- Botón "Apúntate" visible solo si la fecha no ha pasado y el aforo no está lleno -->
+                <div th:if="${competicion.fechaFin >= fechaActual}">
+                    <div th:if="${competicion.personasInscritas < competicion.aforo}">
+                        <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                           sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
+                           class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            Apúntate
+                        </a>
+                    </div>
+
+                    <!-- Mensaje si el aforo está lleno -->
+                    <p th:unless="${competicion.personasInscritas < competicion.aforo}" class="text-danger">
+                        Inscripción llena
+                    </p>
+                </div>
 
                 <!-- Botón "Ver Ranking" visible solo si la fecha de fin ya pasó -->
                 <a th:if="${competicion.fechaFin < fechaActual}"
