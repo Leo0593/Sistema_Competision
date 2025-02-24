@@ -16,6 +16,7 @@
         <!-- Tarjetas -->
         <div sec:authorize="hasRole('USER')"
              style="display: flex; flex-direction: column;  align-items: center; padding: 0 20px">
+            <a th:href="@{/competencia/all}">
             <div class="sub-content-inicio scale">
                 <div class="sub-content-inicio-der">
                     <h1>Competencias</h1>
@@ -30,11 +31,13 @@
                         ejemplos o algún beneficio adicional?
                     </p>
 
+                    <!--
                     <a th:href="@{/competencia/all}"
                        class="btn-w-c-1">
                         Empieza ya
-                    </a>
+                    </a>-->
                 </div>
+            </a>
 
                 <div class="sub-content-inicio-izq"
                      style="background-image: url('../../img/inicio/atletismo1.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
