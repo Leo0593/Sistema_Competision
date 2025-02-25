@@ -179,11 +179,16 @@
                             </div>
 
                             <p>
-                                <!-- Formatear las fechas usando Thymeleaf -->
+                                Del <span th:text="${#temporals.format(competicion.fechaInicio, 'd MMM yyyy')}"></span>
+                                al
+                                <span th:text="${#temporals.format(competicion.fechaFin, 'd MMM yyyy')}"></span>
+                            </p>
+                            <!--
+                            <p>
                                 Del <span th:text="${#temporals.format(competicion.fechaInicio, 'dd/MM/yyyy')}"></span>
                                 al
                                 <span th:text="${#temporals.format(competicion.fechaFin, 'dd/MM/yyyy')}"></span>
-                            </p>
+                            </p> -->
                         </div>
 
                         <div class="compe-container-inf-item">

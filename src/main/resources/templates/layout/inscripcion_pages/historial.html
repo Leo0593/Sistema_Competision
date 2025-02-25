@@ -1,36 +1,119 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Historial de Inscripciones</title>
-</head>
+
+<th:block th:replace="layout/head :: head"></th:block>
+
 <body>
-<h1>Historial de Inscripciones</h1>
-<table border="1">
-    <thead>
-    <tr>
-        <th>Competencia</th>
-        <th>Tipo</th>
-        <th>Categoría</th>  <!-- Nueva columna -->
-        <th>Fecha de Pago</th>
-        <th>Estado de Pago</th>
-        <th>Puntuación</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="inscripcion : ${inscripciones}">
-        <td th:text="${inscripcion.competicionByCompetencia.nombre}"></td>
-        <td th:text="${inscripcion.competicionByCompetencia.tipo}"></td>
-        <td th:text="${inscripcion.competicionByCompetencia.categoriaByIdCategoria.nombre}"></td>  <!-- Mostrar Categoría -->
-        <td th:text="${inscripcion.fechaPago}"></td>
-        <td th:text="${inscripcion.pagoRealizado == 1 ? 'Pagado' : 'Pendiente'}"></td>
-        <td>
-        <span th:if="${not #lists.isEmpty(inscripcion.puntuacionesById)}"
-              th:text="${inscripcion.puntuacionesById.size() > 0 ? inscripcion.puntuacionesById[inscripcion.puntuacionesById.size() - 1].puntaje : 'N/A'}">
-        </span>
-            <span th:if="${#lists.isEmpty(inscripcion.puntuacionesById)}">N/A</span>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div th:replace="layout/header :: header"></div>
+
+<th:block th:replace="layout/background :: background"></th:block>
+
+<div class="main-content">
+
+    <div class="content-inicio">
+        <h2>Historial de Inscripciones</h2>
+
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Competencia</th>
+                <th>Tipo</th>
+                <th>Categoría</th>
+                <th>Fecha de Pago</th>
+                <th>Estado de Pago</th>
+                <th>Puntuación</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="inscripcion : ${inscripciones}">
+                <td th:text="${inscripcion.competicionByCompetencia.nombre}"></td>
+                <td th:text="${inscripcion.competicionByCompetencia.tipo}"></td>
+                <td th:text="${inscripcion.competicionByCompetencia.categoriaByIdCategoria.nombre}"></td>
+                <td th:text="${inscripcion.fechaPago}"></td>
+                <td th:text="${inscripcion.pagoRealizado == 1 ? 'Pagado' : 'Pendiente'}"></td>
+                <td>
+                <span th:if="${not #lists.isEmpty(inscripcion.puntuacionesById)}"
+                      th:text="${inscripcion.puntuacionesById.size() > 0 ? inscripcion.puntuacionesById[inscripcion.puntuacionesById.size() - 1].puntaje : 'N/A'}">
+                </span>
+                    <span th:if="${#lists.isEmpty(inscripcion.puntuacionesById)}">N/A</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="wrap-organizador">
+            <div class="compe-container scale" th:each="inscripcion : ${inscripciones}">
+                <div class="compe-container-sup">
+                    <div class="compe-container-sup-izq" style="width: 100%">
+                        <img src="../../img/compe/imgnoenco.png" style="width: 100%; height: auto">
+                    </div>
+                </div>
+
+                <div class="compe-container-inf">
+
+                    <h1 th:text="${inscripcion.competicionByCompetencia.nombre}"></h1>
+
+                    <div class="compe-container-inf-cont">
+
+                        <div class="compe-container-inf-item">
+                            <!-- Contenedor común -->
+                            <div th:switch="${inscripcion.competicionByCompetencia.tipo}">
+
+                                <!-- Caso individual -->
+                                <div th:case="'individual'" class="compe-container-inf-cont-circulo"
+                                     style="padding: 8px 12px;">
+                                    <i class="fa-solid fa-person"></i>
+                                </div>
+
+                                <!-- Caso grupal -->
+                                <div th:case="'grupal'" class="compe-container-inf-cont-circulo"
+                                     style="padding: 8px 6.7px;">
+                                    <i class="fa-solid fa-users"></i>
+                                </div>
+                            </div>
+                            <p th:text="${inscripcion.competicionByCompetencia.tipo}"></p>
+                        </div>
+
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo">
+                                <i class="fa-solid fa-tag"></i>
+                            </div>
+                            <p th:text="${inscripcion.competicionByCompetencia.categoriaByIdCategoria.nombre}"></p>
+                        </div>
+
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
+                            <p th:text="${inscripcion.fechaPago}"></p>
+                        </div>
+
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo" style="padding: 8px 10.5px;">
+                                <i class="fa-solid fa-euro-sign" style="transform: translateX(-1px)"></i>
+                            </div>
+                            <p th:text="${inscripcion.pagoRealizado == 1 ? 'Pagado' : 'Pendiente'}"></p>
+                        </div>
+
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo" style="padding: 8px 8.5px;">
+                                <i class="fa-solid fa-medal"></i>
+                            </div>
+                            <span th:if="${not #lists.isEmpty(inscripcion.puntuacionesById)}"
+                                  th:text="${inscripcion.puntuacionesById.size() > 0 ? inscripcion.puntuacionesById[inscripcion.puntuacionesById.size() - 1].puntaje : 'N/A'}">
+                            </span>
+                            <span th:if="${#lists.isEmpty(inscripcion.puntuacionesById)}">N/A</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="layout/footer :: footer"></div>
+
 </body>
 </html>

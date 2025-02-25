@@ -189,7 +189,11 @@
     }
 }
 
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400; /* O el peso que prefieras como predeterminado */
@@ -204,8 +208,6 @@ body {
     background: url("../img/fn4.png") no-repeat center center;
     background-size: user-container;
     background-attachment: fixed; /* Mantiene el fondo fijo al hacer scroll (opcional) */
-
-
 }
 
 /* HEADER */
@@ -227,7 +229,7 @@ header {
     align-items: center; /* Centra verticalmente los elementos */
     justify-content: space-between; /* Botones a los extremos, logo al centro */
     padding: 10px 20px; /* Espaciado interno */
-    background-color: rgba(5, 5, 5, 0.8);
+    background-color: rgba(5, 5, 5, 0.7);
     backdrop-filter: blur(10px); /* Desenfoque del fondo */
     position: relative; /* Permite el centrado absoluto del logo */
 }
@@ -241,7 +243,7 @@ header {
 /* FOOTER */
 footer {
     width: 100%; /* Establece el ancho al 100% */
-    background-color: rgba(5, 5, 5, 0.8);
+    background-color: rgba(5, 5, 5, 0.7);
     backdrop-filter: blur(10px); /* Desenfoque del fondo */
     color: white; /* Color del texto */
     padding: 20px 0; /* Espaciado interno */
@@ -416,7 +418,6 @@ footer p {
     display: grid; /* Crea un contenedor de cuadrícula */
     grid-template-columns: 1fr 1fr; /* Dos columnas de igual ancho */
     align-items: stretch; /* Asegura que las alturas sean iguales */
-    gap: 20px; /* Espaciado entre columnas */
 
     margin-bottom: 50px;
 }
@@ -1018,7 +1019,14 @@ a.sidebar-link:hover {
     padding: 8px 10px;
     border-radius: 50%;
     border: white 2px solid;
+    display: flex;
 }
+
+.compe-container-inf-cont-circulo i {
+    margin: 0;
+    padding: 0;
+}
+
 
 .btn-w-100-outline-0-1 {
     width: 100%;
@@ -1252,7 +1260,7 @@ a.sidebar-link:hover {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    gap: 25px;
+    gap: 45px;
     justify-content: center;
     align-items: flex-start;
 }
@@ -1267,4 +1275,55 @@ a.sidebar-link:hover {
 
 .scale:active {
     transform: scale(1);
+}
+
+.sina {
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+.sina:hover, .sina:focus {
+    text-decoration: none;
+}
+
+.model-input {
+    margin-bottom: 15px;
+}
+
+.model-input label {
+    color: #e6e6e6;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.model-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.model-input-container i {
+    position: absolute;
+    left: 10px;
+    color: black;
+    z-index: 1;
+}
+
+.model-cont-input {
+    background-color: rgba(255, 255, 255, 0.5);
+
+    position: relative;
+
+    width: 100%;
+    padding: 10px !important;
+
+    padding-left: 40px !important; /* Espacio para el ícono */
+
+    border-radius: 10px !important;
+
+    resize: none;
+
+    border: 2px solid #ffffff !important;
 }
