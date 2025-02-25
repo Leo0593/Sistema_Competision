@@ -68,6 +68,14 @@
                     <span>Gestionar Competencias</span>
                 </a>
             </li>
+            <li class="sidebar-item">
+                <a th:href="@{/competencia/add}"
+                   sec:authorize="hasRole('ADMIN') or hasRole('GESTOR')"
+                   class="sidebar-link">
+                    <i class="fa-solid fa-user-group"></i>
+                    <span>Creación de Competencias</span>
+                </a>
+            </li>
 
             <li class="sidebar-item">
                 <a th:href="@{/categoria/add}"
