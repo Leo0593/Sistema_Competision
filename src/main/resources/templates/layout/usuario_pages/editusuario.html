@@ -1,57 +1,91 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Usuario</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout/head :: head"></th:block>
+
 <body>
+<div th:replace="layout/header :: header"></div>
 
-<div class="container my-5">
-    <h2 class="mb-4">Editar Usuario</h2>
+<th:block th:replace="layout/background :: background"></th:block>
 
-    <form th:action="@{/usuario/edit/{id}(id=${usuario.id})}" th:object="${usuario}" method="post">
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" id="nombre" name="nombre" class="form-control" th:value="${usuario.nombre}" required>
-        </div>
-        <div class="mb-3">
-            <label for="apellido" class="form-label">Apellido</label>
-            <input type="text" id="apellido" name="apellido" class="form-control" th:value="${usuario.apellido}" required>
-        </div>
-        <div class="mb-3">
-            <label for="correo" class="form-label">Correo</label>
-            <input type="email" id="correo" name="correo" class="form-control" th:value="${usuario.correo}" required>
-        </div>
-        <div class="mb-3">
-            <label for="rol" class="form-label">Rol</label>
-            <select id="rol" name="rol" class="form-control">
+<div class="main-content" style="width: 100%; display: flex;">
+    <div style="width: 40%;">
+        <div class="modal-content"
+             style="color: white; background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px)">
+            <div class="modal-header" style="background-color: rgba(255,199,32,0.7); align-items: center;">
+                <h5 class="modal-title"><strong>Editar</strong></h5>
+            </div>
 
-                <option value="ADMIN" th:selected="${usuario.rol == 'ADMIN'}">Admin</option>
-                <option value="USER" th:selected="${usuario.rol == 'USER'}">Usuario</option>
-                <option value="GESTOR" th:selected="${usuario.rol == 'GESTOR'}">Gestor</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="estado" class="form-label">Estado</label>
-            <select id="estado" name="estado" class="form-control">
-                <option value="1" th:selected="${usuario.estado == 1}">Activo</option>
-                <option value="0" th:selected="${usuario.estado == 0}">Inactivo</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="avatar" class="form-label">Avatar (URL)</label>
-            <input type="text" id="avatar" name="avatar" class="form-control" th:value="${usuario.avatar}">
-        </div>
-        <div class="mb-3">
-            <label for="historial" class="form-label">Historial</label>
-            <textarea id="historial" name="historial" class="form-control" rows="3" th:text="${usuario.historial}"></textarea>
-        </div>
+            <div class="modal-body" c style="padding: 5px 50px; padding-top: 40px">
+                <form th:action="@{/usuario/edit/{id}(id=${usuario.id})}" th:object="${usuario}" method="post">
 
-        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <a href="/usuario/all" class="btn btn-secondary">Cancelar</a>
-    </form>
+                    <div class="model-input">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <div class="model-input-container">
+                            <i class="fa fa-user"></i>
+                            <input type="text" id="nombre" name="nombre" class="model-cont-input"
+                                   th:value="${usuario.nombre}" required>
+                        </div>
+                    </div>
+
+                    <div class="model-input">
+                        <label for="apellido" class="form-label">Apellido</label>
+                        <div class="model-input-container">
+                            <i class="fa fa-address-card" aria-hidden="true"></i>
+                            <input type="text" id="apellido" name="apellido" class="model-cont-input"
+                                   th:value="${usuario.apellido}" required>
+                        </div>
+                    </div>
+
+                    <div class="model-input">
+                        <label for="correo" class="form-label">Correo</label>
+                        <div class="model-input-container">
+                            <i class="fa fa-address-card" aria-hidden="true"></i>
+                            <input type="email" id="correo" name="correo" class="model-cont-input"
+                                   th:value="${usuario.correo}" required>
+                        </div>
+                    </div>
+
+                    <div class="model-input">
+                        <label for="rol" class="form-label">Rol</label>
+                        <div class="model-input-container">
+                            <i class="fa fa-bookmark"></i>
+                            <select id="rol" name="rol" class="model-cont-input">
+                                <option value="ADMIN" th:selected="${usuario.rol == 'ADMIN'}">Admin</option>
+                                <option value="USER" th:selected="${usuario.rol == 'USER'}">Usuario</option>
+                                <option value="GESTOR" th:selected="${usuario.rol == 'GESTOR'}">Gestor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="model-input">
+                        <label for="estado" class="form-label">Estado</label>
+                        <div class="model-input-container">
+                            <i class="fa fa-toggle-on"></i>
+                            <select id="estado" name="estado" class="model-cont-input">
+                                <option value="1" th:selected="${usuario.estado == 1}">Activo</option>
+                                <option value="0" th:selected="${usuario.estado == 0}">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="mb-3">
+                        <label for="avatar" class="form-label">Avatar (URL)</label>
+                        <input type="text" id="avatar" name="avatar" class="form-control" th:value="${usuario.avatar}">
+                    </div> -->
+
+
+                    <div class="modal-footer"
+                         style="display: flex; align-content: center; justify-content: center; width: 100%;">
+                        <button type="submit" class="btn btn-warning" style="color: white;">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                    </div>
+                    <!--
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <a href="/usuario/all" class="btn btn-secondary">Cancelar</a> -->
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>

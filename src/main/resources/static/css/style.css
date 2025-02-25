@@ -1292,7 +1292,7 @@ a.sidebar-link:hover {
 }
 
 .model-input label {
-    color: #e6e6e6;
+    color: #ffffff;
     font-size: 0.9em;
     margin: 0;
 }
@@ -1302,17 +1302,18 @@ a.sidebar-link:hover {
     display: flex;
     align-items: center;
     width: 100%;
+    color: white;
 }
 
 .model-input-container i {
     position: absolute;
     left: 10px;
-    color: black;
+    color: #ffffff;
     z-index: 1;
 }
 
 .model-cont-input {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
 
     position: relative;
 
@@ -1326,4 +1327,6 @@ a.sidebar-link:hover {
     resize: none;
 
     border: 2px solid #ffffff !important;
+
+    color: #ffffff;
 }

@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ELITE LEAGUE</title>
 
+    <link id="favicon" rel="icon" href="../../img/el-wh2.png" sizes="64x64" type="image/x-icon">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function updateFavicon() {
+                let darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                let favicon = document.getElementById("favicon");
+
+                // Definir los iconos para el modo claro y oscuro
+                let lightIcon = "../../img/eliteleague.png";
+                let darkIcon = "../../img/el-wh2.png";
+
+                // Cambiar el favicon según el modo
+                favicon.href = darkMode ? darkIcon : lightIcon;
+            }
+
+            updateFavicon(); // Llamar al cargar la página
+            window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", updateFavicon);
+        });
+    </script>
     <!-- FUENTES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

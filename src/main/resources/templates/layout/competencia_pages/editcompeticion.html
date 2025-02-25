@@ -1,58 +1,192 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Competición</title>
-    <script>
-        // Función para mostrar el campo de "personasPorGrupo" solo si se selecciona "grupal"
-        function togglePersonasPorGrupo() {
-            var tipo = document.getElementById("tipo").value;
-            var personasPorGrupoField = document.getElementById("personasPorGrupoField");
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<th:block th:replace="layout/head :: head"></th:block>
+<head
+<script>
+    // Función para mostrar el campo de "personasPorGrupo" solo si se selecciona "grupal"
+    function togglePersonasPorGrupo() {
+        var tipo = document.getElementById("tipo").value;
+        var personasPorGrupoField = document.getElementById("personasPorGrupoField");
 
-            if (tipo === "grupal") {
-                personasPorGrupoField.style.display = "block";  // Mostrar el campo
-            } else {
-                personasPorGrupoField.style.display = "none";  // Ocultar el campo
-            }
+        if (tipo === "grupal") {
+            personasPorGrupoField.style.display = "block";  // Mostrar el campo
+        } else {
+            personasPorGrupoField.style.display = "none";  // Ocultar el campo
         }
+    }
 
-        // Función para establecer el campo de personasPorGrupo si el tipo es "grupal"
-        window.onload = function () {
-            togglePersonasPorGrupo();
-        };
-    </script>
+    // Función para establecer el campo de personasPorGrupo si el tipo es "grupal"
+    window.onload = function () {
+        togglePersonasPorGrupo();
+    };
+</script>
 </head>
+
 <body>
+<div th:replace="layout/header :: header"></div>
 
-<h2>Editar Competición</h2>
+<th:block th:replace="layout/background :: background"></th:block>
 
+<div class="main-content" style="width: 100%; display: flex;">
+    <div style="width: 40%;">
+        <div class="modal-content"
+             style="color: white; background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px)">
+            <div class="modal-header" style="background-color: rgba(255,199,32,0.7); align-items: center;">
+                <h5 class="modal-title"><strong>Editar</strong></h5>
+            </div>
+
+            <div class="modal-body" style="padding: 5px 50px; padding-top: 40px">
+                <form th:action="@{/competencia/edit/{id}(id=${competicion.id})}" th:object="${competicion}"
+                      method="post"
+                      enctype="multipart/form-data">
+                    <!-- Nombre -->
+                    <div class="model-input">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <div class="model-input-container">
+                            <i class="fa fa-user"></i>
+                            <input type="text" id="nombre" name="nombre" class="model-cont-input" th:field="*{nombre}"
+                                   required>
+                        </div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="model-input">
+                        <label for="descripcion">Descripción</label>
+                        <div class="model-input-container">
+                            <i class="fas fa-align-left"></i>
+                            <textarea class="model-cont-input" id="descripcion" th:field="*{descripcion}"
+                                      required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Fecha de Inicio -->
+                    <div class="model-input">
+                        <label for="fechaInicio">Fecha de Inicio</label>
+                        <div class="model-input-container">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input class="model-cont-input" style="color: white" type="datetime-local" id="fechaInicio"
+                                   th:field="*{fechaInicio}" required>
+                        </div>
+                    </div>
+
+                    <!-- Fecha de Fin -->
+                    <div class="model-input">
+                        <label for="fechaFin">Fecha de Fin</label>
+                        <div class="model-input-container">
+                            <i class="fas fa-calendar-check"></i>
+                            <input class="model-cont-input" style="color: white" type="datetime-local" id="fechaFin"
+                                   th:field="*{fechaFin}" required>
+                        </div>
+                    </div>
+
+                    <!-- Tipo -->
+                    <div class="model-input">
+                        <label for="tipo">Tipo</label>
+                        <div class="model-input-container">
+                            <i class="fas fa-tag"></i>
+                            <select class="model-cont-input" id="tipo" th:field="*{tipo}" required
+                                    onchange="togglePersonasPorGrupo()">
+                                <option value="individual" th:selected="${competicion.tipo == 'individual'}">
+                                    Individual
+                                </option>
+                                <option value="grupal" th:selected="${competicion.tipo == 'grupal'}">Grupal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="model-input">
+                        <label for="estado">Estado</label>
+                        <div class="model-input-container">
+                            <i class="fa fa-toggle-on"></i>
+                            <select id="estado" name="estado" class="model-cont-input">
+                                <option value="1" th:selected="${competicion.estado == 1}">Activo</option>
+                                <option value="0" th:selected="${competicion.estado == 0}">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Personas por Grupo (oculto por defecto si el tipo es "individual") -->
+                    <div id="personasPorGrupoField" style="display: none;">
+                        <label for="personasPorGrupo">Personas por Grupo:</label>
+                        <input type="number" id="personasPorGrupo" th:field="*{personasPorGrupo}">
+                    </div>
+
+                    <!-- Categoría -->
+                    <div class="model-input">
+                        <label for="idCategoria">Categoría</label>
+                        <div class="model-input-container">
+                            <i class="fa fa-flag" aria-hidden="true"></i>
+                            <select class="model-cont-input" id="idCategoria" th:field="*{idCategoria}" required>
+                                <option th:each="categoria : ${categorias}"
+                                        th:value="${categoria.id}"
+                                        th:text="${categoria.nombre}"
+                                        th:selected="${competicion.idCategoria == categoria.id}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Precio de Inscripción -->
+                    <div class="model-input">
+                        <label for="precioInscripcion">Precio de Inscripción</label>
+                        <div class="model-input-container">
+                            <i class="fas fa-dollar-sign"></i>
+                            <input class="model-cont-input" type="number" id="precioInscripcion"
+                                   th:field="*{precioInscripcion}" required>
+                        </div>
+                    </div>
+
+                    <div class="model-input">
+                        <label for="ubicacion">Ubicación</label>
+                        <div class="model-input-container">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input class="model-cont-input" type="text" id="ubicacion" th:field="*{ubicacion}" required>
+                        </div>
+                    </div>
+
+                    <!-- Aforo -->
+                    <div class="model-input">
+                        <label for="aforo">Aforo</label>
+                        <div class="model-input-container">
+                            <i class="fas fa-users"></i>
+                            <input class="model-cont-input" type="number" id="aforo" th:field="*{aforo}" required>
+                        </div>
+                    </div>
+
+                    <!-- Botón de Enviar -->
+                    <div class="modal-footer"
+                         style="display: flex; align-content: center; justify-content: center; width: 100%;">
+                        <button type="submit" class="btn btn-warning" style="color: white;">
+                            <i class="fas fa-save"></i> Actualizar Competición
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
 <form th:action="@{/competencia/edit/{id}(id=${competicion.id})}" th:object="${competicion}" method="post"
       enctype="multipart/form-data">
-    <!-- Nombre -->
     <div>
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" th:field="*{nombre}" required>
     </div>
 
-    <!-- Descripción -->
     <div>
         <label for="descripcion">Descripción:</label>
         <textarea id="descripcion" th:field="*{descripcion}" required></textarea>
     </div>
 
-    <!-- Fecha de Inicio -->
     <div>
         <label for="fechaInicio">Fecha de Inicio:</label>
         <input type="datetime-local" id="fechaInicio" th:field="*{fechaInicio}" required>
     </div>
 
-    <!-- Fecha de Fin -->
     <div>
         <label for="fechaFin">Fecha de Fin:</label>
         <input type="datetime-local" id="fechaFin" th:field="*{fechaFin}" required>
     </div>
 
-    <!-- Tipo -->
     <div>
         <label for="tipo">Tipo:</label>
         <select id="tipo" th:field="*{tipo}" required onchange="togglePersonasPorGrupo()">
@@ -69,13 +203,11 @@
         </select>
     </dic>
 
-    <!-- Personas por Grupo (oculto por defecto si el tipo es "individual") -->
     <div id="personasPorGrupoField" style="display: none;">
         <label for="personasPorGrupo">Personas por Grupo:</label>
         <input type="number" id="personasPorGrupo" th:field="*{personasPorGrupo}">
     </div>
 
-    <!-- Categoría -->
     <div>
         <label for="idCategoria">Categoría:</label>
         <select id="idCategoria" th:field="*{idCategoria}" required>
@@ -86,7 +218,6 @@
         </select>
     </div>
 
-    <!-- Precio de Inscripción -->
     <div>
         <label for="precioInscripcion">Precio de Inscripción:</label>
         <input type="number" id="precioInscripcion" th:field="*{precioInscripcion}" required>
@@ -97,17 +228,15 @@
         <input type="text" id="ubicacion" th:field="*{ubicacion}" required>
     </div>
 
-    <!-- Aforo -->
     <div>
         <label for="aforo">Aforo:</label>
         <input type="number" id="aforo" th:field="*{aforo}" required>
     </div>
 
-    <!-- Botón de Enviar -->
     <div>
         <button type="submit">Actualizar Competición</button>
     </div>
-</form>
+</form> -->
 
 <!-- Mensaje de error si las fechas son inválidas -->
 <div th:if="${param.error == 'invalidDates'}" style="color: red;">
