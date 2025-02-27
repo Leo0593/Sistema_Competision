@@ -26,8 +26,11 @@
         <h2>Crear Competición</h2>
 
         <div style="width: 100%;">
-            <form th:action="@{/competencia/add}" th:object="${competicion}" method="post"
-                  enctype="multipart/form-data">
+            <!-- Mensaje de error si existe -->
+            <div th:if="${param.error}" style="color: red;">
+                <p th:text="${param.error}"></p>
+            </div>
+            <form th:action="@{/competencia/add}" th:object="${competicion}" method="post" enctype="multipart/form-data">
                 <!-- Nombre -->
                 <div class="model-input">
                     <label for="nombre">Nombre</label>
@@ -126,11 +129,11 @@
                 </div>
 
 
-                <!-- Logo de la Competición
-                <div>
-                    <label for="logoCompetencia">Logo de la Competición:</label>
-                    <input type="file" id="logoCompetencia" name="logoCompetencia" accept="image/*">
-                </div>-->
+                <!-- Campo para el logo de la competencia -->
+                <div class="model-input">
+                    <label for="logoCompetencia">Logo de la Competencia:</label>
+                    <input type="file" id="logoCompetencia" name="logoCompetencia" accept="image/*" required>
+                </div>
 
                 <!-- Botón de Enviar -->
                 <div style="display: flex; align-content: center; justify-content: center">

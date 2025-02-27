@@ -123,7 +123,7 @@
             <div class="compe-container scale" th:each="competicion : ${competiciones}">
                 <div class="compe-container-sup">
                     <div class="compe-container-sup-izq">
-                        <img src="../../img/compe/imgnoenco.png">
+                        <img th:src="@{${competicion.logoCompetencia}}" alt="Logo de la Competencia" style="width: 100%; height: auto;">
                     </div>
 
                     <div class="compe-container-sup-der">
