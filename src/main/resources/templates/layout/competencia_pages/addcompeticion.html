@@ -79,10 +79,13 @@
                     </div>
                 </div>
 
-                <!-- Personas por Grupo (oculto por defecto) -->
-                <div id="personasPorGrupoField" style="display: none;">
-                    <label for="personasPorGrupo">Personas por Grupo:</label>
-                    <input type="number" id="personasPorGrupo" th:field="*{personasPorGrupo}">
+                <!-- Personas por Grupo (Oculto si no es grupal) -->
+                <div id="personasPorGrupoField" class="model-input" style="display: none;">
+                    <label for="personasPorGrupo">Personas por Grupo</label>
+                    <div class="model-input-container">
+                        <i class="fas fa-users"></i>
+                        <input type="number" id="personasPorGrupo" class="model-cont-input" th:field="*{personasPorGrupo}">
+                    </div>
                 </div>
 
                 <!-- Categoría -->
