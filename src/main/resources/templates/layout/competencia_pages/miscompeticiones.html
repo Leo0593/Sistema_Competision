@@ -1,0 +1,272 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<th:block th:replace="layout/head :: head"></th:block>
+
+<head>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+<div th:replace="layout/header :: header"></div>
+
+<th:block th:replace="layout/background :: background"></th:block>
+
+<div class="main-content">
+    <div class="content-inicio" style="width: 80%">
+        <h2>Competiciones</h2>
+
+        <div class="2button-container" style="margin: 20px 0;">
+            <!-- estado -->
+            <button class="bubbly-button" onclick="ordenarEstado('abierto')">
+                <i class="fa-solid fa-check-circle"></i> Abiertos
+            </button>
+            <button class="bubbly-button" onclick="ordenarEstado('cerrado')">
+                <i class="fa-solid fa-times-circle"></i> Cerrados
+            </button>
+
+            <!-- precio -->
+            <button class="bubbly-button" onclick="ordenarPrecio('precio', 'asc')">
+                <i class="fa-solid fa-arrow-up"></i> Más Barato
+            </button>
+            <button class="bubbly-button" onclick="ordenarPrecio('precio', 'desc')">
+                <i class="fa-solid fa-arrow-down"></i> Más Caro
+            </button>
+
+            <!-- tipo -->
+            <button class="bubbly-button" onclick="ordenarTipo('grupal')">
+                <i class="fa-solid fa-users"></i> Grupales
+            </button>
+            <button class="bubbly-button" onclick="ordenarTipo('individual')">
+                <i class="fa-solid fa-user"></i> Individuales
+            </button>
+
+            <!-- fecha -->
+            <button class="bubbly-button" onclick="ordenarFecha('fecha', 'desc')">
+                <i class="fa-solid fa-calendar-day"></i> Más Reciente
+            </button>
+            <button class="bubbly-button" onclick="ordenarFecha('fecha', 'asc')">
+                <i class="fa-solid fa-calendar-day"></i> Más Viejo
+            </button>
+
+            <!-- eliminar filtros -->
+            <button class="bubbly-button" onclick="eliminarFiltros()">
+                <i class="fa-solid fa-eraser"></i> Eliminar Filtros
+            </button>
+
+        </div>
+
+        <script>
+            function actualizarURL(parametro, valor) {
+                let url = new URL(window.location.href);
+                if (valor) {
+                    url.searchParams.set(parametro, valor);
+                } else {
+                    url.searchParams.delete(parametro);
+                }
+                console.log("Nueva URL: " + url.toString());
+                window.location.href = url.toString();
+            }
+
+            function ordenarEstado(estado) {
+                let url = new URL(window.location.href);  // Obtener la URL actual
+
+                // Cambiar o añadir el parámetro para filtrar por estado
+                if (estado === 'abierto') {
+                    url.searchParams.set('estado', '1');  // Asumimos que '1' representa "Abierto"
+                } else if (estado === 'cerrado') {
+                    url.searchParams.set('estado', '0');  // Asumimos que '0' representa "Cerrado"
+                }
+
+                // Recargar la página con los parámetros actualizados
+                window.location.href = url.toString();
+            }
+
+            function ordenarPrecio(direccion) {
+                let url = new URL(window.location.href);  // Obtener la URL actual
+
+                // Modificar o añadir los parámetros de ordenación por precio
+                url.searchParams.set('order', direccion);  // 'asc' para más barato, 'desc' para más caro
+
+                // Recargar la página con los parámetros actualizados
+                window.location.href = url.toString();
+            }
+
+
+
+            function ordenarTipo(tipo) {
+                actualizarURL("tipo", tipo);
+            }
+
+            function ordenarFecha(campo, tipo) {
+                actualizarURL("ordenar", campo);
+                actualizarURL("order", tipo);  // Se actualiza el parámetro `order` para el tipo de orden
+            }
+
+            function eliminarFiltros() {
+                let url = new URL(window.location.href);
+
+                // Eliminar los parámetros de los filtros
+                url.searchParams.delete("precio");
+                url.searchParams.delete("estado");
+                url.searchParams.delete("fechaInicio");
+                url.searchParams.delete("fechaFin");
+                url.searchParams.delete("tipo");
+                url.searchParams.delete("ordenar");
+                url.searchParams.delete("order");
+
+                // Recargar la página con la URL limpia de filtros
+                window.location.href = url.toString();
+            }
+
+        </script>
+
+        <div class="wrap-organizador">
+            <div class="compe-container scale" th:each="competicion : ${competiciones}">
+                <div class="compe-container-sup">
+                    <div class="compe-container-sup-izq">
+                        <img src="../../img/compe/imgnoenco.png">
+                    </div>
+
+                    <div class="compe-container-sup-der">
+
+                        <div th:switch="${competicion.estado}">
+                            <!-- Si el estado es 1 (Activa) -->
+                            <div th:case="1" class="grupal-indi" style="background-color: #007bff; border: none">
+                                <p>Inscripciones Abiertas</p>
+                            </div>
+                            <!-- Si el estado no es 1 (Inactiva) -->
+                            <div th:case="*">
+                                <div class="grupal-indi" style="background-color: red; border: none">
+                                    <p>Registro Cerrado</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grupal-indi" th:switch="${competicion.tipo}">
+                            <!-- Si es tipo individual -->
+                            <div th:case="'individual'">
+                                <i class="fa-solid fa-person"></i>
+                            </div>
+                            <!-- Si es tipo grupal -->
+                            <div th:case="'grupal'">
+                                <i class="fa-solid fa-person"></i>
+                                <i class="fa-solid fa-person"></i>
+                                <i class="fa-solid fa-person"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p th:text="|${competicion.aforo} / ${competicion.personasInscritas}|"
+                               style="margin-bottom: 0;"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="compe-container-inf">
+                    <h1 th:text="${competicion.nombre}"></h1>
+
+                    <div class="compe-container-inf-cont">
+
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <p th:text="${competicion.ubicacion != null and !#strings.isEmpty(competicion.ubicacion) ? competicion.ubicacion : '?'}"></p>
+                        </div>
+
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
+
+                            <p>
+                                Del <span th:text="${#temporals.format(competicion.fechaInicio, 'd MMM yyyy')}"></span>
+                                al
+                                <span th:text="${#temporals.format(competicion.fechaFin, 'd MMM yyyy')}"></span>
+                            </p>
+                            <!--
+                            <p>
+                                Del <span th:text="${#temporals.format(competicion.fechaInicio, 'dd/MM/yyyy')}"></span>
+                                al
+                                <span th:text="${#temporals.format(competicion.fechaFin, 'dd/MM/yyyy')}"></span>
+                            </p> -->
+                        </div>
+
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo">
+                                <i class="fa-solid fa-euro-sign"></i>
+                            </div>
+                            <!--<p th:text="${competicion.precioInscripcion} + ' €'"></p>-->
+                            <p th:if="${competicion.precioInscripcion == 0}">Gratis</p>
+                            <p th:if="${competicion.precioInscripcion != 0}"
+                               th:text="${competicion.precioInscripcion + ' €'}"></p>
+                        </div>
+
+                        <div class="compe-container-inf-item">
+                            <div class="compe-container-inf-cont-circulo" style="padding: 8px 5.5px;">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <p th:text="${competicion.aforo}"></p>
+                        </div>
+
+                        <!-- AGREGA LA REDIRECCION DEL BOTON PARA HACER PRUEBAS-->
+
+                    </div>
+                </div>
+
+                <!-- Botones de acción (editar y eliminar) visibles solo para ADMIN y GESTOR -->
+                <div sec:authorize="hasAnyRole('ADMIN', 'GESTOR')">
+                    <div class="user-container-btn">
+
+                        <!-- Boton editar -->
+                        <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}" class="btn-edit">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+
+                        <!-- Boton eliminar -->
+                        <a th:href="@{/competencia/delete/{id}(id=${competicion.id})}" class="btn-delete"
+                           onclick="return confirm('¿Seguro que quieres eliminar esta competencia?')">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </a>
+
+                        <!-- Botón "Añadir Puntuación" visible solo si la fecha de fin ya pasó -->
+                        <a th:if="${competicion.fechaFin < fechaActual}"
+                           th:href="@{/puntuacion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                           class="btn-default">
+                            <i class="fa-solid fa-star"></i>
+                        </a>
+
+                        <!-- Botón "Apúntate" visible por defecto si la fecha no ha pasado -->
+                        <!-- Botón "Apúntate" visible solo si la fecha no ha pasado y el aforo no está lleno -->
+                        <div th:if="${competicion.fechaFin >= fechaActual}">
+                            <div th:if="${competicion.personasInscritas < competicion.aforo}">
+                                <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                                   sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
+                                   class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                    Apúntate
+                                </a>
+                            </div>
+
+                            <!-- Mensaje si el aforo está lleno -->
+                            <p th:unless="${competicion.personasInscritas < competicion.aforo}" class="text-danger">
+                                Inscripción llena
+                            </p>
+                        </div>
+
+                        <!-- Botón "Ver Ranking" visible solo si la fecha de fin ya pasó -->
+                        <a th:if="${competicion.fechaFin < fechaActual}"
+                           th:href="@{/puntuacion/ranking/{competenciaId}(competenciaId=${competicion.id})}"
+                           class="btn-default">
+                            <i class="fa-solid fa-trophy me-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>

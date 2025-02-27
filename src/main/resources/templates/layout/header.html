@@ -77,20 +77,13 @@
                 </a>
             </li>
 
-            <li class="sidebar-item">
-                <a th:href="@{/categoria/add}"
-                   sec:authorize="hasRole('ADMIN') or hasRole('GESTOR')"
-                   class="sidebar-link">
-                    <i class="fa-solid fa-tags"></i>
-                    <span>Gestionar Categoriaas</span>
-                </a>
-            </li>
+
 
 
 
             <!-- APARTADO ADMIN-->
 
-            <li class="sidebar-item">
+            <li class="sidebar-item">xa
                 <a th:href="@{/usuario/all}"
                    sec:authorize="hasRole('ADMIN')"
                    class="sidebar-link">
