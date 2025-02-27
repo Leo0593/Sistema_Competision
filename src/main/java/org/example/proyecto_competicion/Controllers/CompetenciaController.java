@@ -10,10 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -106,9 +103,7 @@ public class CompetenciaController {
     }
 
     @PostMapping("/add")
-    public String saveCompeticion(@ModelAttribute("competicion") Competicion competicion,
-                                  Principal principal,
-                                  @RequestParam("logoCompetencia") MultipartFile logoCompetencia) {
+    public String saveCompeticion(@ModelAttribute("competicion") Competicion competicion, Principal principal) {
         // Obtener el correo del usuario logueado desde 'principal'
         String correo = principal.getName();
 
@@ -142,31 +137,11 @@ public class CompetenciaController {
         competicion.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         competicion.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
-        // Guardar la imagen
-        if (!logoCompetencia.isEmpty()) {
-            // Verifica el tipo de archivo
-            String contentType = logoCompetencia.getContentType();
-            if (!contentType.startsWith("image/")) {
-                // Manejo de error: redirigir de nuevo al formulario con un mensaje de error
-                return "redirect:/competencia/add?error=El archivo debe ser una imagen.";
-            }
-
-            // Define la ruta donde guardarás la imagen
-            String logoPath = "src/main/resources/static/img/uploads/" + logoCompetencia.getOriginalFilename();
-            try {
-                // Guarda la imagen en el servidor
-                logoCompetencia.transferTo(new File(logoPath));
-                // Establece la ruta de la imagen en el objeto Competicion
-                competicion.setLogoCompetencia("/img/uploads/" + logoCompetencia.getOriginalFilename());
-            } catch (IOException e) {
-                // Manejo de error: puedes agregar un mensaje de error a un modelo o registrar el error
-                return "redirect:/competencia/add?error=Error al guardar la imagen: " + e.getMessage();
-            }
-        }
-
         // Guardar la competición
         competicionRepository.save(competicion);
-        return "redirect:/competencia/all";// Redirigir a la lista de competiciones
+
+        // Redirigir a la página principal o la vista correspondiente
+        return "redirect:/competencia/all";  // O la ruta que corresponda
     }
 
     @GetMapping("/edit/{id}")
