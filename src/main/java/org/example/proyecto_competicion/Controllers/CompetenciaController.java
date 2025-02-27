@@ -15,8 +15,9 @@ import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/competencia")
@@ -91,6 +92,24 @@ public class CompetenciaController {
         model.addAttribute("precio", precio);
 
         return "layout/competencia_pages/competiciones"; // Nombre de la vista
+    }
+
+    @GetMapping("/mis_competiciones")
+    public String mostrarMisCompeticiones(Model model, Principal principal) {
+        String email = principal.getName();
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByCorreo(email);
+
+        if (usuarioOptional.isEmpty()) {
+            return "redirect:/login"; // Redirigir si el usuario no está autenticado
+        }
+
+        Usuario usuario = usuarioOptional.get();
+        LocalDateTime fechaActual = LocalDateTime.now();
+        model.addAttribute("fechaActual", fechaActual);
+        List<Competicion> competiciones = competicionRepository.findByIdCreador(usuario.getId());
+        model.addAttribute("competiciones", competiciones);
+
+        return "layout/competencia_pages/miscompeticiones";
     }
 
 

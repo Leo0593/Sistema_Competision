@@ -1,6 +1,7 @@
 package org.example.proyecto_competicion.Repository;
 
 import org.example.proyecto_competicion.Models.Competicion;
+import org.example.proyecto_competicion.Models.Inscripcion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,7 @@ public interface CompeticionRepository extends JpaRepository<Competicion, Intege
     List<Competicion> findByEstado(int estado);
 
     List<Competicion> findByTipo(String tipo);
+
+    List<Competicion> findByIdCreador(int idCreador);
 
 }

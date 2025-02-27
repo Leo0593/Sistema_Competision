@@ -214,9 +214,9 @@
                 </div>
 
                 <!-- Botones de acción (editar y eliminar) visibles solo para ADMIN y GESTOR -->
-                <div sec:authorize="hasAnyRole('ADMIN', 'GESTOR')">
-                    <div class="user-container-btn">
 
+                <div class="user-container-btn">
+                    <div sec:authorize="hasRole('ADMIN')">
                         <!-- Boton editar -->
                         <a th:href="@{/competencia/edit/{id}(id=${competicion.id})}" class="btn-edit">
                             <i class="fa-regular fa-pen-to-square"></i>
@@ -234,33 +234,34 @@
                            class="btn-default">
                             <i class="fa-solid fa-star"></i>
                         </a>
-
-                        <!-- Botón "Apúntate" visible por defecto si la fecha no ha pasado -->
-                        <!-- Botón "Apúntate" visible solo si la fecha no ha pasado y el aforo no está lleno -->
-                        <div th:if="${competicion.fechaFin >= fechaActual}">
-                            <div th:if="${competicion.personasInscritas < competicion.aforo}">
-                                <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
-                                   sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
-                                   class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                    Apúntate
-                                </a>
-                            </div>
-
-                            <!-- Mensaje si el aforo está lleno -->
-                            <p th:unless="${competicion.personasInscritas < competicion.aforo}" class="text-danger">
-                                Inscripción llena
-                            </p>
+                    </div>
+                    <!-- Botón "Apúntate" visible por defecto si la fecha no ha pasado -->
+                    <!-- Botón "Apúntate" visible solo si la fecha no ha pasado y el aforo no está lleno -->
+                    <div th:if="${competicion.fechaFin >= fechaActual}">
+                        <div th:if="${competicion.personasInscritas < competicion.aforo}">
+                            <a th:href="@{/inscripcion/add/{competenciaId}(competenciaId=${competicion.id})}"
+                               sec:authorize="hasAnyRole('ADMIN', 'GESTOR', 'USER')"
+                               class="btn-w-100-outline-0-1 btn btn-success btn-sm d-flex align-items-center justify-content-center text-decoration-none">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                Apúntate
+                            </a>
                         </div>
 
-                        <!-- Botón "Ver Ranking" visible solo si la fecha de fin ya pasó -->
-                        <a th:if="${competicion.fechaFin < fechaActual}"
-                           th:href="@{/puntuacion/ranking/{competenciaId}(competenciaId=${competicion.id})}"
-                           class="btn-default">
-                            <i class="fa-solid fa-trophy me-2"></i>
-                        </a>
+                        <!-- Mensaje si el aforo está lleno -->
+                        <p th:unless="${competicion.personasInscritas < competicion.aforo}" class="text-danger">
+                            Inscripción llena
+                        </p>
                     </div>
+
+                    <!-- Botón "Ver Ranking" visible solo si la fecha de fin ya pasó -->
+                    <a th:if="${competicion.fechaFin < fechaActual}"
+                       th:href="@{/puntuacion/ranking/{competenciaId}(competenciaId=${competicion.id})}"
+                       class="btn-default">
+                        <i class="fa-solid fa-trophy me-2"></i>
+                    </a>
                 </div>
+
+
             </div>
         </div>
     </div>

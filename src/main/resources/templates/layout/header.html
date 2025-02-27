@@ -68,6 +68,7 @@
                     <span>Gestionar Competencias</span>
                 </a>
             </li>
+
             <li class="sidebar-item">
                 <a th:href="@{/competencia/add}"
                    sec:authorize="hasRole('ADMIN') or hasRole('GESTOR')"
@@ -77,13 +78,29 @@
                 </a>
             </li>
 
+            <li class="sidebar-item">
+                <a th:href="@{/categoria/add}"
+                   sec:authorize="hasRole('ADMIN') or hasRole('GESTOR')"
+                   class="sidebar-link">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Agregar Categoría</span>
+                </a>
+            </li>
 
+            <!-- APARTADO GESTOR-->
 
-
+            <li class="sidebar-item">
+                <a th:href="@{/competencia/mis_competiciones}"
+                   sec:authorize="hasRole('GESTOR')"
+                   class="sidebar-link">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Mis Competiciones</span>
+                </a>
+            </li>
 
             <!-- APARTADO ADMIN-->
 
-            <li class="sidebar-item">xa
+            <li class="sidebar-item">
                 <a th:href="@{/usuario/all}"
                    sec:authorize="hasRole('ADMIN')"
                    class="sidebar-link">
