@@ -129,6 +129,12 @@
         </ul>
 
 
+        <div class="sidebar-footer">
+            <p class="role-info text-white p-3 rounded d-flex align-items-center">
+                <strong class="mr-2">Rol actual:</strong>
+                <span th:text="${#authentication.principal.authorities}">No disponible</span>
+            </p>
+        </div>
 
         <div class="sidebar-footer">
             <a th:href="@{/logout}" class="sidebar-link">
@@ -136,15 +142,6 @@
                 <span>Salir</span>
             </a>
         </div>
-
-        <div class="sidebar-footer">
-            <p class="role-info text-white bg-dark p-3 rounded d-flex align-items-center">
-                <strong class="mr-2">Rol actual:</strong>
-                <span th:text="${#authentication.principal.authorities}">No disponible</span>
-            </p>
-        </div>
-
-
     </aside>
 
     <script src="../../js/script_menu.js"></script>

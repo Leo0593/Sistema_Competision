@@ -1,54 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout/head :: head"></th:block>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inscripción Grupal - Competencia</title>
   <script src="https://js.stripe.com/v3/"></script> <!-- Incluye la biblioteca de Stripe -->
 </head>
+
 <body>
-<h1>Inscripción Grupal</h1>
-<p>Precio de la Inscripción: <span id="precio-inscripcion" th:text="${competencia.precioInscripcion} + ' €'"></span></p>
 
-<!-- Mostrar el precio total de inscripción -->
-<p>Precio de la Inscripción Total: <span id="precio-inscripcion-total">Calculando...</span></p>
+<div th:replace="layout/header :: header"></div>
 
-<button type="button" onclick="window.location.href='/competencia/all'">Volver al inicio</button>
+<th:block th:replace="layout/background :: background"></th:block>
 
-<!-- Checkbox de aceptación de términos -->
-<div>
-  <label>
-    <input type="checkbox" id="accept-terms"> Acepto los <a href="/terms" target="_blank">términos y condiciones</a>
-  </label>
+<div class="main-content" style="width: 100%;">
+  <div class="content-inicio" style="width: 50%">
+    <h2>Inscripción Grupal</h2>
+
+    <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; border-radius: 10px; align-items: center; overflow: hidden;">
+
+      <p>Precio de la Inscripción: <span id="precio-inscripcion"
+                                         th:text="${competencia.precioInscripcion} + ' €'"></span></p>
+
+      <!-- Mostrar el precio total de inscripción -->
+      <p>Precio de la Inscripción Total: <span id="precio-inscripcion-total">Calculando...</span></p>
+
+      <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+        <button class="btn-w-c-1" style="margin-top: 0px; margin-bottom: 20px; width: 50%;" type="button"
+                onclick="window.location.href='/competencia/all'">Volver al inicio
+        </button>
+      </div>
+
+      <!-- Checkbox de aceptación de términos -->
+      <div>
+        <label>
+          <input type="checkbox" id="accept-terms"> Acepto los <a href="/terms" target="_blank">términos y
+          condiciones</a>
+        </label>
+      </div>
+
+      <div style="width: 100%;">
+        <!-- Formulario de inscripción -->
+        <form id="payment-form" style="display: none;">
+          <!-- Campo oculto para el ID de la competencia -->
+          <input type="hidden" id="competencia-id" name="competenciaId" th:value="${competencia.id}"/>
+          <!-- Campo oculto para el número de personas por grupo -->
+          <input type="hidden" id="personas-por-grupo" name="personasPorGrupo"
+                 th:value="${competencia.personasPorGrupo}"/>
+
+          <!-- Nombre del equipo -->
+          <div class="model-input">
+            <label for="card-holder-equipo">Nombre de Equipo:</label>
+            <div class="model-input-container">
+              <i class="fa fa-pencil"></i>
+              <input class="model-cont-input" type="text" id="card-holder-equipo" required>
+            </div>
+          </div>
+
+          <!-- Correos de los participantes -->
+          <div style="margin-top: 20px;">
+            <h2 style="font-size: 20px; margin-bottom: 5px;">Correos de los Participantes</h2>
+            <div id="email-container" style="margin-top: 10px;"></div>
+            <!-- Contenedor dinámico para los campos de correo -->
+          </div>
+
+          <!-- Contenedor para el elemento de la tarjeta -->
+          <div id="card-element"></div>
+
+          <!-- Muestra errores -->
+          <div id="card-errors" role="alert" style="color: red; margin-top: 10px;"></div>
+
+          <!-- Botón para enviar -->
+          <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+            <button class="btn-w-c-1" style="margin-bottom: 10px;" type="submit" id="card-button">Pagar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-<!-- Formulario de inscripción -->
-<form id="payment-form" style="display: none;">
-  <!-- Campo oculto para el ID de la competencia -->
-  <input type="hidden" id="competencia-id" name="competenciaId" th:value="${competencia.id}" />
-  <!-- Campo oculto para el número de personas por grupo -->
-  <input type="hidden" id="personas-por-grupo" name="personasPorGrupo" th:value="${competencia.personasPorGrupo}" />
-  <!-- Nombre del equipo -->
-  <div>
-    <label for="card-holder-equipo">Nombre de Equipo:</label>
-    <input type="text" id="card-holder-equipo" placeholder="Nombre de Equipo" required>
-  </div>
-
-  <!-- Correos de los participantes -->
-  <div>
-    <label>Correos de los Participantes:</label>
-    <div id="email-container" style="margin-top: 10px;"></div> <!-- Contenedor dinámico para los campos de correo -->
-  </div>
-
-  <!-- Contenedor para el elemento de la tarjeta -->
-  <div id="card-element"></div>
-
-  <!-- Muestra errores -->
-  <div id="card-errors" role="alert" style="color: red; margin-top: 10px;"></div>
-
-  <!-- Botón para enviar -->
-  <button type="submit" id="card-button">Pagar</button>
-</form>
 
 <script>
   const stripe = Stripe("pk_test_51QWavTKX75wThlZA4ff4gIOT4IMlo7PminJsNKpSNLbKU2IbpTxXbdgVBneLsbfvVd90bhWbMBPWOo7dkf6UAemD00DLT6Paa0");
@@ -153,5 +182,8 @@
     }
   });
 </script>
+
+<div th:replace="layout/footer :: footer"></div>
+
 </body>
 </html>

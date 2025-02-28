@@ -1,37 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Formulario de Inscripción Individual</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout/head :: head"></th:block>
 
-</head>
 <body>
 
-<h2>Inscribir Individual</h2>
-<p>Precio de la Inscripción: <span th:text="${competencia.precioInscripcion == 0 ? 'GRATIS' : competencia.precioInscripcion}"></span></p>
-<button type="button" onclick="window.location.href='/competencia/all'">Volver al inicio</button>
+<div th:replace="layout/header :: header"></div>
 
-<!-- Formulario con evento para AJAX -->
-<form th:action="@{/inscripcion/add_individual_gratis}" th:object="${inscripcion}" method="post" onsubmit="submitForm(event)">
-    <input type="hidden" th:field="*{competencia}"/>
+<th:block th:replace="layout/background :: background"></th:block>
 
-    <!-- Checkbox para aceptar los términos y condiciones -->
-    <div>
-        <label>
-            <input type="checkbox" id="acceptTerms" onclick="toggleEmailField()"> Acepto los términos y condiciones
-        </label>
+<div class="main-content" style="width: 100%;">
+    <div class="content-inicio" style="width: 50%">
+
+        <h2 class="mb-4">Inscribir Individual</h2>
+
+        <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; border-radius: 10px; align-items: center; overflow: hidden;">
+            <p>Precio de la Inscripción: <span
+                    th:text="${competencia.precioInscripcion == 0 ? 'GRATIS' : competencia.precioInscripcion}"></span>
+            </p>
+
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+                <button class="btn-w-c-1" style="margin-top: 0px; margin-bottom: 20px; width: 50%;" type="button"
+                        onclick="window.location.href='/competencia/all'">Volver al inicio
+                </button>
+            </div>
+
+            <!-- Checkbox para aceptar los términos y condiciones -->
+            <div>
+                <label>
+                    <input type="checkbox" id="acceptTerms" onclick="toggleEmailField()"> Acepto los términos y
+                    condiciones
+                </label>
+            </div>
+
+            <div style="width: 100%;">
+                <!-- Formulario con evento para AJAX -->
+                <form th:action="@{/inscripcion/add_individual_gratis}" th:object="${inscripcion}" method="post"
+                      onsubmit="submitForm(event)">
+                    <input type="hidden" th:field="*{competencia}"/>
+
+                    <!-- Campo de correo, inicialmente oculto -->
+                    <div id="emailField" class="model-input">
+                        <label for="correoParticipantes">Correo del participante</label>
+                        <div class="model-input-container">
+                            <i class="fa fa-envelope"></i>
+                            <input class="model-cont-input" type="email" id="correoParticipantes"
+                                   th:field="*{correoParticipantes}" required/>
+                        </div>
+                    </div>
+
+                    <!-- Botón de envío, inicialmente oculto -->
+                    <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 10px;">
+                        <button class="btn-w-c-1" type="submit" id="submitButton" style="display:none;">Inscribirse
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
     </div>
-
-    <!-- Campo de correo, inicialmente oculto -->
-    <div id="emailField" style="display:none;">
-        <label for="correoParticipantes">Correo del participante</label>
-        <input type="email" id="correoParticipantes" th:field="*{correoParticipantes}" required/>
-    </div>
-
-    <!-- Botón de envío, inicialmente oculto -->
-    <button type="submit" id="submitButton" style="display:none;">Inscribirse</button>
-</form>
-
+</div>
 
 <script>
     // Función para manejar el envío del formulario
@@ -88,6 +114,8 @@
         toggleEmailField(); // Llama a la función al cargar la página para mantener el estado inicial
     }
 </script>
+
+<div th:replace="layout/footer :: footer"></div>
 
 </body>
 </html>

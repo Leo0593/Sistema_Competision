@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout/head :: head"></th:block>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Formulario de Inscripción Grupal</title>
     <style>
         /* Añadir un poco de espacio entre las etiquetas y los campos */
         .email-group {
@@ -14,36 +13,70 @@
         }
     </style>
 </head>
+
 <body>
 
-<h2>Inscribir Grupal</h2>
-<p>Precio de la Inscripción: <span th:text="${competencia.precioInscripcion == 0 ? 'GRATIS' : competencia.precioInscripcion}"></span></p>
-<button type="button" onclick="window.location.href='/competencia/all'">Volver al inicio</button>
+<div th:replace="layout/header :: header"></div>
 
-<!-- Formulario con evento para AJAX -->
-<form th:action="@{/inscripcion/add_grupal_gratis}" th:object="${inscripcion}" method="post" onsubmit="submitForm(event)">
-    <input type="hidden" th:field="*{competencia}"/>
-    <input type="hidden" id="personas-por-grupo" name="personasPorGrupo" th:value="${competencia.personasPorGrupo}" />
+<th:block th:replace="layout/background :: background"></th:block>
 
-    <!-- Checkbox para aceptar los términos y condiciones -->
-    <div>
-        <label>
-            <input type="checkbox" id="acceptTerms" onclick="toggleEmailField()"> Acepto los términos y condiciones
-        </label>
+<div class="main-content" style="width: 100%;">
+    <div class="content-inicio" style="width: 50%">
+        <h2>Inscribir Grupal</h2>
+
+        <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; border-radius: 10px; align-items: center; overflow: hidden;">
+            <p>Precio de la Inscripción: <span
+                    th:text="${competencia.precioInscripcion == 0 ? 'GRATIS' : competencia.precioInscripcion}"></span>
+            </p>
+
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+                <button class="btn-w-c-1" style="margin-top: 0px; margin-bottom: 20px; width: 50%;" type="button"
+                        onclick="window.location.href='/competencia/all'">Volver al inicio
+                </button>
+            </div>
+
+            <!-- Checkbox para aceptar los términos y condiciones -->
+            <div>
+                <label>
+                    <input type="checkbox" id="acceptTerms" onclick="toggleEmailField()"> Acepto los términos y
+                    condiciones
+                </label>
+            </div>
+
+            <div style="width: 100%;">
+                <!-- Formulario con evento para AJAX -->
+                <form th:action="@{/inscripcion/add_grupal_gratis}" th:object="${inscripcion}" method="post"
+                      onsubmit="submitForm(event)">
+                    <input type="hidden" th:field="*{competencia}"/>
+                    <input type="hidden" id="personas-por-grupo" name="personasPorGrupo"
+                           th:value="${competencia.personasPorGrupo}"/>
+
+                    <!-- Campo de nombre del equipo, visible solo si se aceptan los términos -->
+                    <div class="model-input" id="teamNameField" style="display:none;">
+                        <label for="nombreEquipo">Nombre del Equipo</label>
+                        <div class="model-input-container">
+                            <i class="fa fa-pencil"></i>
+                            <input class="model-cont-input" type="text" id="nombreEquipo" th:field="*{nombreEquipo}"
+                                   required/>
+                        </div>
+                    </div>
+
+                    <!-- Campos de correos, inicialmente vacíos y ocultos -->
+                    <div id="emailFields" style="display:none;"></div>
+
+                    <!-- Botón de envío, inicialmente oculto -->
+
+                    <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+                        <button class="btn-w-c-1" type="submit" id="submitButton"
+                                style="display:none; margin-bottom: 10px;">Inscribirse
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
     </div>
-
-    <!-- Campo de nombre del equipo, visible solo si se aceptan los términos -->
-    <div id="teamNameField" style="display:none;">
-        <label for="nombreEquipo">Nombre del Equipo</label>
-        <input type="text" id="nombreEquipo" th:field="*{nombreEquipo}" required/>
-    </div>
-
-    <!-- Campos de correos, inicialmente vacíos y ocultos -->
-    <div id="emailFields" style="display:none;"></div>
-
-    <!-- Botón de envío, inicialmente oculto -->
-    <button type="submit" id="submitButton" style="display:none;">Inscribirse</button>
-</form>
+</div>
 
 <script>
     // Función para manejar el envío del formulario
@@ -136,6 +169,8 @@
         toggleEmailField(); // Llama a la función al cargar la página para mantener el estado inicial
     }
 </script>
+
+<div th:replace="layout/footer :: footer"></div>
 
 </body>
 </html>

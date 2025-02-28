@@ -1,43 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="layout/head :: head"></th:block>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stripe Payment Test</title>
   <script src="https://js.stripe.com/v3/"></script> <!-- Incluye la biblioteca de Stripe -->
 </head>
+
 <body>
-<h1>Prueba de pago con Stripe Individual</h1>
-<p>Precio de la Inscripción: <span id="precioInscripcion" th:text="${competencia.precioInscripcion} + ' €'"></span></p>
-<button type="button" onclick="window.location.href='/competencia/all'">Volver al inicio</button>
 
-<!-- Checkbox de aceptación de términos -->
-<div>
-  <label>
-    <input type="checkbox" id="accept-terms"> Acepto los <a href="/terms" target="_blank">términos y condiciones</a>
-  </label>
-</div>
+<div th:replace="layout/header :: header"></div>
 
-<!-- Formulario simple (oculto inicialmente) -->
-<form id="payment-form" style="display: none;">
+<th:block th:replace="layout/background :: background"></th:block>
+<div class="main-content" style="width: 100%;">
+  <div class="content-inicio" style="width: 50%">
 
-  <!-- Campo oculto para el competenciaId -->
-  <input type="hidden" id="competencia-id" name="competenciaId" th:value="${competencia.id}" />
+    <h2 class="mb-4">Inscribir Individual</h2>
 
-  <div>
-    <label for="card-holder-email">Correo electrónico:</label>
-    <input type="email" id="card-holder-email" placeholder="Correo electrónico" required>
+    <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; border-radius: 10px; align-items: center; overflow: hidden;">
+      <p>Precio de la Inscripción: <span id="precioInscripcion"
+                                         th:text="${competencia.precioInscripcion} + ' €'"></span></p>
+
+      <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+        <button class="btn-w-c-1" style="margin-top: 0px; margin-bottom: 20px; width: 50%;" type="button"
+                onclick="window.location.href='/competencia/all'">Volver al inicio
+        </button>
+      </div>
+
+      <!-- Checkbox de aceptación de términos -->
+      <div>
+        <label>
+          <input type="checkbox" id="accept-terms"> Acepto los <a href="/terms" target="_blank">términos y
+          condiciones</a>
+        </label>
+      </div>
+
+      <div style="width: 100%;">
+
+        <!-- Formulario simple (oculto inicialmente) -->
+        <form id="payment-form" style="display: none;">
+
+          <!-- Campo oculto para el competenciaId -->
+          <input type="hidden" id="competencia-id" name="competenciaId" th:value="${competencia.id}"/>
+
+          <div class="model-input">
+            <label for="card-holder-email">Correo electrónico:</label>
+            <div class="model-input-container">
+              <i class="fa fa-envelope"></i>
+              <input class="model-cont-input" type="email" id="card-holder-email" placeholder="Correo electrónico"
+                     required>
+            </div>
+          </div>
+
+          <!-- Contenedor para el elemento de la tarjeta -->
+          <div id="card-element"></div>
+
+          <!-- Muestra errores -->
+          <div id="card-errors" role="alert" style="color: red; margin-top: 10px;"></div>
+
+          <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 10px;">
+            <button class="btn-w-c-1" type="submit" id="card-button">Pagar</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
   </div>
-
-  <!-- Contenedor para el elemento de la tarjeta -->
-  <div id="card-element"></div>
-
-  <!-- Muestra errores -->
-  <div id="card-errors" role="alert" style="color: red; margin-top: 10px;"></div>
-
-  <button type="submit" id="card-button">Pagar</button>
-
-</form>
+</div>
 
 <script>
   // Usa tu clave pública de Stripe
